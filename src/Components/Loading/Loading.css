@@ -1,0 +1,102 @@
+#preloader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background-color: rgba(41, 50, 65, 0.8);
+    overflow: hidden !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .preloader {
+    width: 95px;
+    margin: auto;
+    bottom: 0px;
+    height: auto;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    position: absolute;
+  }
+  
+  .txt-loading {
+    font-weight: bold;
+    font-size: 18px;
+    width: 100%;
+    text-align: center;
+    color: rgba(41, 50, 65, 0.8);
+    position: absolute;
+    left: 0%;
+    top: 50%;
+    margin: 80px 0 0 0px;
+  }
+  
+  #preloader-wrapper .txt-loading .letters-loading:before {
+    animation: letters-loading 3s infinite;
+    color: #e2e3e3;
+    content: attr(data-text-preloader);
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: -2px;
+    transform: rotateY(-90deg);
+  }
+  
+  #preloader-wrapper .txt-loading .letters-loading {
+    position: relative;
+  }
+  
+  #preloader-wrapper .txt-loading .letters-loading:nth-child(2):before {
+    animation-delay: 0.2s;
+  }
+  
+  #preloader-wrapper .txt-loading .letters-loading:nth-child(3):before {
+    animation-delay: 0.4s;
+  }
+  
+  #preloader-wrapper .txt-loading .letters-loading:nth-child(4):before {
+    animation-delay: 0.6s;
+  }
+  
+  #preloader-wrapper .txt-loading .letters-loading:nth-child(5):before {
+    animation-delay: 0.8s;
+  }
+  
+  #preloader-wrapper .txt-loading .letters-loading:nth-child(6):before {
+    animation-delay: 1s;
+  }
+  
+  #preloader-wrapper .txt-loading .letters-loading:nth-child(7):before {
+    animation-delay: 1.2s;
+  }
+  
+  #preloader-wrapper .txt-loading .letters-loading:nth-child(8):before {
+    animation-delay: 1.4s;
+  }
+
+  
+  #preloader-wrapper .preloader .txt-loading .letters-loading {
+    color: rgba(250, 250, 250, 0.4);
+    font-family: 'Monserat-regular';
+  }
+  
+  @keyframes letters-loading {
+  
+    0%,
+    75%,
+    100% {
+      opacity: 0;
+      transform: rotateY(-90deg);
+    }
+  
+    25%,
+    50% {
+      opacity: 1;
+      transform: rotateY(0deg);
+    }
+  }
