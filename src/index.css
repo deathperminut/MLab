@@ -435,7 +435,137 @@
     padding: 0; /* 3 */
     white-space: normal; /* 1 */
   }
+/* ---------------------------------------------------
+    CARD OVERLAY
+  ----------------------------------------------------- */
 
+  .button-open-,
+  .button-close-,
+  .button-delete-,
+  .button-filter- {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .button-close-notification- {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .overlay-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: slideIn 0.3s ease-in-out forwards;
+  }
+  
+  .overlay-content {
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-white-);
+    border-radius: 5px;
+    animation: slideUp 0.3s ease-in-out forwards;
+  }
+  
+  .overlay-content #wrapper-data-table .card-body {
+    height: auto;
+    max-height: 100%;
+    min-height: auto;
+    overflow: auto;
+  }
+  
+  .overlay-content #wrapper-data-table .card-body::-webkit-scrollbar-track {
+    box-shadow: var(--box-shadow-16-);
+    -webkit-box-shadow: var(--box-shadow-16-);
+    background-color: transparent;
+    border-radius: 1.875rem;
+    -webkit-border-radius: 1.875rem;
+    -moz-border-radius: 1.875rem;
+    -khtml-border-radius: 1.875rem;
+  }
+  
+  .overlay-content #wrapper-data-table .card-body::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+    background-color: transparent;
+    border-radius: 1.875rem;
+    -webkit-border-radius: 1.875rem;
+    -moz-border-radius: 1.875rem;
+    -khtml-border-radius: 1.875rem;
+  }
+  
+  .overlay-content #wrapper-data-table .card-body::-webkit-scrollbar-thumb {
+    background-color: transparent !important;
+    border: 2px solid transparent !important;
+    border-radius: 1.875rem;
+    -webkit-border-radius: 1.875rem;
+    -moz-border-radius: 1.875rem;
+    -khtml-border-radius: 1.875rem;
+  }
+  
+  .overlay-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+  }
+  
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+    }
+  
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+  
+    to {
+      transform: translateY(0);
+    }
+  }
+  
+  .overlay-wrapper.hidden {
+    animation: slideOut 0.3s ease-in-out forwards;
+  }
+  
+  .overlay-content.hidden {
+    animation: slideDown 0.3s ease-in-out forwards;
+  }
+  
+  @keyframes slideOut {
+    from {
+      opacity: 1;
+    }
+  
+    to {
+      opacity: 0;
+    }
+  }
+  
+  @keyframes slideDown {
+    from {
+      transform: translateY(0);
+    }
+  
+    to {
+      transform: translateY(100%);
+    }
+  }
+  
   /**
    * 1. Add the correct display in IE 9-.
    * 2. Add the correct vertical alignment in Chrome, Firefox, and Opera.
@@ -542,6 +672,318 @@
   template {
     display: none;
   }
+
+  /* ---------------------------------------------------
+    ICONS BUTTONS
+  ----------------------------------------------------- */
+
+.icon-left-arrow:before {
+  content: "\e905";
+  font-size: 12px;
+  position: relative;
+  left: 1px;
+}
+
+.icon-right-arrow:before {
+  content: "\e913";
+  color: var(--color-secondary-gray-);
+  font-size: 12px;
+  position: relative;
+  left: 1px;
+  top: -0.5px;
+}
+
+.icon-left-arrow-calendar:before {
+  content: "\e905";
+  font-size: 10px;
+}
+
+.icon-right-arrow-calendar:before {
+  content: "\e913";
+  font-size: 10px;
+}
+
+.icon-add-customer:before {
+  content: "\e90a";
+  font-size: 15px;
+}
+
+.icon-modify-coverage:before {
+  content: "\e902";
+  font-size: 18px;
+}
+
+.icon-see-history:before {
+  content: "\e909";
+  font-size: 18px;
+}
+
+.icon-see-calendar:before {
+  content: "\e908";
+  font-size: 14px;
+}
+
+.icon-add:before {
+  content: "\e911";
+}
+
+.icon-attach:before {
+  content: "\e917";
+}
+
+.icon-consent:before {
+  content: "\e918";
+}
+
+.icon-generate-report:before {
+  content: "\e91b";
+}
+
+.icon-save:before {
+  content: "\e91d";
+}
+
+.icon-note:before {
+  content: "\e91f";
+}
+
+.icon-check:before {
+  content: "\e915";
+  font-size: 14px;
+}
+
+.icon-star:before {
+  content: "\e916";
+  color: var(--color-gray-);
+}
+
+.icon-next:before {
+  content: "\e927";
+}
+
+.icon-edit:before {
+  content: "\e94a";
+  font-size: 13px;
+}
+
+.icon-folder-user:before {
+  content: "\e909";
+  font-size: 13px;
+}
+
+.icon-edit-charge:before {
+  content: "\e94a";
+  font-size: 13px;
+  color: var(--color-secondary-purple-);
+  position: relative;
+  top: -1px;
+  left: 1px;
+}
+
+.icon-delete-surveys:before {
+  content: "\e94b";
+  font-size: 12px;
+  position: relative;
+  top: -1px;
+}
+
+.icon-add-user:before {
+  content: "\e9bb";
+}
+
+.icon-delete:before {
+  content: "\e94b";
+}
+
+.icon-remission:before {
+  content: "\e94c";
+}
+
+.icon-search-see-:before {
+  content: "\e907";
+}
+
+.icon-transfer:before {
+  content: "\e94d";
+}
+
+.icon-generate:before {
+  content: "\e94e";
+}
+
+.icon-end:before {
+  content: "\e94f";
+}
+
+.icon-delivery:before {
+  content: "\e950";
+}
+
+.icon-see:before {
+  content: "\e901";
+}
+
+.icon-decreased:before {
+  content: "\e99d";
+  font-size: 16px;
+}
+
+.icon-during:before {
+  content: "\e99e";
+  font-size: 16px;
+}
+
+.icon-phonoaudiology:before {
+  content: "\e99f";
+  font-size: 16px;
+}
+
+.icon-name:before {
+  content: "\e9a0";
+  font-size: 16px;
+}
+
+.icon-data-value:before {
+  content: "\e9a1";
+  font-size: 16px;
+}
+
+.icon-occupational-value:before {
+  content: "\e9a2";
+  font-size: 16px;
+}
+
+.icon-list-options:before {
+  content: "\e9a3";
+  color: var(--color-quaternary-gray-);
+  font-size: 16px;
+}
+
+.icon-delete-file:before {
+  content: "\e94b";
+  font-size: 12px;
+}
+
+.icon-edit-file:before {
+  content: "\e9a5";
+  font-size: 12px;
+}
+
+.icon-view-file:before {
+  content: "\e901";
+  font-size: 11px;
+}
+
+.icon-form-contract:before {
+  content: "\e925";
+  font-size: 14px;
+}
+
+.icon-remove-file:before {
+  content: "\e923";
+  color: var(--color-secondary-red-) !important;
+  font-size: 8px !important;
+  position: relative;
+  top: -2px;
+}
+
+.icon-upload-file:before {
+  content: "\e9a4";
+  color: var(--color-secondary-purple-);
+  font-size: 14px;
+  position: relative;
+  top: -1px;
+}
+
+.icon-cancel-appointment:before {
+  content: "\e9a6";
+  position: relative;
+  left: -1px;
+}
+
+.icon-pharmacological-risk:before {
+  content: "\e9a7";
+}
+
+.icon-cancel-service:before {
+  content: "\e923";
+  font-size: 12px;
+  position: relative;
+  top: -1px;
+}
+
+.icon-chat:before {
+  content: "\e9a8";
+}
+
+.icon-backward:before {
+  content: "\e9a9";
+}
+
+.icon-first-page:before {
+  content: "\e9aa";
+}
+
+.icon-download-pdf:before {
+  content: "\e9ab";
+}
+
+.icon-forward:before {
+  content: "\e9ac";
+}
+
+.icon-last-page:before {
+  content: "\e9ad";
+}
+
+.icon-zoom-in:before {
+  content: "\e9ae";
+}
+
+.icon-zoom-out:before {
+  content: "\e9af";
+}
+
+.icon-assign-appointment:before {
+  content: "\e9b0";
+}
+
+.icon-data-table:before {
+  content: "\e9b6";
+  font-size: 12px;
+  position: relative;
+  top: -1px;
+}
+
+.icon-filters-graphic:before {
+  content: "\e92a";
+  font-size: 12px;
+  position: relative;
+  top: -1px;
+}
+
+.icon-close-data-table:before {
+  content: "\e923";
+  font-size: 12px;
+  position: relative;
+  top: -1px;
+}
+
+.icon-close-notification:before {
+  content: "\e923";
+  font-size: 10px;
+  position: relative;
+  top: -2px;
+}
+
+.icon-committee:before {
+  content: "\e9b7";
+  font-size: 14px;
+}
+
+.icon-document:before {
+  content: "\e9b9";
+}
 
   /* Hidden
      ========================================================================== */

@@ -8,13 +8,20 @@ import {useNavigate} from 'react-router-dom';
 import { GiColombia } from 'react-icons/gi';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import { CiCircleMore } from "react-icons/ci";
+import { useState } from 'react';
 import { MapContainer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import Loading from 'react-loading';
 import departaments from '../../data/colombia.geo.json';
 import Select, { components } from 'react-select';
 import makeAnimated from 'react-select/animated';
 import Preloader from '../../Components/Loading/Loading';
+import { MdOutlineCancel } from "react-icons/md";
+/* GRAFICAS*/
+import "bootstrap/dist/css/bootstrap.min.css";
+import * as echarts from 'echarts';
+import $ from "jquery";
+
 
 
 const { NoOptionsMessage } = components;
@@ -254,6 +261,13 @@ const selectStyles = {
 
 export default function Maps() {
 
+  const [showOverlay, setShowOverlay] = useState(false);
+  const [hiddenOverlay, setHiddenOverlay] = useState(true);
+
+  const toggleOverlay = (cardId) => {
+    setShowOverlay(cardId);
+    setHiddenOverlay(false);
+  };
 
   React.useEffect(()=>{
     loading_screen()
@@ -292,13 +306,6 @@ export default function Maps() {
   };
 
 
-  // const geoJsonStyle = {
-  //   fillColor: 'blue', // Cambia el color de relleno
-  //   weight: 2,
-  //   color: 'white',
-  //   fillOpacity: 0.7,
-  // };
-
   function elementoRandom(arreglo) {
     const indice = Math.floor(Math.random() * arreglo.length);
     return arreglo[indice];
@@ -311,6 +318,325 @@ export default function Maps() {
     const  elemento = elementoRandom(arrayColors)
     return elemento
   };
+
+  /* CARGAMOS GRAFICAS */
+
+  React.useEffect(()=>{
+
+    /**
+     * GRAFICA OPPORTUNITY 1 (DOUBLE BAR CHART)
+     */
+
+    let chartOpportunityOne = echarts.init(document.getElementById('chart-opportunity-one-'));
+
+    const dataOpportunityOne = [
+      { department: 'Cundinamarca', consultations: 120 },
+      { department: 'Vichada', consultations: 90 },
+      { department: 'Boyaca', consultations: 60 },
+      { department: 'Meta', consultations: 80 },
+      { department: 'Antioquia', consultations: 100 },
+      { department: 'Casanare', consultations: 110 },
+      { department: 'Valle del cauca', consultations: 70 },
+      { department: 'Caldas', consultations: 50 },
+      { department: 'Bolivar', consultations: 68 },
+      { department: 'Magdalena', consultations: 26 },
+      { department: 'La guajira', consultations: 45 },
+      { department: 'Norte de santander', consultations: 34 }
+    ];
+
+    let optionOpportunityOne = {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          label: {
+            backgroundColor: '#FAFAFA',
+            color: '#040E29',
+            fontWeight: 'normal',
+            fontFamily: 'Monserat-regular'
+          }
+        },
+        showDelay: 0,
+        transitionDuration: 0.2,
+        backgroundColor: 'rgba(255, 255, 255, 1)',
+        borderWidth: 1,
+        borderColor: '#FAFAFA',
+        padding: 5,
+        textStyle: {
+          color: '#414D55',
+          fontSize: 12,
+          lineHeight:10,
+          fontWeight: 'normal',
+          fontFamily: 'Monserat-regular'
+        },
+        extraCssText: 'box-shadow: 0px 1px 8px #142E6E1A'
+      },
+      legend: {
+        type: 'scroll',
+        orient: 'horizontal',
+        left: 'center',
+        top: 10,
+        bottom: 20,
+        itemGap : 25,
+        width: '90%',
+        inactiveColor: '#728998',
+        textStyle: {
+          color: '#414D55',
+          fontWeight: 'normal',
+          fontFamily: 'Monserat-regular, Verdana',
+        },
+        pageIconSize: 12,
+        pageIconColor: '   #4e50b4  ',
+        pageIconInactiveColor: '#414D55',
+        pageTextStyle: {
+          color: '#414D55',
+          fontWeight: 'normal',
+          fontFamily: 'Monserat-regular, Verdana',
+        },
+        formatter : function(params, value){
+          var newParamsName = "";
+          var paramsNameNumber = params.length;
+          var provideNumber = 50;
+          var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
+          if (paramsNameNumber > provideNumber) {
+              for (var p = 0; p < rowNumber; p++) {
+                var tempStr = "";
+                if (p === rowNumber - 1) {
+                    tempStr = (params.length > 6 ? (params.slice(0,50)+"...") : '' );
+                } else {}
+                newParamsName += tempStr;
+              }
+          } else {
+              newParamsName = params;
+          }
+          return newParamsName
+        },
+        data: ['Indicador 1']
+      },
+      toolbox: {
+        show: true,
+        orient: 'horizontal',
+        showTitle: false,
+        feature: {
+          dataZoom: {
+            show: true,
+            iconStyle: {
+              borderColor: '#414D55'
+            },
+            emphasis: {
+              iconStyle: {
+                borderColor: '#414D55'
+              },
+            }
+          },
+          restore: {
+            show: true,
+            iconStyle: {
+              borderColor: '#414D55'
+            },
+            emphasis: {
+              iconStyle: {
+                borderColor: '#414D55'
+              },
+            }
+          },
+          saveAsImage: {
+            type: 'png',
+            name: 'Informe',
+            backgroundColor: '#FAFAFA',
+            show: true,
+            iconStyle: {
+              borderColor: '#414D55'
+            },
+            emphasis: {
+              iconStyle: {
+                borderColor: '#414D55'
+              },
+            }
+          }
+        },
+        iconStyle: {
+          borderColor: '#414D55'
+        },
+        emphasis: {
+          iconStyle: {
+            borderColor: '#414D55'
+          },
+        },
+        bottom: 0,
+        pixelRatio: 2,
+      },
+      grid: [
+        {
+          containLabel: true,
+          borderColor: '#728998'
+        }
+      ],
+      xAxis: {
+        type: 'category',
+        name: 'Departamentos',
+        nameLocation: 'middle',
+        nameGap: 40,
+        nameTextStyle: {
+          color: '#728998',
+          fontWeight: 'normal',
+          fontFamily: 'Monserat-regular'
+        },
+        axisLabel: {
+          color: '#728998',
+          fontWeight: 'normal',
+          fontFamily: 'Monserat-regular'
+        },
+        axisLine: {
+          lineStyle: {
+            color: '#728998',
+            width: 1,
+          }
+        },
+        boundaryGap: true,
+        data: dataOpportunityOne.map(item => item.department)
+      },
+      yAxis: [
+        {
+          type: 'value',
+          name: '',
+          nameLocation: 'middle',
+          nameGap: 50,
+          nameTextStyle: {
+            color: '#728998',
+            fontWeight: 'normal',
+            fontFamily: 'Monserat-regular'
+          },
+          axisLabel: {
+            formatter : function(params, value){
+              var newParamsName = "";
+              var paramsNameNumber = params.length;
+              var provideNumber = 12;
+              var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
+              if (paramsNameNumber > provideNumber) {
+                  for (var p = 0; p < rowNumber; p++) {
+                    var tempStr = "";
+                    if (p === rowNumber - 1) {
+                        tempStr = (params.length > 6 ? (params.slice(0,12)+"...") : '' );
+                    } else {}
+                    newParamsName += tempStr;
+                  }
+              } else {
+                newParamsName = params;
+              }
+              return newParamsName
+            },
+            color: '#728998',
+            fontWeight: 'normal',
+            fontFamily: 'Monserat-regular'
+          },
+          boundaryGap: [0, '0%'],
+          axisLine: {
+            onZero: false,
+            lineStyle: {
+              color: '#728998',
+              width: 1,
+            }
+          },
+        },
+        {
+          type: 'value',
+          name: '',
+          nameLocation: 'middle',
+          nameGap: 25,
+          nameTextStyle: {
+            color: '#728998',
+            fontWeight: 'normal',
+            fontFamily: 'Monserat-regular'
+          },
+          axisLabel: {
+            formatter : function(params, value){
+              var newParamsName = "";
+              var paramsNameNumber = params.length;
+              var provideNumber = 12;
+              var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
+              if (paramsNameNumber > provideNumber) {
+                  for (var p = 0; p < rowNumber; p++) {
+                    var tempStr = "";
+                    if (p === rowNumber - 1) {
+                        tempStr = (params.length > 6 ? (params.slice(0,12)+"...") : '' );
+                    } else {}
+                    newParamsName += tempStr;
+                  }
+              } else {
+                newParamsName = params;
+              }
+              return newParamsName
+            },
+            color: '#728998',
+            fontWeight: 'normal',
+            fontFamily: 'Monserat-regular'
+          },
+          boundaryGap: [0, '0%'],
+          axisLine: {
+            onZero: false,
+            lineStyle: {
+              color: '#728998',
+              width: 1,
+            }
+          },
+        },
+      ],
+      series: [
+        {
+          type: 'bar',
+          name: 'Indicador 1',
+          label: {
+            normal: {
+              show: true,
+              position: 'top',
+              color: '#414D55',
+              fontSize: 12,
+              fontWeight: 'normal',
+              fontFamily: 'Monserat-regular'
+            },
+            emphasis: {
+              show: true,
+              position: 'top',
+              color: '#414D55',
+              fontSize: 12,
+              fontWeight: 'normal',
+              fontFamily: 'Monserat-regular'
+            },
+          },
+          itemStyle: {
+            color: "   #4e50b4  ",
+            shadowBlur: 0,
+            shadowOffsetY: 0,
+          },
+          emphasis: {
+            focus: 'series'
+          },
+          data: dataOpportunityOne.map(item => item.consultations),
+          animationDelay: function (idx) {
+            return idx * 15;
+          }
+        }
+      ],
+      animationEasing: 'elasticOut',
+      animationDelayUpdate: function (idx) {
+        return idx * 5;
+      }
+    };
+
+    optionOpportunityOne && chartOpportunityOne.setOption(optionOpportunityOne);
+
+    $(window).on('resize', function(){
+      if(chartOpportunityOne != null && chartOpportunityOne !== undefined){
+        chartOpportunityOne.resize();
+      }
+    });
+
+    
+
+    
+
+  },[])
 
   return (
     <div className='body' style={{display:'flex',justifyContent:'center'}}>
@@ -351,7 +677,6 @@ export default function Maps() {
                     </div>
                     <div className='container_moviles'>
                         <MapContainer
-                          className='mapstyles'
                           center={[4.5709, -74.2973]} // Centro de Colombia
                           zoom={5} // Zoom inicial
                           style={mapStyles}
@@ -428,8 +753,248 @@ export default function Maps() {
                           </div>
                     </form>
                     <div>
-
                     </div>
+                  </div>
+                  <div className='container_data__'>
+                        <div id='card-indicator-large-' className='card border-0 rounded-3 w-100 bs-2- position-relative overflow-hidden'>
+                          <div className='card-header border-0 bg-transparent p-4 pb-0'>
+                            <div className='d-flex flex-row justify-content-between align-items-center align-self-center mb-1'>
+                              <h1 className='m-0 p-0 lh-sm fs-4- ff-monse-regular- fw-bold tx-dark-purple-'>
+                              Tabla de mejores resultados
+                              </h1>
+                              <button className='btn rounded-pill p-2 d-flex flex-row justify-content-center align-items-center align-self-center button-open- btn-dark-purple- bs-1- ms-2'  onClick={() => toggleOverlay('card1')}>
+                                <CiCircleMore style={{width:'90',height:'90'}} width={90} height={90} color='black'/>
+                              </button>
+                            </div>
+                            <div className='w-75'>
+                              <p className='m-0 p-0 lh-sm fs-5- ff-monse-regular- fw-normal tx-black-'>
+                                se muestran los mejores 12 según la medida requerida 
+                              </p>
+                            </div>
+                          </div>
+                          <div className='card-body p-4 w-100'>
+                            <div className='w-100 h-100 mx-auto' id='chart-opportunity-one-'></div>
+                          </div>
+                          {showOverlay === 'card1' && (
+                            <div className={`overlay-wrapper${hiddenOverlay ? ' hidden' : ''}`} onAnimationEnd={() => hiddenOverlay && setHiddenOverlay(true)}>
+                              <div className={`overlay-content${hiddenOverlay ? ' hidden' : ''}`} onAnimationEnd={() => hiddenOverlay && setHiddenOverlay(true)}>
+                                <div id='wrapper-data-table' className='card border-0 rounded-3 w-100 position-relative'>
+                                  <div className='card-header border-0 bg-transparent p-4'>
+                                    <div className='d-flex flex-row justify-content-between align-items-center align-self-center'>
+                                      <h1 className='m-0 p-0 lh-sm fs-4- ff-monse-regular- fw-bold tx-dark-purple-'>
+                                          Tabla de datos
+                                      </h1>
+                                      <button className='btn rounded-pill p-2 d-flex flex-row justify-content-center align-items-center align-self-center button-close- btn-bone-white- bs-1- ms-2' onClick={() => toggleOverlay(null)}>
+                                          <MdOutlineCancel />
+                                      </button>
+                                    </div>
+                                  </div>
+                                  <div className='card-body p-4 pt-0 pb-0 w-100'>
+                                    <div className='table-responsive table-general-'>
+                                      <table className='table table-sm table-striped table-no-border- align-middle'>
+                                        <thead>
+                                          <tr>
+                                            <th scope="col" className='th-width-sm-'>
+                                              <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
+                                                <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple-'>Departamento</span>
+                                              </div>
+                                            </th>
+                                            <th scope="col" className='th-width-sm-'>
+                                              <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
+                                                <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple-'>Indicador 1</span>
+                                              </div>
+                                            </th>
+                                            <th scope="col" className='th-width-sm-'>
+                                              <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
+                                                <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple-'>Indicador 2</span>
+                                              </div>
+                                            </th>
+                                            <th scope="col" className='th-width-sm-'>
+                                              <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
+                                                <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple-'>Indicador 3</span>
+                                              </div>
+                                            </th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Cundinamarca</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>10</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>19</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.28</p>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Vichada</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>5</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>23</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.03</p>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Boyaca</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>4</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>20</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.28</p>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Meta</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>9</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>30</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.28</p>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Antioquia</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>10</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>29</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.28</p>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Casanare</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>2</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>21</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.28</p>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Julio</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>5</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>25</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.28</p>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Valle del cauca</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>18</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>20</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.28</p>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Caldas</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>22</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>45</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.28</p>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Bolivar</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>14</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>50</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.28</p>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Magdalena</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>30</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>35</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.28</p>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>La guajira</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>4</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>5</p>
+                                            </td>
+                                            <td className='align-middle'>
+                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.28</p>
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                          {showOverlay === 'card1' && <div className="overlay-backdrop" onClick={() => toggleOverlay(null)} />}
+                        </div>
                   </div>
                 </div>
                 

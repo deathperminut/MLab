@@ -9,22 +9,39 @@
 }
 .description_map_text{
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     text-align: center;
     cursor: default;
     max-width: 500px;
-    color:rgb(79, 78, 78);
+    color: #0d149a;
     margin-bottom: 20px;
 }
 
 .container_data{
-    width: 100%;
-    height: 700px;
+    width: 90%;
+    max-width: 1300px;
+    margin: 20px;
+    height: 600px;
     display: flex;
     padding: 20px;
     flex-direction: row;
-    background:radial-gradient(circle, rgb(247, 247, 247) 0%, rgb(233, 233, 233) 100%);
+    background-color: white;
+    border-radius: 30px;
     opacity: 0.7;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+}
+.container_data__{
+    width: 90%;
+    max-width: 1300px;
+    margin: 20px;
+    height: 600px;
+    display: flex;
+    padding: 20px;
+    flex-direction: row;
+    background-color: white;
+    border-radius: 30px;
+    opacity: 0.7;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
 }
 .formulario{
     width: 50%;
@@ -82,18 +99,17 @@
 
 @media (max-width:1024px) and (min-height:800px) {
 
-    .mapstyles{
-        width: 100%;
-        height: 700px;
-    }
     .container_data{
-        width: 100%;
+        width: 90%;
+        margin: 20px;
         height: 1300px;
         display: flex;
         padding: 20px;
         flex-direction: column;
-        background:radial-gradient(circle, rgb(247, 247, 247) 0%, rgb(233, 233, 233) 100%);
+        background-color: white;
+        border-radius: 30px;
         opacity: 0.7;
+        box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
     }
     .formulario{
         width: 100%;
@@ -121,18 +137,17 @@
 
 @media (max-width:600px) {
 
-    .mapstyles{
-        width: 100%;
-        height: 700px;
-    }
     .container_data{
-        width: 100%;
+        width: 90%;
+        margin: 20px;
         height: 1300px;
         display: flex;
         padding: 20px;
         flex-direction: column;
-        background:radial-gradient(circle, rgb(247, 247, 247) 0%, rgb(233, 233, 233) 100%);
+        background-color: white;
+        border-radius: 30px;
         opacity: 0.7;
+        box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
     }
     .formulario{
         width: 100%;
@@ -154,3 +169,1157 @@
     }
 
 }
+
+
+
+/* ---------------------------------------------------
+    NAVLINK 
+  ----------------------------------------------------- */
+
+  .navlink-active- {
+    color: var(--color-white-);
+    background-color: var(--color-purple-rgba-);
+  }
+  
+  /* ---------------------------------------------------
+      CARD - INDICATOR MENU
+    ----------------------------------------------------- */
+  
+  #card-indicator .card {
+    width: 192px !important;
+    height: 261px;
+    margin: 0 auto !important;
+    transition: all 0.3s ease;
+    padding: 0 !important;
+    border-radius: 0.938rem !important;
+    -webkit-border-radius: 0.938rem !important;
+    -moz-border-radius: 0.938rem !important;
+    -khtml-border-radius: 0.938rem !important;
+  }
+  
+  #card-indicator .card .card-img-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  
+  .wrapper-icon-indicator-adverse-events- {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--color-red-);
+    color: var(--color-tertiary-white-);
+  }
+  
+  .wrapper-icon-indicator-fall-rate- {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--color-pink-);
+    color: var(--color-tertiary-white-);
+  }
+  
+  .wrapper-icon-indicator-ulcer-rate- {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--color-aquamarine-);
+    color: var(--color-tertiary-white-);
+  }
+  
+  .wrapper-icon-indicator-opportunity- {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--color-gold-);
+    color: var(--color-tertiary-white-);
+  }
+  
+  .wrapper-icon-indicator-satisfaction- {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--color-purple-);
+    color: var(--color-tertiary-white-);
+  }
+  
+  .wrapper-icon-indicator-humanization- {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--color-secondary-green-);
+    color: var(--color-tertiary-white-);
+  }
+  
+  .wrapper-icon-indicator-accounting- {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--color-secondary-blue-);
+    color: var(--color-tertiary-white-);
+  }
+  
+  .wrapper-icon-indicator-medicalHistory- {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--color-secondary-yellow-);
+    color: var(--color-tertiary-white-);
+  }
+  
+  .wrapper-icon-indicator-internalQuality- {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--color-blue-);
+    color: var(--color-tertiary-white-);
+  }
+  
+  .wrapper-icon-indicator-pamec- {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--color-burgundy-);
+    color: var(--color-tertiary-white-);
+  }
+  
+  .wrapper-icon-indicator-organizationalWork- {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--color-quaternary-gray-);
+    color: var(--color-tertiary-white-);
+  }
+  
+  .wrapper-icon-indicator-active- {
+    width: 70px;
+    height: 70px;
+    background-color: var(--color-tertiary-white-);
+    border-radius: 50%;
+    color: var(--color-secondary-purple-);
+  }
+  
+  .icon-adverse-events:before {
+    content: "\e9b1";
+    font-size: 34px;
+    color: var(--color-tertiary-white-);
+  }
+  
+  .icon-adverse-events-active:before {
+    content: "\e9b1";
+    font-size: 34px;
+    color: var(--color-secondary-purple-);
+  }
+  
+  .icon-fall-rate:before {
+    content: "\e9b4";
+    font-size: 34px;
+    color: var(--color-tertiary-white-);
+  }
+  
+  .icon-fall-rate-active:before {
+    content: "\e9b4";
+    font-size: 34px;
+    color: var(--color-secondary-purple-);
+  }
+  
+  .icon-ulcer-rate:before {
+    content: "\e9b5";
+    font-size: 34px;
+    color: var(--color-tertiary-white-);
+  }
+  
+  .icon-ulcer-rate-active:before {
+    content: "\e9b5";
+    font-size: 34px;
+    color: var(--color-secondary-purple-);
+  }
+  
+  .icon-opportunity:before {
+    content: "\e9b2";
+    font-size: 34px;
+    color: var(--color-tertiary-white-);
+  }
+  
+  .icon-opportunity-active:before {
+    content: "\e9b2";
+    font-size: 34px;
+    color: var(--color-secondary-purple-);
+  }
+  
+  .icon-satisfaction:before {
+    content: "\e9b3";
+    font-size: 36px;
+    color: var(--color-tertiary-white-);
+  }
+  
+  .icon-satisfaction-active:before {
+    content: "\e9b3";
+    font-size: 36px;
+    color: var(--color-secondary-purple-);
+  }
+  
+  .icon-humanization:before {
+    content: "\e9b8";
+    font-size: 36px;
+    color: var(--color-white-);
+  }
+  
+  .icon-humanization-active:before {
+    content: "\e9b8";
+    font-size: 36px;
+    color: var(--color-secondary-purple-);
+  }
+  
+  .icon-accounting:before {
+    content: "\e984";
+    font-size: 34px;
+    color: var(--color-white-);
+  }
+  
+  .icon-accounting-active:before {
+    content: "\e984";
+    font-size: 34px;
+    color: var(--color-secondary-purple-);
+  }
+  
+  .icon-medicalHistory:before {
+    content: "\e948";
+    font-size: 34px;
+    color: var(--color-white-);
+  }
+  
+  .icon-medicalHistory-active:before {
+    content: "\e948";
+    font-size: 34px;
+    color: var(--color-secondary-purple-);
+  }
+  
+  .icon-internalQuality:before {
+    content: "\e90e";
+    font-size: 34px;
+    color: var(--color-white-);
+  }
+  
+  .icon-internalQuality-active:before {
+    content: "\e90e";
+    font-size: 34px;
+    color: var(--color-secondary-purple-);
+  }
+  
+  .icon-pamec:before {
+    content: "\e909";
+    font-size: 34px;
+    color: var(--color-white-);
+  }
+  
+  .icon-pamec-active:before {
+    content: "\e909";
+    font-size: 34px;
+    color: var(--color-secondary-purple-);
+  }
+  
+  .icon-organizationalWork:before {
+    content: "\e91c";
+    font-size: 34px;
+    color: var(--color-white-);
+  }
+  
+  .icon-organizationalWork-active:before {
+    content: "\e91c";
+    font-size: 34px;
+    color: var(--color-secondary-purple-);
+  }
+  
+  #card-indicator .card img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: none;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+  }
+  
+  #card-indicator .card:hover img {
+    transform: scale(1.05);
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+  }
+  
+  /* ---------------------------------------------------
+        SWIPER - INDICATOR
+      ----------------------------------------------------- */
+  
+  .swiper-container-indicators .swiper-wrapper .swiper-slide {
+    width: auto !important;
+  }
+  
+  .swiper-container-indicators .swiper-wrapper .swiper-slide.swiper-slide-active #card-indicator .card {
+    width: 100%;
+    max-height: auto !important;
+    min-height: auto;
+    margin: 0 auto;
+    z-index: 2;
+  }
+  
+  /* ---------------------------------------------------
+        SWIPER - INDICATOR BULLETS HORIZONTAL (CUSTOMERS)
+      ----------------------------------------------------- */
+  
+  .swiper-container-indicators .swiper-pagination-fraction,
+  .swiper-container-indicators .swiper-pagination-custom,
+  .swiper-container-indicators.swiper-horizontal>.swiper-pagination-bullets {
+    bottom: 5px;
+    width: 100%;
+  }
+  
+  .swiper-container-indicators.swiper-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet {
+    margin: 0 4px;
+  }
+  
+  .swiper-container-indicators .swiper-pagination-bullet {
+    width: 14px !important;
+    height: 14px !important;
+    font-family: 'Supreme-Extrabold' !important;
+    font-weight: 400;
+    text-align: center;
+    line-height: 16px;
+    font-size: 80px;
+    color: var(--color-tertiary-white-);
+    opacity: 1 !important;
+    border-radius: 6rem;
+    -webkit-border-radius: 6rem;
+    -moz-border-radius: 6rem;
+    border-radius: 6rem;
+    -khtml-border-radius: 6rem;
+    border: 2px solid var(--color-gray-);
+    background: transparent !important;
+    transition: all 0.4s ease-out;
+  }
+  
+  .swiper-container-indicators .swiper-pagination-bullet:hover {
+    border: 2px solid var(--color-secondary-white-);
+    background: var(--color-secondary-black-) !important;
+    transition: all 0.4s ease-out;
+  }
+  
+  .swiper-container-indicators .swiper-pagination-bullet-active {
+    width: 14px !important;
+    height: 14px !important;
+    opacity: 1;
+    color: var(--color-secondary-black-) !important;
+    font-family: 'Supreme-Extrabold' !important;
+    font-weight: bold;
+    font-size: 80px;
+    text-shadow: 2px 2px 3px var(--color-tertiary-black-rgba-);
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    border: 2px solid var(--color-secondary-white-);
+    background: var(--color-secondary-black-) !important;
+  }
+  
+  /* ---------------------------------------------------
+      GRID INDICATOR
+    ----------------------------------------------------- */
+  
+  #card-indicator-small- .card-body {
+    height: 350px !important;
+  }
+  
+  #card-indicator-large- .card-body {
+    height: 464px !important;
+  }
+  
+  #card-indicator-small- .card-body>div>div:first-of-type,
+  #card-indicator-large- .card-body>div>div:first-of-type {
+    width: auto !important;
+    position: relative !important;
+  }
+  
+  #card-indicator-small- .card-body>div>div:first-of-type canvas,
+  #card-indicator-large- .card-body>div>div:first-of-type canvas {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+  
+  /* ---------------------------------------------------
+      BUTTON FILTERS
+    ----------------------------------------------------- */
+  
+  .btn-filters- {
+    position: fixed;
+    right: 6px !important;
+    bottom: 75px !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 21px !important;
+    transition: opacity 0.3s ease-in-out;
+    box-shadow: var(--box-shadow-1-) !important;
+  }
+  
+  /* ---------------------------------------------------
+        MEDIAQUERIES
+    ----------------------------------------------------- */
+  
+  @media (min-width: 0px) and (max-width: 359.98px) {
+  
+    /* ---------------------------------------------------
+        CARD - PORTFOLIO
+      ----------------------------------------------------- */
+  
+    #card-indicator .card {
+      width: 152px !important;
+      height: 221px;
+    }
+  
+    .wrapper-icon-indicator-adverse-events-,
+    .wrapper-icon-indicator-fall-rate-,
+    .wrapper-icon-indicator-ulcer-rate-,
+    .wrapper-icon-indicator-opportunity-,
+    .wrapper-icon-indicator-satisfaction-,
+    .wrapper-icon-indicator-humanization-,
+    .wrapper-icon-indicator-medicalHistory-,
+    .wrapper-icon-indicator-internalQuality-,
+    .wrapper-icon-indicator-pamec-,
+    .wrapper-icon-indicator-organizationalWork-,
+    .wrapper-icon-indicator-active- {
+      width: 55px;
+      height: 55px;
+    }
+  
+    .icon-adverse-events:before,
+    .icon-adverse-events-active:before {
+      font-size: 24px;
+    }
+  
+    .icon-fall-rate:before,
+    .icon-fall-rate-active:before {
+      font-size: 24px;
+    }
+  
+    .icon-ulcer-rate:before,
+    .icon-ulcer-rate-active:before {
+      font-size: 24px;
+    }
+  
+    .icon-opportunity:before,
+    .icon-opportunity-active:before {
+      font-size: 24px;
+    }
+  
+    .icon-satisfaction:before,
+    .icon-satisfaction-active:before {
+      font-size: 28px;
+    }
+  
+    .icon-humanization:before,
+    .icon-humanization-active:before {
+      font-size: 28px;
+    }
+  
+    .icon-accounting:before,
+    .icon-accounting-active:before {
+      font-size: 28px;
+    }
+  
+    .icon-medicalHistory:before,
+    .icon-medicalHistory-active:before {
+      font-size: 28px;
+    }
+  
+    .icon-internalQuality:before,
+    .icon-internalQuality-active:before {
+      font-size: 28px;
+    }
+  
+    .icon-pamec:before,
+    .icon-pamec-active:before {
+      font-size: 28px;
+    }
+  
+    .icon-organizationalWork:before,
+    .icon-organizationalWork-active:before {
+      font-size: 28px;
+    }
+  
+    /* ---------------------------------------------------
+      BUTTON FILTERS
+    ----------------------------------------------------- */
+  
+    .btn-filters- {
+      right: 8px !important;
+      bottom: 75px !important;
+      width: 35px !important;
+      height: 35px !important;
+    }
+  
+  }
+  
+  @media (min-width: 360px) and (max-width: 575.98px) {
+  
+    /* ---------------------------------------------------
+        CARD - PORTFOLIO
+      ----------------------------------------------------- */
+  
+    #card-indicator .card {
+      width: 152px !important;
+      height: 221px;
+    }
+  
+    .wrapper-icon-indicator-adverse-events-,
+    .wrapper-icon-indicator-fall-rate-,
+    .wrapper-icon-indicator-ulcer-rate-,
+    .wrapper-icon-indicator-opportunity-,
+    .wrapper-icon-indicator-satisfaction-,
+    .wrapper-icon-indicator-humanization-,
+    .wrapper-icon-indicator-medicalHistory-,
+    .wrapper-icon-indicator-internalQuality-,
+    .wrapper-icon-indicator-pamec-,
+    .wrapper-icon-indicator-organizationalWork-,
+    .wrapper-icon-indicator-active- {
+      width: 55px;
+      height: 55px;
+    }
+  
+    .icon-adverse-events:before,
+    .icon-adverse-events-active:before {
+      font-size: 24px;
+    }
+  
+    .icon-fall-rate:before,
+    .icon-fall-rate-active:before {
+      font-size: 24px;
+    }
+  
+    .icon-ulcer-rate:before,
+    .icon-ulcer-rate-active:before {
+      font-size: 24px;
+    }
+  
+    .icon-opportunity:before,
+    .icon-opportunity-active:before {
+      font-size: 24px;
+    }
+  
+    .icon-satisfaction:before,
+    .icon-satisfaction-active:before {
+      font-size: 28px;
+    }
+  
+    .icon-humanization:before,
+    .icon-humanization-active:before {
+      font-size: 28px;
+    }
+  
+    .icon-accounting:before,
+    .icon-accounting-active:before {
+      font-size: 28px;
+    }
+  
+    .icon-medicalHistory:before,
+    .icon-medicalHistory-active:before {
+      font-size: 28px;
+    }
+  
+    .icon-internalQuality:before,
+    .icon-internalQuality-active:before {
+      font-size: 28px;
+    }
+  
+    .icon-pamec:before,
+    .icon-pamec-active:before {
+      font-size: 28px;
+    }
+  
+    .icon-organizationalWork:before,
+    .icon-organizationalWork-active:before {
+      font-size: 28px;
+    }
+  
+    /* ---------------------------------------------------
+      BUTTON FILTERS
+    ----------------------------------------------------- */
+  
+    .btn-filters- {
+      right: 8px !important;
+      bottom: 75px !important;
+      width: 40px !important;
+      height: 40px !important;
+    }
+  
+  }
+  
+  @media (min-width: 576px) and (max-width: 767.98px) {
+  
+    /* ---------------------------------------------------
+        CARD - PORTFOLIO
+      ----------------------------------------------------- */
+  
+    #card-indicator .card {
+      width: 172px !important;
+      height: 241px;
+    }
+  
+    .wrapper-icon-indicator-adverse-events-,
+    .wrapper-icon-indicator-fall-rate-,
+    .wrapper-icon-indicator-ulcer-rate-,
+    .wrapper-icon-indicator-opportunity-,
+    .wrapper-icon-indicator-satisfaction-,
+    .wrapper-icon-indicator-humanization-,
+    .wrapper-icon-indicator-medicalHistory-,
+    .wrapper-icon-indicator-internalQuality-,
+    .wrapper-icon-indicator-pamec-,
+    .wrapper-icon-indicator-organizationalWork-,
+    .wrapper-icon-indicator-active- {
+      width: 65px;
+      height: 65px;
+    }
+  
+    .icon-adverse-events:before,
+    .icon-adverse-events-active:before {
+      font-size: 30px;
+    }
+  
+    .icon-fall-rate:before,
+    .icon-fall-rate-active:before {
+      font-size: 30px;
+    }
+  
+    .icon-ulcer-rate:before,
+    .icon-ulcer-rate-active:before {
+      font-size: 30px;
+    }
+  
+    .icon-opportunity:before,
+    .icon-opportunity-active:before {
+      font-size: 30px;
+    }
+  
+    .icon-satisfaction:before,
+    .icon-satisfaction-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-humanization:before,
+    .icon-humanization-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-accounting:before,
+    .icon-accounting-active:before {
+      font-size: 28px;
+    }
+  
+    .icon-medicalHistory:before,
+    .icon-medicalHistory-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-internalQuality:before,
+    .icon-internalQuality-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-pamec:before,
+    .icon-pamec-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-organizationalWork:before,
+    .icon-organizationalWork-active:before {
+      font-size: 34px;
+    }
+  
+    /* ---------------------------------------------------
+      BUTTON FILTERS
+    ----------------------------------------------------- */
+  
+    .btn-filters- {
+      right: 3px !important;
+      bottom: 75px !important;
+      width: 35px !important;
+      height: 35px !important;
+    }
+  
+  }
+  
+  @media (min-width: 768px) and (max-width: 991.98px) {
+  
+    /* ---------------------------------------------------
+        CARD - PORTFOLIO
+      ----------------------------------------------------- */
+  
+    #card-indicator .card {
+      width: 192px !important;
+      height: 261px;
+    }
+  
+    .wrapper-icon-indicator-adverse-events-,
+    .wrapper-icon-indicator-fall-rate-,
+    .wrapper-icon-indicator-ulcer-rate-,
+    .wrapper-icon-indicator-opportunity-,
+    .wrapper-icon-indicator-satisfaction-,
+    .wrapper-icon-indicator-humanization-,
+    .wrapper-icon-indicator-medicalHistory-,
+    .wrapper-icon-indicator-internalQuality-,
+    .wrapper-icon-indicator-pamec-,
+    .wrapper-icon-indicator-organizationalWork-,
+    .wrapper-icon-indicator-active- {
+      width: 70px;
+      height: 70px;
+    }
+  
+    .icon-adverse-events:before,
+    .icon-adverse-events-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-fall-rate:before,
+    .icon-fall-rate-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-ulcer-rate:before,
+    .icon-ulcer-rate-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-opportunity:before,
+    .icon-opportunity-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-satisfaction:before,
+    .icon-satisfaction-active:before {
+      font-size: 36px;
+    }
+  
+    .icon-humanization:before,
+    .icon-humanization-active:before {
+      font-size: 36px;
+    }
+  
+    .icon-accounting:before,
+    .icon-accounting-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-medicalHistory:before,
+    .icon-medicalHistory-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-internalQuality:before,
+    .icon-internalQuality-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-pamec:before,
+    .icon-pamec-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-organizationalWork:before,
+    .icon-organizationalWork-active:before {
+      font-size: 34px;
+    }
+  
+    /* ---------------------------------------------------
+      BUTTON FILTERS
+    ----------------------------------------------------- */
+  
+    .btn-filters- {
+      right: 12px !important;
+      bottom: 75px !important;
+      width: 40px !important;
+      height: 40px !important;
+    }
+  
+  }
+  
+  @media (min-width: 992px) and (max-width: 1199.98px) {
+  
+    /* ---------------------------------------------------
+        CARD - PORTFOLIO
+      ----------------------------------------------------- */
+  
+    #card-indicator .card {
+      width: 182px !important;
+      height: 250px;
+    }
+  
+    .wrapper-icon-indicator-adverse-events-,
+    .wrapper-icon-indicator-fall-rate-,
+    .wrapper-icon-indicator-ulcer-rate-,
+    .wrapper-icon-indicator-opportunity-,
+    .wrapper-icon-indicator-satisfaction-,
+    .wrapper-icon-indicator-humanization-,
+    .wrapper-icon-indicator-medicalHistory-,
+    .wrapper-icon-indicator-internalQuality-,
+    .wrapper-icon-indicator-pamec-,
+    .wrapper-icon-indicator-organizationalWork-,
+    .wrapper-icon-indicator-active- {
+      width: 70px;
+      height: 70px;
+    }
+  
+    .icon-adverse-events:before,
+    .icon-adverse-events-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-fall-rate:before,
+    .icon-fall-rate-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-ulcer-rate:before,
+    .icon-ulcer-rate-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-opportunity:before,
+    .icon-opportunity-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-satisfaction:before,
+    .icon-satisfaction-active:before {
+      font-size: 36px;
+    }
+  
+    .icon-humanization:before,
+    .icon-humanization-active:before {
+      font-size: 36px;
+    }
+  
+    .icon-accounting:before,
+    .icon-accounting-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-medicalHistory:before,
+    .icon-medicalHistory-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-internalQuality:before,
+    .icon-internalQuality-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-pamec:before,
+    .icon-pamec-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-organizationalWork:before,
+    .icon-organizationalWork-active:before {
+      font-size: 34px;
+    }
+  
+    /* ---------------------------------------------------
+      BUTTON FILTERS
+    ----------------------------------------------------- */
+  
+    .btn-filters- {
+      right: 16px !important;
+      bottom: 75px !important;
+      width: 45px !important;
+      height: 45px !important;
+    }
+  
+  }
+  
+  @media (min-width: 1200px) and (max-width: 1399.98px) {
+  
+    /* ---------------------------------------------------
+        CARD - PORTFOLIO
+      ----------------------------------------------------- */
+  
+    #card-indicator .card {
+      width: 182px !important;
+      height: 250px;
+    }
+  
+    .wrapper-icon-indicator-adverse-events-,
+    .wrapper-icon-indicator-fall-rate-,
+    .wrapper-icon-indicator-ulcer-rate-,
+    .wrapper-icon-indicator-opportunity-,
+    .wrapper-icon-indicator-satisfaction-,
+    .wrapper-icon-indicator-humanization-,
+    .wrapper-icon-indicator-medicalHistory-,
+    .wrapper-icon-indicator-internalQuality-,
+    .wrapper-icon-indicator-pamec-,
+    .wrapper-icon-indicator-organizationalWork-,
+    .wrapper-icon-indicator-active- {
+      width: 70px;
+      height: 70px;
+    }
+  
+    .icon-adverse-events:before,
+    .icon-adverse-events-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-fall-rate:before,
+    .icon-fall-rate-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-ulcer-rate:before,
+    .icon-ulcer-rate-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-opportunity:before,
+    .icon-opportunity-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-satisfaction:before,
+    .icon-satisfaction-active:before {
+      font-size: 36px;
+    }
+  
+    .icon-humanization:before,
+    .icon-humanization-active:before {
+      font-size: 36px;
+    }
+  
+    .icon-accounting:before,
+    .icon-accounting-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-medicalHistory:before,
+    .icon-medicalHistory-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-internalQuality:before,
+    .icon-internalQuality-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-pamec:before,
+    .icon-pamec-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-organizationalWork:before,
+    .icon-organizationalWork-active:before {
+      font-size: 34px;
+    }
+  
+    /* ---------------------------------------------------
+      BUTTON FILTERS
+    ----------------------------------------------------- */
+  
+    .btn-filters- {
+      right: 16px !important;
+      bottom: 75px !important;
+      width: 45px !important;
+      height: 45px !important;
+    }
+  
+  }
+  
+  @media (min-width: 1400px) and (max-width: 1919.98px) {
+  
+    /* ---------------------------------------------------
+        CARD - PORTFOLIO
+      ----------------------------------------------------- */
+  
+    #card-indicator .card {
+      width: 182px !important;
+      height: 250px;
+    }
+  
+    .wrapper-icon-indicator-adverse-events-,
+    .wrapper-icon-indicator-fall-rate-,
+    .wrapper-icon-indicator-ulcer-rate-,
+    .wrapper-icon-indicator-opportunity-,
+    .wrapper-icon-indicator-satisfaction-,
+    .wrapper-icon-indicator-humanization-,
+    .wrapper-icon-indicator-medicalHistory-,
+    .wrapper-icon-indicator-internalQuality-,
+    .wrapper-icon-indicator-pamec-,
+    .wrapper-icon-indicator-organizationalWork-,
+    .wrapper-icon-indicator-active- {
+      width: 70px;
+      height: 70px;
+    }
+  
+    .icon-adverse-events:before,
+    .icon-adverse-events-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-fall-rate:before,
+    .icon-fall-rate-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-ulcer-rate:before,
+    .icon-ulcer-rate-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-opportunity:before,
+    .icon-opportunity-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-satisfaction:before,
+    .icon-satisfaction-active:before {
+      font-size: 36px;
+    }
+  
+    .icon-humanization:before,
+    .icon-humanization-active:before {
+      font-size: 36px;
+    }
+  
+    .icon-accounting:before,
+    .icon-accounting-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-medicalHistory:before,
+    .icon-medicalHistory-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-internalQuality:before,
+    .icon-internalQuality-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-pamec:before,
+    .icon-pamec-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-organizationalWork:before,
+    .icon-organizationalWork-active:before {
+      font-size: 34px;
+    }
+  
+    /* ---------------------------------------------------
+      BUTTON FILTERS
+    ----------------------------------------------------- */
+  
+    .btn-filters- {
+      right: 16px !important;
+      bottom: 75px !important;
+      width: 45px !important;
+      height: 45px !important;
+    }
+  
+  }
+  
+  @media (min-width: 1920px) and (max-width: 2699.98px) {
+  
+    /* ---------------------------------------------------
+        CARD - PORTFOLIO
+      ----------------------------------------------------- */
+  
+    #card-indicator .card {
+      width: 192px !important;
+      height: 261px;
+    }
+  
+    .wrapper-icon-indicator-adverse-events-,
+    .wrapper-icon-indicator-fall-rate-,
+    .wrapper-icon-indicator-ulcer-rate-,
+    .wrapper-icon-indicator-opportunity-,
+    .wrapper-icon-indicator-satisfaction-,
+    .wrapper-icon-indicator-humanization-,
+    .wrapper-icon-indicator-medicalHistory-,
+    .wrapper-icon-indicator-internalQuality-,
+    .wrapper-icon-indicator-pamec-,
+    .wrapper-icon-indicator-organizationalWork-,
+    .wrapper-icon-indicator-active- {
+      width: 70px;
+      height: 70px;
+    }
+  
+    .icon-adverse-events:before,
+    .icon-adverse-events-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-fall-rate:before,
+    .icon-fall-rate-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-ulcer-rate:before,
+    .icon-ulcer-rate-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-opportunity:before,
+    .icon-opportunity-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-satisfaction:before,
+    .icon-satisfaction-active:before {
+      font-size: 36px;
+    }
+  
+    .icon-humanization:before,
+    .icon-humanization-active:before {
+      font-size: 36px;
+    }
+  
+    .icon-accounting:before,
+    .icon-accounting-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-medicalHistory:before,
+    .icon-medicalHistory-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-internalQuality:before,
+    .icon-internalQuality-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-pamec:before,
+    .icon-pamec-active:before {
+      font-size: 34px;
+    }
+  
+    .icon-organizationalWork:before,
+    .icon-organizationalWork-active:before {
+      font-size: 34px;
+    }
+  
+    /* ---------------------------------------------------
+      BUTTON FILTERS
+    ----------------------------------------------------- */
+  
+    .btn-filters- {
+      right: 6px !important;
+      bottom: 75px !important;
+      width: 40px !important;
+      height: 40px !important;
+    }
+  
+  }

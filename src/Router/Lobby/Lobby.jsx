@@ -41,14 +41,14 @@ export default function Lobby() {
                     <div class="icon-scroll" style={{position:'relative'}}></div>
                     </div>
                     <div className='cardsContainer'>
-                            <div onClick={()=> redirect()} className='card' style={{opacity:1,cursor:'pointer'}}>
+                            <div onClick={()=> redirect()} className='card_' style={{opacity:1,cursor:'pointer'}}>
                                   <div className='box_icon'>
                                     <GiColombia style={{width:'60',height:'60'}} width={50} height={50} color='white'/>
                                   </div>
                                   <p className='textCard_2'>Mapa de indicadores</p>
                                   <p className='textCard'>Accede e informate en tiempo real.</p>    
                             </div>
-                            <div className='card' style={{opacity:1,cursor:'pointer'}} onClick={seeAlert}>
+                            <div className='card_' style={{opacity:1,cursor:'pointer'}} onClick={seeAlert}>
                             <div className='box_icon'>
                                     <TiCancelOutline style={{width:'60',height:'60'}} width={50} height={50} color='white'/>
                                   </div>
@@ -57,7 +57,7 @@ export default function Lobby() {
                             
                                 
                             </div>
-                            <div className='card' style={{opacity:1,cursor:'pointer'}} onClick={seeAlert}>
+                            <div className='card_' style={{opacity:1,cursor:'pointer'}} onClick={seeAlert}>
                                   <div className='box_icon'>
                                     <TiCancelOutline style={{width:'60',height:'60'}} width={50} height={50} color='white'/>
                                   </div>
