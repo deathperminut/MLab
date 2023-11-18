@@ -1,13 +1,12 @@
 .body{
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .carouselBody{
 
     width: 100vw;
-    min-height:900px ;
-    height:120vh;
+    min-height:1100px ;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -19,8 +18,8 @@
 .carouselBody_2{
 
     width: 100vw;
-    min-height:500px ;
-    height:50vh;
+    min-height:600px ;
+    height:60vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -53,9 +52,7 @@
     color:rgb(255, 255, 255);
     font-weight: 400;
     cursor: default;
-    margin-bottom:50px;
-
-    
+    margin-bottom:50px; 
 }
 .description{
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -139,6 +136,7 @@
   .card:hover{
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 1);
     transform: scale(1.1);
+    background: radial-gradient(circle, rgb(237, 237, 237) 0%, rgb(147, 226, 108) 100%);
   }
   .textCard_2{
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -155,19 +153,6 @@
     width: 130px;
     height: 50px;
   }
-
-  /* .textCard:hover{
-    transition: all 2s !important;
-    background: linear-gradient(to bottom,   #92d52c     ,  #92d52c );
-    font-size: 1rem;
-    padding: 10px;
-    text-align: center;
-    font-weight: 600;
-    width: 130px;
-    border: none;
-    border-radius: 50px;
-  }
-   */
 
   /*media queries*/
 /* tablet screens */
@@ -234,7 +219,7 @@
       border-radius: 20px !important;
     }
 
-    .textCard{
+    /* .textCard{
         color:rgb(250, 250, 250);
         font-family: 'Bold', sans-serif;
         font-size: 10px;
@@ -258,7 +243,7 @@
         background-color: rgb(243, 243, 243);
         border: none;
         border-radius: 10px;
-      }
+      } */
 
 }
 
@@ -283,7 +268,7 @@
       border-radius: 20px !important;
     }
 
-    .textCard{
+    /* .textCard{
         color:rgb(250, 250, 250);
         font-family: 'Bold', sans-serif;
         font-size: 10px;
@@ -307,7 +292,7 @@
         background-color: rgb(243, 243, 243);
         border: none;
         border-radius: 10px;
-      }
+      } */
 
 }
 

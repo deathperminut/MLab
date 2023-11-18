@@ -117,6 +117,8 @@
   body {
     margin: 0;
     background-color: #F5F5F5 !important;
+    width: 100vw !important;
+    min-height: 100vh !important;
   }
 
   /**

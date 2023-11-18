@@ -3,6 +3,8 @@ import { Navigate,Routes,Route } from 'react-router-dom';
 import Lobby from './Router/Lobby/Lobby';
 import Maps from './Router/maps/Maps';
 import React from 'react';
+import Footer from './Components/Footer/Footer';
+
 
 function App() {
   return (

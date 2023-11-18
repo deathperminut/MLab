@@ -10,6 +10,7 @@ import {useNavigate} from 'react-router-dom';
 import logo from '../../img/logo.png';
 import { GiColombia } from 'react-icons/gi';
 import Swal from 'sweetalert2';
+import Footer from '../../Components/Footer/Footer';
 
 export default function Lobby() {
 
@@ -40,7 +41,8 @@ export default function Lobby() {
 
 
   return (
-    <div className='body' style={{display:'flex',justifyContent:'center'}}>
+    <>
+<div className='body' style={{display:'flex',justifyContent:'center'}}>
         <Navigationbar></Navigationbar>
         <div style={{width:'100%',minHeight:'100%',display:'flex',flexDirection:'column'}}>
         <div className='carouselBody font' style={{backgroundImage: `url(${Fondo})`,backgroundSize:'cover'}}>
@@ -79,9 +81,9 @@ export default function Lobby() {
         </div>
         </div>
         
-        
-        
-        
     </div>
+    
+    </>
+    
   )
 }
