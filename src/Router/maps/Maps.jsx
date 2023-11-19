@@ -1,5 +1,6 @@
 import React from 'react'
 import './Maps.css'
+import { useRef } from 'react';
 import Navigationbar from '../../Components/Navbar/Navbar';
 import Fondo from '../../img/Langing_2.png';
 import { TiCancelOutline } from "react-icons/ti";
@@ -9,6 +10,7 @@ import { GiColombia } from 'react-icons/gi';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { CiCircleMore } from "react-icons/ci";
+import Municipios from '../../data/Municipios.json'
 import { useState } from 'react';
 import { MapContainer, GeoJSON,TileLayer ,Polygon ,Popup} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -303,7 +305,7 @@ export default function Maps() {
   const mapStyles = {
     height: '750px',
     width:'100%',
-    background:'transparent'
+    background:'#F5F5F5'
   };
 
 
@@ -661,6 +663,51 @@ export default function Maps() {
     {value:"a",label:"a"},
   ]
 
+  const mapRef = useRef(null);
+  let lastScrollTop = 0;
+  /* use States*/
+  
+  let [departament,setDepartament] = React.useState("");
+  let [result,setResult] = React.useState(null);
+  let [dataMuni,setDataMuni] = React.useState([]);
+
+  let findResults =()=>{
+    setPreloader(true);
+    setTimeout(findData,2200);
+  }
+
+  let findData = ()=>{
+    setPreloader(false);
+    setResult('results');
+  }
+
+  const handleScroll = () => {
+    const map = mapRef.current;
+    
+    if (map != null) {
+      const currentScrollTop = map._container.scrollTop || document.documentElement.scrollTop;
+
+      // Calcula la distancia recorrida durante el scroll
+      const scrollDistance = Math.abs(currentScrollTop - lastScrollTop);
+
+      // Define la distancia mínima para activar un evento (en pixeles)
+      const threshold = 100;
+      console.log("scrollDistance: ",scrollDistance)
+      // Si la distancia recorrida supera el umbral, activa tu evento
+      if (scrollDistance > threshold) {
+        // Aquí puedes ejecutar la lógica que desees al alcanzar la distancia específica durante el scroll
+        console.log('Se ha alcanzado la distancia de scroll deseada');
+        // Puedes llamar a una función o activar cualquier otra acción aquí
+      }
+
+      lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop;
+    }
+  };
+
+  const resetData = () => {
+        setDepartament("");
+  }
+
   return (
     <div className='body' style={{display:'flex',justifyContent:'center'}}>
                 {
@@ -691,31 +738,108 @@ export default function Maps() {
                           </div>
                           <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
                               <div className='col-auto' style={{width:'100%',display:'flex','justifyContent':'end'}}>
-                                  <button onClick={loading_screen} className='buttonProduct btn btn-dark-purple- rounded-pill ps-5 pe-5 d-flex flex-row justify-content-center align-items-center align-self-center h-45-' type="button" >
+                                  <button onClick={findResults} className='buttonProduct btn btn-dark-purple- rounded-pill ps-5 pe-5 d-flex flex-row justify-content-center align-items-center align-self-center h-45-' type="button" >
                                     <span className='textButton lh-1 fs-6- ff-monse-regular- fw-semibold' >Buscar</span>
                                   </button>
                               </div>
                           </div>
+                          {departament !== ""  ? 
+                          <>
+                          <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
+                              <div className='col-auto' style={{width:'100%',display:'flex','justifyContent':'end'}}>
+                                  <button onClick={resetData} className='buttonProduct btn btn-dark-purple- rounded-pill ps-5 pe-5 d-flex flex-row justify-content-center align-items-center align-self-center h-45-' type="button" >
+                                    <span className='textButton lh-1 fs-6- ff-monse-regular- fw-semibold' >Volver</span>
+                                  </button>
+                              </div>
+                          </div>
+                          </>
+                          :
+                          <></>
+                          }
                   </form>
                   <div className='container_data'>
                     <div className='container_pc'>
                         <MapContainer
-                          className='mapstyles'
+                          ref = {mapRef} 
+                          onScroll={handleScroll}                         className='mapstyles'
                           center={[4.5709, -74.2973]} // Centro de Colombia
                           zoom={6} // Zoom inicial
                           style={mapStyles}
                         > 
+ 
+                          {departament === "" ? 
                           <TileLayer
                             url ="https://api.maptiler.com/maps/basic-v2/256/{z}/{x}/{y}.png?key=HXpSPxolOD99vBzDBreA"
                             attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
                             >
                           </TileLayer>
+                          :
+                          <></>
+                          }
+                          
+                          {result !== null && departament ===""  ?
+                          <>
+                          <GeoJSON
+                              data={cauca}
+                              style={(feature) => ({
+                                fillColor: getColor(),
+                                weight: 2,
+                                color: 'white',
+                                fillOpacity: 0.7,
+                              })}
+                              eventHandlers={{
+                              mouseover:(e) =>{
+                                  const layer = e.target;
+                                  layer.setStyle({
+                                    fillOpacity:0.2
+                                  })
+                              },
+                              dblclick:(e)=>{
+                                setDataMuni(Municipios?.features.filter((obj)=>obj?.properties?.dpt === 'CAUCA'))
+                                setDepartament('CAUCA')
+                              },
+                              mouseout:(e)=>{
+                                const layer = e.target;
+                                  layer.setStyle({
+                                    fillOpacity:0.4
+                                  })
+                              },
+
+                            }}
+                             
+                            >
+                            <Popup>
+                            <div style={{width:'100%',height:'100%','display':'flex','flexDirection':'column','alignItems':'center',justifyContent:'start'}}>
+                                        <span style={{fontWeight:'600'}}>{'CAUCA'}</span>
+                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
+                                              <div style={{width:'7px',height:'7px',background:'green','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>15</span>
+                                        </div>
+                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
+                                              <div style={{width:'7px',height:'7px',background:'gray','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>12</span>
+                                        </div>
+                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
+                                              <div style={{width:'7px',height:'7px',background:'pink','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>30</span>
+                                        </div>
+                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
+                                              <div style={{width:'7px',height:'7px',background:'blue','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>51</span>
+                                        </div>
+                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
+                                              <div style={{width:'7px',height:'7px',background:'red','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>15</span>
+                                        </div>
+                                   </div>
+                            </Popup>
+                          </GeoJSON>
                           {
-                            departaments?.features.map((depa)=>{
+                            departaments?.features.map((depa,index)=>{
                               const coordinates = depa.geometry.coordinates[0].map((item)=>[item[1],item[0]])
                               return (
                                 <Polygon
-                                
+                                key={index}
                                 pathOptions={{
                                   fillColor:getColor(),
                                   fillOpacity:0.7,
@@ -732,12 +856,17 @@ export default function Maps() {
                                     fillOpacity:0.2
                                   })
                               },
+                              dblclick:(e)=>{
+                                setDataMuni(Municipios?.features.filter((obj)=>obj?.properties?.dpt === depa?.properties?.NOMBRE_DPT))
+                                setDepartament(depa?.properties?.NOMBRE_DPT)
+                              },
                               mouseout:(e)=>{
                                 const layer = e.target;
                                   layer.setStyle({
                                     fillOpacity:0.4
                                   })
                               },
+                              
 
                             }}
                             
@@ -775,76 +904,24 @@ export default function Maps() {
                               )
                             })
                           }
-                          <GeoJSON
-                              data={cauca}
-                              style={(feature) => ({
-                                fillColor: getColor(),
-                                weight: 2,
-                                color: 'white',
-                                fillOpacity: 0.7,
-                              })}
-                              eventHandlers={{
-                              mouseover:(e) =>{
-                                  const layer = e.target;
-                                  layer.setStyle({
-                                    fillOpacity:0.2
-                                  })
-                              },
-                              mouseout:(e)=>{
-                                const layer = e.target;
-                                  layer.setStyle({
-                                    fillOpacity:0.4
-                                  })
-                              },
-
-                            }}
-                             
-                            >
-                            <Popup>
-                            <div style={{width:'100%',height:'100%','display':'flex','flexDirection':'column','alignItems':'center',justifyContent:'start'}}>
-                                        <span style={{fontWeight:'600'}}>{'CAUCA'}</span>
-                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'green','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>15</span>
-                                        </div>
-                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'gray','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>12</span>
-                                        </div>
-                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'pink','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>30</span>
-                                        </div>
-                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'blue','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>51</span>
-                                        </div>
-                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'red','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>15</span>
-                                        </div>
-                                   </div>
-                            </Popup>
-                            </GeoJSON>
-                        </MapContainer>
-                    </div>
-                    <div className='container_moviles'>
-                    <MapContainer
-                          className='mapstyles'
-                          center={[4.5709, -74.2973]} // Centro de Colombia
-                          zoom={6} // Zoom inicial
-                          style={mapStyles}
-                        > 
-                          <TileLayer
-                            url ="https://api.maptiler.com/maps/basic-v2/256/{z}/{x}/{y}.png?key=HXpSPxolOD99vBzDBreA"
-                            attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
-                            >
-                          </TileLayer>
+                          </>
+                          :
+                          <></>
+                          }
+                          
                           {
-                            departaments?.features.map((depa)=>{
-                              const coordinates = depa.geometry.coordinates[0].map((item)=>[item[1],item[0]])
+                            departament !== "" ? 
+                            <>
+                            {
+                            dataMuni.map((muni,index)=>{
+                              const x = -12.0;
+                              const Y = -37.7;
+                              const coordinates = muni.geometry.coordinates[0].map((item)=>[item[1] + Y,item[0] + x])
                               return (
+                                <>
+                                {muni?.properties?.name !== undefined ?
                                 <Polygon
+                                key={index}
                                 pathOptions={{
                                   fillColor:getColor(),
                                   fillOpacity:0.7,
@@ -871,15 +948,53 @@ export default function Maps() {
                             }}
                                 
                                 >
-
+                                <Popup>
+                                   
+                                   <div style={{width:'100%',height:'100%','display':'flex','flexDirection':'column','alignItems':'center',justifyContent:'start'}}>
+                                        <span style={{fontWeight:'600'}}>{muni?.properties?.name}</span>
+                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
+                                              <div style={{width:'7px',height:'7px',background:'green','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>15</span>
+                                        </div>
+                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
+                                              <div style={{width:'7px',height:'7px',background:'gray','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>12</span>
+                                        </div>
+                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
+                                              <div style={{width:'7px',height:'7px',background:'pink','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>30</span>
+                                        </div>
+                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
+                                              <div style={{width:'7px',height:'7px',background:'blue','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>51</span>
+                                        </div>
+                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
+                                              <div style={{width:'7px',height:'7px',background:'red','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>15</span>
+                                        </div>
+                                   </div>
+                                  
+                                  
+                                </Popup>
                                 </Polygon>
+                                :
+                                <></>
+                                }
+                                
+                                </>
+                                
                               )
                             })
                           }
+                            </>
+                            :
+                            <>
+
+                            </>
+                          }
+                          
+                          
                         </MapContainer>
-                    </div>
-                    
-                    <div>
                     </div>
                   </div>
                   <div className='container_data__'>
