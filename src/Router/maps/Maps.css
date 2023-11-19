@@ -16,7 +16,19 @@
     color: #0d149a;
     margin-bottom: 20px;
 }
-
+.container_form{
+    width: 90%;
+    max-width: 1300px;
+    margin: 20px;
+    min-height: 300px;
+    display: flex;
+    padding: 20px;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 30px;
+    opacity: 0.7;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+}
 .container_data{
     width: 90%;
     max-width: 1300px;
@@ -88,6 +100,27 @@
 .container_pc{
     height: 800px;
     width: 100%;
+}
+
+.legend{
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  margin-top: 40px;
+  justify-content: center;
+  align-items: center;
+}
+.boxRange{
+  width: 20%;
+  min-width: 140px;
+  background-color: white;
+  margin: 10px;
+  height: 70px;
+  border-radius: 20px;
+  box-shadow: 10px 5px 20px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  padding: 20px;
 }
 
 

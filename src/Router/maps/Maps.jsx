@@ -316,8 +316,7 @@ export default function Maps() {
 
   const getColor = (valor) => {
     // Escoge los colores según los rangos de valores que tengas
-    
-    let arrayColors = ['#800026','#FC4E2A','#FFEDA0',' #86b41f ',' #161c98 ',' #9aa790 ']
+    let arrayColors = ['#b6bced','#FFD60C','#F19420',' rgb(22, 86, 206) ',' #54cbe3 ']
     const  elemento = elementoRandom(arrayColors)
     return elemento
   };
@@ -751,14 +750,25 @@ export default function Maps() {
                               </div>
                           </div>
                           <div className="legend">
-                              <div>
-                                <span style={{ backgroundColor: colorScale.low }}>Low</span> 
+                              <div className = "boxRange">
+                                <div style={{width:'15px',height:'15px',background:'#b6bced','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' < 4.5'}</span>
                               </div>
-                              <div>
-                                <span style={{ backgroundColor: colorScale.medium }}>Medium</span> 
+                              <div className = "boxRange">
+                                <div style={{width:'15px',height:'15px',background:'#FFD60C','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' 4.5 - 5'}</span>
                               </div>
-                              <div>
-                                <span style={{ backgroundColor: colorScale.high }}>High</span> 
+                              <div className = "boxRange">
+                                <div style={{width:'15px',height:'15px',background:'#F19420','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango:</b>{' 5 - 5.5'}</span>
+                              </div>
+                              <div className = "boxRange">
+                                <div style={{width:'15px',height:'15px',background:'rgb(22, 86, 206)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango:</b>{' 5.5 - 6'}</span>
+                              </div>
+                              <div className = "boxRange">
+                                <div style={{width:'15px',height:'15px',background:'#54cbe3','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango:</b>{' 6.0 <'}</span>
                               </div>
                           </div>
                           {departament !== ""  ? 
@@ -803,7 +813,7 @@ export default function Maps() {
                                 fillColor: getColor(),
                                 weight: 2,
                                 color: 'white',
-                                fillOpacity: 0.7,
+                                fillOpacity: 1,
                               })}
                               eventHandlers={{
                               mouseover:(e) =>{
@@ -819,7 +829,7 @@ export default function Maps() {
                               mouseout:(e)=>{
                                 const layer = e.target;
                                   layer.setStyle({
-                                    fillOpacity:0.4
+                                    fillOpacity:1
                                   })
                               },
 
@@ -830,23 +840,23 @@ export default function Maps() {
                             <div style={{width:'100%',height:'100%','display':'flex','flexDirection':'column','alignItems':'center',justifyContent:'start'}}>
                                         <span style={{fontWeight:'600'}}>{'CAUCA'}</span>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'green','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',backgroundColor:'#b6bced','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>15</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'gray','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',backgroundColor:'#FFD60C','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>12</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'pink','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',backgroundColor:'#F19420','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>30</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'blue','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',backgroundColor:'rgb(22, 86, 206)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>51</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'red','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',background:'#54cbe3','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>15</span>
                                         </div>
                                    </div>
@@ -860,7 +870,7 @@ export default function Maps() {
                                 key={index}
                                 pathOptions={{
                                   fillColor:getColor(),
-                                  fillOpacity:0.7,
+                                  fillOpacity:1,
                                   weight:2,
                                   opacity:1,
                                   dashArray:3,
@@ -881,7 +891,7 @@ export default function Maps() {
                               mouseout:(e)=>{
                                 const layer = e.target;
                                   layer.setStyle({
-                                    fillOpacity:0.4
+                                    fillOpacity:1
                                   })
                               },
                               
@@ -895,23 +905,23 @@ export default function Maps() {
                                    <div style={{width:'100%',height:'100%','display':'flex','flexDirection':'column','alignItems':'center',justifyContent:'start'}}>
                                         <span style={{fontWeight:'600'}}>{depa?.properties?.NOMBRE_DPT}</span>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'green','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',background:'#b6bced','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>15</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'gray','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',background:'#FFD60C','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>12</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'pink','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',background:'#F19420','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>30</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'blue','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',background:'rgb(22, 86, 206)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>51</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'red','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',background:'#54cbe3','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>15</span>
                                         </div>
                                    </div>
@@ -971,23 +981,23 @@ export default function Maps() {
                                    <div style={{width:'100%',height:'100%','display':'flex','flexDirection':'column','alignItems':'center',justifyContent:'start'}}>
                                         <span style={{fontWeight:'600'}}>{muni?.properties?.name}</span>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'green','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',background:'#b6bced','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>15</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'gray','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',background:'#FFD60C','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>12</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'pink','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',background:'#F19420','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>30</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'blue','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',background:'rgb(22, 86, 206)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>51</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'red','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',background:'#54cbe3','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>15</span>
                                         </div>
                                    </div>
@@ -1015,165 +1025,196 @@ export default function Maps() {
                         </MapContainer>
                     </div>
                   </div>
-                  <div className='container_data__'>
-                        <div id='card-indicator-large-' className='card border-0 rounded-3 w-100 bs-2- position-relative overflow-hidden'>
-                          <div className='card-header border-0 bg-transparent p-4 pb-0'>
-                            <div className='d-flex flex-row justify-content-between align-items-center align-self-center mb-1'>
-                              <h1 className='m-0 p-0 lh-sm fs-4- ff-monse-regular- fw-bold tx-dark-purple-'>
-                              Valores registrados
-                              </h1>
-                              <button className='btn rounded-pill p-2 d-flex flex-row justify-content-center align-items-center align-self-center button-open- btn-dark-purple- bs-1- ms-2'  onClick={() => toggleOverlay('card1')}>
-                                <CiCircleMore style={{width:'90',height:'90'}} width={90} height={90} color='black'/>
-                              </button>
+                  
+                    <div className='container_data__'>
+                          <div id='card-indicator-large-' className='card border-0 rounded-3 w-100 bs-2- position-relative overflow-hidden'>
+                            <div className='card-header border-0 bg-transparent p-4 pb-0'>
+                              <div className='d-flex flex-row justify-content-between align-items-center align-self-center mb-1'>
+                                <h1 className='m-0 p-0 lh-sm fs-4- ff-monse-regular- fw-bold tx-dark-purple-'>
+                                Valores registrados
+                                </h1>
+                                <button className='btn rounded-pill p-2 d-flex flex-row justify-content-center align-items-center align-self-center button-open- btn-dark-purple- bs-1- ms-2'  onClick={() => toggleOverlay('card1')}>
+                                  <CiCircleMore style={{width:'90',height:'90'}} width={90} height={90} color='black'/>
+                                </button>
+                              </div>
+                              <div className='w-75'>
+                                <p className='m-0 p-0 lh-sm fs-5- ff-monse-regular- fw-normal tx-black-'>
+                                  se muestran los 12 departamentos con mayor magnitud dependiendo de la muestra seleccionada 
+                                </p>
+                              </div>
                             </div>
-                            <div className='w-75'>
-                              <p className='m-0 p-0 lh-sm fs-5- ff-monse-regular- fw-normal tx-black-'>
-                                se muestran los 12 departamentos con mayor magnitud dependiendo de la muestra seleccionada 
-                              </p>
+                            <div className='card-body p-4 w-100'>
+                              <div className='w-100 h-100 mx-auto' id='chart-opportunity-one-'></div>
                             </div>
-                          </div>
-                          <div className='card-body p-4 w-100'>
-                            <div className='w-100 h-100 mx-auto' id='chart-opportunity-one-'></div>
-                          </div>
-                          {showOverlay === 'card1' && (
-                            <div className={`overlay-wrapper${hiddenOverlay ? ' hidden' : ''}`} onAnimationEnd={() => hiddenOverlay && setHiddenOverlay(true)}>
-                              <div className={`overlay-content${hiddenOverlay ? ' hidden' : ''}`} onAnimationEnd={() => hiddenOverlay && setHiddenOverlay(true)}>
-                                <div id='wrapper-data-table' className='card border-0 rounded-3 w-100 position-relative'>
-                                  <div className='card-header border-0 bg-transparent p-4'>
-                                    <div className='d-flex flex-row justify-content-between align-items-center align-self-center'>
-                                      <h1 className='m-0 p-0 lh-sm fs-4- ff-monse-regular- fw-bold tx-dark-purple-'>
-                                          Tabla de datos
-                                      </h1>
-                                      <button className='btn rounded-pill p-2 d-flex flex-row justify-content-center align-items-center align-self-center button-close- btn-bone-white- bs-1- ms-2' onClick={() => toggleOverlay(null)}>
-                                          <MdOutlineCancel />
-                                      </button>
+                            {showOverlay === 'card1' && (
+                              <div className={`overlay-wrapper${hiddenOverlay ? ' hidden' : ''}`} onAnimationEnd={() => hiddenOverlay && setHiddenOverlay(true)}>
+                                <div className={`overlay-content${hiddenOverlay ? ' hidden' : ''}`} onAnimationEnd={() => hiddenOverlay && setHiddenOverlay(true)}>
+                                  <div id='wrapper-data-table' className='card border-0 rounded-3 w-100 position-relative'>
+                                    <div className='card-header border-0 bg-transparent p-4'>
+                                      <div className='d-flex flex-row justify-content-between align-items-center align-self-center'>
+                                        <h1 className='m-0 p-0 lh-sm fs-4- ff-monse-regular- fw-bold tx-dark-purple-'>
+                                            Tabla de datos
+                                        </h1>
+                                        <button className='btn rounded-pill p-2 d-flex flex-row justify-content-center align-items-center align-self-center button-close- btn-bone-white- bs-1- ms-2' onClick={() => toggleOverlay(null)}>
+                                            <MdOutlineCancel />
+                                        </button>
+                                      </div>
                                     </div>
-                                  </div>
-                                  <div className='card-body p-4 pt-0 pb-0 w-100'>
-                                    <div className='table-responsive table-general-'>
-                                      <table className='table table-sm table-striped table-no-border- align-middle'>
-                                        <thead>
-                                          <tr>
-                                            <th scope="col" className='th-width-sm-'>
-                                              <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
-                                                <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple-'>Departamento</span>
-                                              </div>
-                                            </th>
-                                            <th scope="col" className='th-width-sm-'>
-                                              <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
-                                                <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple-'>Muestra</span>
-                                              </div>
-                                            </th>
-                                          </tr>
-                                        </thead>
-                                        <tbody>
-                                          <tr>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Cundinamarca</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>10</p>
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Vichada</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>5</p>
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Boyaca</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>4</p>
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Meta</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>9</p>
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Antioquia</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>10</p>
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Casanare</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>2</p>
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Julio</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>5</p>
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Valle del cauca</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>18</p>
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Caldas</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>22</p>
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Bolivar</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>14</p>
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Magdalena</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>30</p>
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>La guajira</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>4</p>
-                                            </td>
-                                          </tr>
-                                        </tbody>
-                                      </table>
+                                    <div className='card-body p-4 pt-0 pb-0 w-100'>
+                                      <div className='table-responsive table-general-'>
+                                        <table className='table table-sm table-striped table-no-border- align-middle'>
+                                          <thead>
+                                            <tr>
+                                              <th scope="col" className='th-width-sm-'>
+                                                <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
+                                                  <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple-'>Departamento</span>
+                                                </div>
+                                              </th>
+                                              <th scope="col" className='th-width-sm-'>
+                                                <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
+                                                  <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple-'>Muestra</span>
+                                                </div>
+                                              </th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Cundinamarca</p>
+                                              </td>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>10</p>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Vichada</p>
+                                              </td>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>5</p>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Boyaca</p>
+                                              </td>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>4</p>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Meta</p>
+                                              </td>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>9</p>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Antioquia</p>
+                                              </td>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>10</p>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Casanare</p>
+                                              </td>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>2</p>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Julio</p>
+                                              </td>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>5</p>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Valle del cauca</p>
+                                              </td>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>18</p>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Caldas</p>
+                                              </td>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>22</p>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Bolivar</p>
+                                              </td>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>14</p>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>Magdalena</p>
+                                              </td>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>30</p>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>La guajira</p>
+                                              </td>
+                                              <td className='align-middle'>
+                                                <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>4</p>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          )}
-                          {showOverlay === 'card1' && <div className="overlay-backdrop" onClick={() => toggleOverlay(null)} />}
-                        </div>
-                  </div>
+                            )}
+                            {showOverlay === 'card1' && <div className="overlay-backdrop" onClick={() => toggleOverlay(null)} />}
+                          </div>
+                    </div>
+                    <div className='container_form'>
+                        <div className='card-header border-0 bg-transparent p-4 pb-0'>
+                                <div className='d-flex mb-1' style={{flexDirection:'column',alignItems:'start !important'}}>
+                                    <h1 className='m-0 p-0 lh-sm fs-4- ff-monse-regular- fw-bold tx-dark-purple-'>
+                                    Formulario
+                                    </h1>
+                                </div>
+                                <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
+                                    <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                          <div className='form-floating inner-addon- left-addon-'>
+                                            <Select options={tipo_muestra} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Tipo de muestra:" styles={selectStyles} isClearable={true} />
+                                          </div>
+                                    </div>
+                                    <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                          <div className='form-floating inner-addon- left-addon-'>
+                                            <input type="text" className='form-control'  placeholder="Registra el valor" />
+                                            <label className='fs-5- ff-monse-regular-'>Registra el valor</label>
+                                          </div>
+                                    </div>
+                                    
+                              </div>
+                              <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
+                                  <div className='col-auto' style={{width:'100%',display:'flex','justifyContent':'end'}}>
+                                      <button className='buttonProduct btn btn-dark-purple- rounded-pill ps-5 pe-5 d-flex flex-row justify-content-center align-items-center align-self-center h-45-' type="button" >
+                                        <span className='textButton lh-1 fs-6- ff-monse-regular- fw-semibold' >Evaluar</span>
+                                      </button>
+                                  </div>
+                              </div>
+                        </div> 
+                    </div>
                 </div>
                 
     </div>
