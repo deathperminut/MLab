@@ -663,6 +663,13 @@ export default function Maps() {
     {value:"a",label:"a"},
   ]
 
+  const colorScale = {
+    low: 'green',
+    medium: 'yellow',
+    high: 'red',
+    // Puedes agregar más categorías y colores según tus rangos de valores
+  };
+
   const mapRef = useRef(null);
   let lastScrollTop = 0;
   /* use States*/
@@ -741,6 +748,17 @@ export default function Maps() {
                                   <button onClick={findResults} className='buttonProduct btn btn-dark-purple- rounded-pill ps-5 pe-5 d-flex flex-row justify-content-center align-items-center align-self-center h-45-' type="button" >
                                     <span className='textButton lh-1 fs-6- ff-monse-regular- fw-semibold' >Buscar</span>
                                   </button>
+                              </div>
+                          </div>
+                          <div className="legend">
+                              <div>
+                                <span style={{ backgroundColor: colorScale.low }}>Low</span> 
+                              </div>
+                              <div>
+                                <span style={{ backgroundColor: colorScale.medium }}>Medium</span> 
+                              </div>
+                              <div>
+                                <span style={{ backgroundColor: colorScale.high }}>High</span> 
                               </div>
                           </div>
                           {departament !== ""  ? 
