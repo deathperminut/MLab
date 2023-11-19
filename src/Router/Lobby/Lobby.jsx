@@ -1,7 +1,7 @@
 import React from 'react'
 import './Lobby.css'
 import Navigationbar from '../../Components/Navbar/Navbar';
-import Fondo from '../../img/verde.jpg';
+import Fondo from '../../img/cosecha_gris.webp';
 import Logo  from  '../../img/LogoLobby.png';
 import { TiCancelOutline } from "react-icons/ti";
 import '../../index.css';

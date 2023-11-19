@@ -749,28 +749,51 @@ export default function Maps() {
                                   </button>
                               </div>
                           </div>
-                          <div className="legend">
-                              <div className = "boxRange">
-                                <div style={{width:'15px',height:'15px',background:'#b6bced','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' < 4.5'}</span>
+                          {result !== null ? 
+                          <>
+                          <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
+                              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                    <div className = "boxRange">
+                                      <div style={{width:'15px',height:'15px',background:'#b6bced','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                      <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' < 4.5'}</span>
+                                    </div>
                               </div>
-                              <div className = "boxRange">
-                                <div style={{width:'15px',height:'15px',background:'#FFD60C','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' 4.5 - 5'}</span>
+                              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                    <div className = "boxRange">
+                                      <div style={{width:'15px',height:'15px',background:'#FFD60C','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                      <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' 4.5 - 5'}</span>
+                                    </div>
                               </div>
-                              <div className = "boxRange">
-                                <div style={{width:'15px',height:'15px',background:'#F19420','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango:</b>{' 5 - 5.5'}</span>
+                              
+                          </div>
+                          <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
+                              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                    <div className = "boxRange">
+                                      <div style={{width:'15px',height:'15px',background:'#F19420','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                      <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango:</b>{' 5 - 5.5'}</span>
+                                    </div>
                               </div>
-                              <div className = "boxRange">
-                                <div style={{width:'15px',height:'15px',background:'rgb(22, 86, 206)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango:</b>{' 5.5 - 6'}</span>
+                              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                    <div className = "boxRange">
+                                      <div style={{width:'15px',height:'15px',background:'rgb(22, 86, 206)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                      <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango:</b>{' 5.5 - 6'}</span>
+                                    </div>
                               </div>
-                              <div className = "boxRange">
-                                <div style={{width:'15px',height:'15px',background:'#54cbe3','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango:</b>{' 6.0 <'}</span>
+                              
+                          </div>
+                          <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
+                              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                      <div className = "boxRange">
+                                        <div style={{width:'15px',height:'15px',background:'#54cbe3','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                        <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango:</b>{' 6.0 <'}</span>
+                                      </div>
                               </div>
                           </div>
+                          </>
+                          :
+                          <></>
+                          }
+                          
                           {departament !== ""  ? 
                           <>
                           <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
@@ -1025,8 +1048,37 @@ export default function Maps() {
                         </MapContainer>
                     </div>
                   </div>
-                  
-                    <div className='container_data__'>
+                  <div className='container_form'>
+                        <div className='card-header border-0 bg-transparent p-4 pb-0'>
+                                <div className='d-flex mb-1' style={{flexDirection:'column',alignItems:'start !important'}}>
+                                    <h1 className='m-0 p-0 lh-sm fs-4- ff-monse-regular- fw-bold tx-dark-purple-'>
+                                    Formulario
+                                    </h1>
+                                </div>
+                                <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
+                                    <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                          <div className='form-floating inner-addon- left-addon-'>
+                                            <Select options={tipo_muestra} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Tipo de muestra:" styles={selectStyles} isClearable={true} />
+                                          </div>
+                                    </div>
+                                    <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                          <div className='form-floating inner-addon- left-addon-'>
+                                            <input type="number" className='form-control'  placeholder="Registra el valor" />
+                                            <label className='fs-5- ff-monse-regular-'>Registra el valor</label>
+                                          </div>
+                                    </div>
+                                    
+                              </div>
+                              <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
+                                  <div className='col-auto' style={{width:'100%',display:'flex','justifyContent':'end'}}>
+                                      <button className='buttonProduct btn btn-dark-purple- rounded-pill ps-5 pe-5 d-flex flex-row justify-content-center align-items-center align-self-center h-45-' type="button" >
+                                        <span className='textButton lh-1 fs-6- ff-monse-regular- fw-semibold' >Evaluar</span>
+                                      </button>
+                                  </div>
+                              </div>
+                        </div> 
+                  </div> 
+                  <div className='container_data__' style={{visibility:result !== null ? 'visible':'hidden'}}>
                           <div id='card-indicator-large-' className='card border-0 rounded-3 w-100 bs-2- position-relative overflow-hidden'>
                             <div className='card-header border-0 bg-transparent p-4 pb-0'>
                               <div className='d-flex flex-row justify-content-between align-items-center align-self-center mb-1'>
@@ -1184,37 +1236,8 @@ export default function Maps() {
                             )}
                             {showOverlay === 'card1' && <div className="overlay-backdrop" onClick={() => toggleOverlay(null)} />}
                           </div>
-                    </div>
-                    <div className='container_form'>
-                        <div className='card-header border-0 bg-transparent p-4 pb-0'>
-                                <div className='d-flex mb-1' style={{flexDirection:'column',alignItems:'start !important'}}>
-                                    <h1 className='m-0 p-0 lh-sm fs-4- ff-monse-regular- fw-bold tx-dark-purple-'>
-                                    Formulario
-                                    </h1>
-                                </div>
-                                <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
-                                    <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                          <div className='form-floating inner-addon- left-addon-'>
-                                            <Select options={tipo_muestra} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Tipo de muestra:" styles={selectStyles} isClearable={true} />
-                                          </div>
-                                    </div>
-                                    <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                          <div className='form-floating inner-addon- left-addon-'>
-                                            <input type="text" className='form-control'  placeholder="Registra el valor" />
-                                            <label className='fs-5- ff-monse-regular-'>Registra el valor</label>
-                                          </div>
-                                    </div>
-                                    
-                              </div>
-                              <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
-                                  <div className='col-auto' style={{width:'100%',display:'flex','justifyContent':'end'}}>
-                                      <button className='buttonProduct btn btn-dark-purple- rounded-pill ps-5 pe-5 d-flex flex-row justify-content-center align-items-center align-self-center h-45-' type="button" >
-                                        <span className='textButton lh-1 fs-6- ff-monse-regular- fw-semibold' >Evaluar</span>
-                                      </button>
-                                  </div>
-                              </div>
-                        </div> 
-                    </div>
+                  </div>
+                  
                 </div>
                 
     </div>
