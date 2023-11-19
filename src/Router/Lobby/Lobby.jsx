@@ -1,12 +1,14 @@
 import React from 'react'
 import './Lobby.css'
 import Navigationbar from '../../Components/Navbar/Navbar';
-import Fondo from '../../img/Langing_2.png';
+import Fondo from '../../img/verde.jpg';
+import Logo  from  '../../img/LogoLobby.png';
 import { TiCancelOutline } from "react-icons/ti";
 import '../../index.css';
 import {useNavigate} from 'react-router-dom';
 import { GiColombia } from 'react-icons/gi';
 import Swal from 'sweetalert2';
+import Icon from '../../Components/logo/logo';
 
 export default function Lobby() {
 
@@ -33,10 +35,12 @@ export default function Lobby() {
             <div className='body' style={{display:'flex',justifyContent:'center'}}>
                 <Navigationbar></Navigationbar>
                 <div style={{width:'100%',minHeight:'100%',display:'flex',flexDirection:'column'}}>
-                <div className='carouselBody font' style={{backgroundImage: `url(${Fondo})`,backgroundSize:'cover'}}>
-                    
-                    <p className='font title ' id='dropdown-basic'>Multilab Agroanalítica</p>
-                    <p className='font description'>Laboratorio de análisis fisicoquímico de suelos, foliares, fertilizantes y enmiendas.</p>
+                <div className='carouselBody font' style={{backgroundImage: `url(${Fondo})`,backgroundSize:'cover'}} >
+                    <div className='icon_image' >
+                        <Icon width={'1060'} height={'504'}></Icon>
+                    </div>
+                    <p className='font description'>Decisiones que dan frutos</p>
+                    <p className='description_2'>Conocimiento técnico y científico para la toma de decisiones agrícolas con base en el análisis fisicoquímicos de suelos.</p>
                     <div className='cardsContainer_'>
                     <div class="icon-scroll" style={{position:'relative'}}></div>
                     </div>
@@ -45,8 +49,8 @@ export default function Lobby() {
                                   <div className='box_icon'>
                                     <GiColombia style={{width:'60',height:'60'}} width={50} height={50} color='white'/>
                                   </div>
-                                  <p className='textCard_2'>Mapa de indicadores</p>
-                                  <p className='textCard'>Accede e informate en tiempo real.</p>    
+                                  <p className='textCard_2'>Mapa fertilidad de suelos</p>
+                                  <p className='textCard'>información en tiempo real</p>    
                             </div>
                             <div className='card_' style={{opacity:1,cursor:'pointer'}} onClick={seeAlert}>
                             <div className='box_icon'>

@@ -10,9 +10,10 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import { CiCircleMore } from "react-icons/ci";
 import { useState } from 'react';
-import { MapContainer, GeoJSON } from 'react-leaflet';
+import { MapContainer, GeoJSON,TileLayer ,Polygon ,Popup} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import departaments from '../../data/colombia.geo.json';
+import cauca  from '../../data/cauca.geo.json';
 import Select, { components } from 'react-select';
 import makeAnimated from 'react-select/animated';
 import Preloader from '../../Components/Loading/Loading';
@@ -300,7 +301,7 @@ export default function Maps() {
 
   /*MAP STYLES*/
   const mapStyles = {
-    height: '500px',
+    height: '750px',
     width:'100%',
     background:'transparent'
   };
@@ -411,7 +412,7 @@ export default function Maps() {
           }
           return newParamsName
         },
-        data: ['Indicador 1']
+        data: ['Muestra']
       },
       toolbox: {
         show: true,
@@ -585,7 +586,7 @@ export default function Maps() {
       series: [
         {
           type: 'bar',
-          name: 'Indicador 1',
+          name: 'Muestra',
           label: {
             normal: {
               show: true,
@@ -638,6 +639,28 @@ export default function Maps() {
 
   },[])
 
+  let tipo_muestra =[
+    {value:"ph",label:"ph"},
+    {value:"n",label:"n"},
+    {value:"mo",label:"mo"},
+    {value:"k",label:"ca"},
+    {value:"mg",label:"mg"},
+    {value:"na",label:"na"},
+    {value:"al",label:"al"},
+    {value:"cic",label:"cic"},
+    {value:"cic",label:"cic"},
+    {value:"p",label:"p"},
+    {value:"fe",label:"fe"},
+    {value:"mn",label:"mn"},
+    {value:"zn",label:"zn"},
+    {value:"cu",label:"cu"},
+    {value:"s",label:"s"},
+    {value:"b",label:"b"},
+    {value:"ar",label:"ar"},
+    {value:"l",label:"l"},
+    {value:"a",label:"a"},
+  ]
+
   return (
     <div className='body' style={{display:'flex',justifyContent:'center'}}>
                 {
@@ -649,109 +672,213 @@ export default function Maps() {
                 }
                 <Navigationbar></Navigationbar>
                 <div style={{width:'100%',minHeight:'100%',display:'flex',flexDirection:'column',alignItems:'center'}}>
+                
                   <div className='description_map'>
-                      <p className='description_map_text'>Visualiza tus indicadores en tiempo real, utiliza el apartado de configuraciones para editar la información a tu gusto</p>
+                      <p className='description_map_text'>Visualiza tus indicadores en tiempo real, utiliza el siguiente formulario para definir el tipo de muestra</p>
                   </div>
-                  <div className='container_data'>
-                    <div className='container_pc'>
-                        <MapContainer
-                          className='mapstyles'
-                          center={[4.5709, -74.2973]} // Centro de Colombia
-                          zoom={5} // Zoom inicial
-                          style={mapStyles}
-                        >
-                          <GeoJSON
-                            data={departaments} // Datos geojson de los departamentos
-                            style={()=>({
-                              fillColor: getColor(),
-                              weight: 2,
-                              color: 'white',
-                              fillOpacity: 0.7,
-                            })}
-                            onEachFeature={(feature, layer) => {
-                              console.log(feature)
-                              layer.bindPopup(feature.properties.NOMBRE_DPT); // Mostrar nombre del departamento en popup
-                            }}
-                          />
-                        </MapContainer>
-                    </div>
-                    <div className='container_moviles'>
-                        <MapContainer
-                          center={[4.5709, -74.2973]} // Centro de Colombia
-                          zoom={5} // Zoom inicial
-                          style={mapStyles}
-                        >
-                          <GeoJSON
-                            data={departaments} // Datos geojson de los departamentos
-                            style={()=>({
-                              fillColor: getColor(),
-                              weight: 2,
-                              color: 'white',
-                              fillOpacity: 0.7,
-                            })}
-                            onEachFeature={(feature, layer) => {
-                              console.log(feature)
-                              layer.bindPopup(feature.properties.NOMBRE_DPT); // Mostrar nombre del departamento en popup
-                            }}
-                          />
-                        </MapContainer>
-                    </div>
-                    <form className='formulario'>
-                          <span className='title_map'>Configuraciones</span>
+                  <form className='formulario'>
                           <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
                               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
                                     <div className='form-floating inner-addon- left-addon-'>
-                                      <Select options={[{value:"Valor 1",label:"Valor 1"},{value:"Valor 2",label:"Valor2"},{value:"Valor 3",label:"Valor3"},{value:"Valor 4",label:"Valor4"}]} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Selecciona el filtro" styles={selectStyles} isClearable={true} name='typeIdentification'/>
+                                      <Select options={[{value:"Magnitud de muestra",label:"Magnitud de muestra"},{value:"Cantidad de muestras",label:"Cantidad de muestras"}]} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Filtrar por:" styles={selectStyles} isClearable={true} />
                                     </div>
                               </div>
                               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
                                     <div className='form-floating inner-addon- left-addon-'>
-                                      <Select options={[{value:"Valor 1",label:"Valor 1"},{value:"Valor 2",label:"Valor2"},{value:"Valor 3",label:"Valor3"},{value:"Valor 4",label:"Valor4"}]} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Selecciona el filtro" styles={selectStyles} isClearable={true} name='typeIdentification'/>
+                                      <Select options={tipo_muestra} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Tipo de muestra:" styles={selectStyles} isClearable={true} />
                                     </div>
                               </div>
                           </div>
                           <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
-                              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                    <div className='form-floating inner-addon- left-addon-'>
-                                      <Select options={[{value:"Valor 1",label:"Valor 1"},{value:"Valor 2",label:"Valor2"},{value:"Valor 3",label:"Valor3"},{value:"Valor 4",label:"Valor4"}]} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Selecciona el filtro" styles={selectStyles} isClearable={true} />
-                                    </div>
-                              </div>
-                              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                    <div className='form-floating inner-addon- left-addon-'>
-                                      <Select options={[{value:"Valor 1",label:"Valor 1"},{value:"Valor 2",label:"Valor2"},{value:"Valor 3",label:"Valor3"},{value:"Valor 4",label:"Valor4"}]} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Selecciona el filtro" styles={selectStyles} isClearable={true} />
-                                    </div>
-                              </div>
-                          </div>
-                          <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
-                              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                    <div className='form-floating inner-addon- left-addon-'>
-                                      <Select options={[{value:"Valor 1",label:"Valor 1"},{value:"Valor 2",label:"Valor2"},{value:"Valor 3",label:"Valor3"},{value:"Valor 4",label:"Valor4"}]} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Selecciona el filtro" styles={selectStyles} isClearable={true} />
-                                    </div>
-                              </div>
-                              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                    <div className='form-floating inner-addon- left-addon-'>
-                                      <Select options={[{value:"Valor 1",label:"Valor 1"},{value:"Valor 2",label:"Valor2"},{value:"Valor 3",label:"Valor3"},{value:"Valor 4",label:"Valor4"}]} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Selecciona el filtro" styles={selectStyles} isClearable={true} />
-                                    </div>
-                              </div>
-                          </div>
-                          <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
-                              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                    <div className='form-floating inner-addon- left-addon-'>
-                                      <Select options={[{value:"Valor 1",label:"Valor 1"},{value:"Valor 2",label:"Valor2"},{value:"Valor 3",label:"Valor3"},{value:"Valor 4",label:"Valor4"}]} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Selecciona el filtro" styles={selectStyles} isClearable={true} />
-                                    </div>
-                              </div>
-                              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                    <div className='form-floating inner-addon- left-addon-'>
-                                      <Select options={[{value:"Valor 1",label:"Valor 1"},{value:"Valor 2",label:"Valor2"},{value:"Valor 3",label:"Valor3"},{value:"Valor 4",label:"Valor4"}]} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Selecciona el filtro" styles={selectStyles} isClearable={true} />
-                                    </div>
-                              </div>
                               <div className='col-auto' style={{width:'100%',display:'flex','justifyContent':'end'}}>
                                   <button onClick={loading_screen} className='buttonProduct btn btn-dark-purple- rounded-pill ps-5 pe-5 d-flex flex-row justify-content-center align-items-center align-self-center h-45-' type="button" >
                                     <span className='textButton lh-1 fs-6- ff-monse-regular- fw-semibold' >Buscar</span>
                                   </button>
                               </div>
                           </div>
-                    </form>
+                  </form>
+                  <div className='container_data'>
+                    <div className='container_pc'>
+                        <MapContainer
+                          className='mapstyles'
+                          center={[4.5709, -74.2973]} // Centro de Colombia
+                          zoom={6} // Zoom inicial
+                          style={mapStyles}
+                        > 
+                          <TileLayer
+                            url ="https://api.maptiler.com/maps/basic-v2/256/{z}/{x}/{y}.png?key=HXpSPxolOD99vBzDBreA"
+                            attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
+                            >
+                          </TileLayer>
+                          {
+                            departaments?.features.map((depa)=>{
+                              const coordinates = depa.geometry.coordinates[0].map((item)=>[item[1],item[0]])
+                              return (
+                                <Polygon
+                                
+                                pathOptions={{
+                                  fillColor:getColor(),
+                                  fillOpacity:0.7,
+                                  weight:2,
+                                  opacity:1,
+                                  dashArray:3,
+                                  color:'white'
+                                }}
+                                positions={coordinates}
+                                eventHandlers={{
+                              mouseover:(e) =>{
+                                  const layer = e.target;
+                                  layer.setStyle({
+                                    fillOpacity:0.2
+                                  })
+                              },
+                              mouseout:(e)=>{
+                                const layer = e.target;
+                                  layer.setStyle({
+                                    fillOpacity:0.4
+                                  })
+                              },
+
+                            }}
+                            
+                                
+                                >
+                                <Popup>
+                                   
+                                   <div style={{width:'100%',height:'100%','display':'flex','flexDirection':'column','alignItems':'center',justifyContent:'start'}}>
+                                        <span style={{fontWeight:'600'}}>{depa?.properties?.NOMBRE_DPT}</span>
+                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
+                                              <div style={{width:'7px',height:'7px',background:'green','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>15</span>
+                                        </div>
+                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
+                                              <div style={{width:'7px',height:'7px',background:'gray','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>12</span>
+                                        </div>
+                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
+                                              <div style={{width:'7px',height:'7px',background:'pink','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>30</span>
+                                        </div>
+                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
+                                              <div style={{width:'7px',height:'7px',background:'blue','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>51</span>
+                                        </div>
+                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
+                                              <div style={{width:'7px',height:'7px',background:'red','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>15</span>
+                                        </div>
+                                   </div>
+                                  
+                                  
+                                </Popup>
+                                </Polygon>
+                              )
+                            })
+                          }
+                          <GeoJSON
+                              data={cauca}
+                              style={(feature) => ({
+                                fillColor: getColor(),
+                                weight: 2,
+                                color: 'white',
+                                fillOpacity: 0.7,
+                              })}
+                              eventHandlers={{
+                              mouseover:(e) =>{
+                                  const layer = e.target;
+                                  layer.setStyle({
+                                    fillOpacity:0.2
+                                  })
+                              },
+                              mouseout:(e)=>{
+                                const layer = e.target;
+                                  layer.setStyle({
+                                    fillOpacity:0.4
+                                  })
+                              },
+
+                            }}
+                             
+                            >
+                            <Popup>
+                            <div style={{width:'100%',height:'100%','display':'flex','flexDirection':'column','alignItems':'center',justifyContent:'start'}}>
+                                        <span style={{fontWeight:'600'}}>{'CAUCA'}</span>
+                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
+                                              <div style={{width:'7px',height:'7px',background:'green','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>15</span>
+                                        </div>
+                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
+                                              <div style={{width:'7px',height:'7px',background:'gray','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>12</span>
+                                        </div>
+                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
+                                              <div style={{width:'7px',height:'7px',background:'pink','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>30</span>
+                                        </div>
+                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
+                                              <div style={{width:'7px',height:'7px',background:'blue','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>51</span>
+                                        </div>
+                                        <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
+                                              <div style={{width:'7px',height:'7px',background:'red','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>15</span>
+                                        </div>
+                                   </div>
+                            </Popup>
+                            </GeoJSON>
+                        </MapContainer>
+                    </div>
+                    <div className='container_moviles'>
+                    <MapContainer
+                          className='mapstyles'
+                          center={[4.5709, -74.2973]} // Centro de Colombia
+                          zoom={6} // Zoom inicial
+                          style={mapStyles}
+                        > 
+                          <TileLayer
+                            url ="https://api.maptiler.com/maps/basic-v2/256/{z}/{x}/{y}.png?key=HXpSPxolOD99vBzDBreA"
+                            attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
+                            >
+                          </TileLayer>
+                          {
+                            departaments?.features.map((depa)=>{
+                              const coordinates = depa.geometry.coordinates[0].map((item)=>[item[1],item[0]])
+                              return (
+                                <Polygon
+                                pathOptions={{
+                                  fillColor:getColor(),
+                                  fillOpacity:0.7,
+                                  weight:2,
+                                  opacity:1,
+                                  dashArray:3,
+                                  color:'white'
+                                }}
+                                positions={coordinates}
+                                eventHandlers={{
+                              mouseover:(e) =>{
+                                  const layer = e.target;
+                                  layer.setStyle({
+                                    fillOpacity:0.2
+                                  })
+                              },
+                              mouseout:(e)=>{
+                                const layer = e.target;
+                                  layer.setStyle({
+                                    fillOpacity:0.4
+                                  })
+                              },
+
+                            }}
+                                
+                                >
+
+                                </Polygon>
+                              )
+                            })
+                          }
+                        </MapContainer>
+                    </div>
+                    
                     <div>
                     </div>
                   </div>
@@ -760,7 +887,7 @@ export default function Maps() {
                           <div className='card-header border-0 bg-transparent p-4 pb-0'>
                             <div className='d-flex flex-row justify-content-between align-items-center align-self-center mb-1'>
                               <h1 className='m-0 p-0 lh-sm fs-4- ff-monse-regular- fw-bold tx-dark-purple-'>
-                              Tabla de mejores resultados
+                              Valores registrados
                               </h1>
                               <button className='btn rounded-pill p-2 d-flex flex-row justify-content-center align-items-center align-self-center button-open- btn-dark-purple- bs-1- ms-2'  onClick={() => toggleOverlay('card1')}>
                                 <CiCircleMore style={{width:'90',height:'90'}} width={90} height={90} color='black'/>
@@ -768,7 +895,7 @@ export default function Maps() {
                             </div>
                             <div className='w-75'>
                               <p className='m-0 p-0 lh-sm fs-5- ff-monse-regular- fw-normal tx-black-'>
-                                se muestran los mejores 12 según la medida requerida 
+                                se muestran los 12 departamentos con mayor magnitud dependiendo de la muestra seleccionada 
                               </p>
                             </div>
                           </div>
@@ -801,17 +928,7 @@ export default function Maps() {
                                             </th>
                                             <th scope="col" className='th-width-sm-'>
                                               <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
-                                                <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple-'>Indicador 1</span>
-                                              </div>
-                                            </th>
-                                            <th scope="col" className='th-width-sm-'>
-                                              <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
-                                                <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple-'>Indicador 2</span>
-                                              </div>
-                                            </th>
-                                            <th scope="col" className='th-width-sm-'>
-                                              <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
-                                                <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple-'>Indicador 3</span>
+                                                <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple-'>Muestra</span>
                                               </div>
                                             </th>
                                           </tr>
@@ -824,12 +941,6 @@ export default function Maps() {
                                             <td className='align-middle'>
                                               <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>10</p>
                                             </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>19</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.28</p>
-                                            </td>
                                           </tr>
                                           <tr>
                                             <td className='align-middle'>
@@ -837,12 +948,6 @@ export default function Maps() {
                                             </td>
                                             <td className='align-middle'>
                                               <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>5</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>23</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.03</p>
                                             </td>
                                           </tr>
                                           <tr>
@@ -852,12 +957,6 @@ export default function Maps() {
                                             <td className='align-middle'>
                                               <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>4</p>
                                             </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>20</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.28</p>
-                                            </td>
                                           </tr>
                                           <tr>
                                             <td className='align-middle'>
@@ -865,12 +964,6 @@ export default function Maps() {
                                             </td>
                                             <td className='align-middle'>
                                               <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>9</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>30</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.28</p>
                                             </td>
                                           </tr>
                                           <tr>
@@ -880,12 +973,6 @@ export default function Maps() {
                                             <td className='align-middle'>
                                               <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>10</p>
                                             </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>29</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.28</p>
-                                            </td>
                                           </tr>
                                           <tr>
                                             <td className='align-middle'>
@@ -893,12 +980,6 @@ export default function Maps() {
                                             </td>
                                             <td className='align-middle'>
                                               <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>2</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>21</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.28</p>
                                             </td>
                                           </tr>
                                           <tr>
@@ -908,12 +989,6 @@ export default function Maps() {
                                             <td className='align-middle'>
                                               <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>5</p>
                                             </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>25</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.28</p>
-                                            </td>
                                           </tr>
                                           <tr>
                                             <td className='align-middle'>
@@ -921,12 +996,6 @@ export default function Maps() {
                                             </td>
                                             <td className='align-middle'>
                                               <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>18</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>20</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.28</p>
                                             </td>
                                           </tr>
                                           <tr>
@@ -936,12 +1005,6 @@ export default function Maps() {
                                             <td className='align-middle'>
                                               <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>22</p>
                                             </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>45</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.28</p>
-                                            </td>
                                           </tr>
                                           <tr>
                                             <td className='align-middle'>
@@ -949,12 +1012,6 @@ export default function Maps() {
                                             </td>
                                             <td className='align-middle'>
                                               <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>14</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>50</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.28</p>
                                             </td>
                                           </tr>
                                           <tr>
@@ -964,12 +1021,6 @@ export default function Maps() {
                                             <td className='align-middle'>
                                               <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>30</p>
                                             </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>35</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.28</p>
-                                            </td>
                                           </tr>
                                           <tr>
                                             <td className='align-middle'>
@@ -977,12 +1028,6 @@ export default function Maps() {
                                             </td>
                                             <td className='align-middle'>
                                               <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>4</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>5</p>
-                                            </td>
-                                            <td className='align-middle'>
-                                              <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>0.28</p>
                                             </td>
                                           </tr>
                                         </tbody>
