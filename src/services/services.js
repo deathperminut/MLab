@@ -44,17 +44,17 @@ const getMunicipios=async(data)=>{
 }
 
 
-const getMunicipios_data=async(data)=>{
+const getMunicipios_data=async(data,data_2)=>{
     
     /* PRODUCTS */
     let path=environment.api+environment.municipios_data
 
     /* BODY */
     let body = {
-        id_departament:data['id_departament'],
-        year:data['year'],
-        variable:data['variable'],
-        departament:data['tipo_cultivo']
+        id_departament:data['id'],
+        year:data_2['year'],
+        variable:data_2['variable'],
+        tipo_cultivo:data_2['tipo_cultivo']
     }
     return await axios.post(path,body)
 

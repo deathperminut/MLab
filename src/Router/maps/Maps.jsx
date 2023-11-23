@@ -24,7 +24,7 @@ import { MdOutlineCancel } from "react-icons/md";
 import "bootstrap/dist/css/bootstrap.min.css";
 import * as echarts from 'echarts';
 import $ from "jquery";
-import { getDepartamentsData } from '../../services/services';
+import { getDepartamentsData, getMunicipios_data } from '../../services/services';
 
 
 
@@ -756,6 +756,34 @@ export default function Maps() {
     
   }
 
+  let [arrayMunicipios,setArrayMunicipios] = React.useState([])
+
+  let findResults_municipios =async(departament)=>{
+
+    let object  = getDepartamentObject(departament);
+    setPreloader(true);
+      let result =  undefined
+      result =  await getMunicipios_data(object,departamentsForm).catch((error)=>{
+        console.log(error);
+        setPreloader(false);
+        Swal.fire({
+          icon: 'info',
+          text:"Problemas al generar la consulta, registra todos los campos.",
+        })
+      })
+
+      if(result){
+        setPreloader(false);
+        Swal.fire({
+          icon: 'success',
+          text:"Consulta realizada correctamente.",
+        })
+        console.log(result.data)
+        setArrayMunicipios(result.data);
+      }
+    
+  }
+
   let findData = ()=>{
     setPreloader(false);
     setResult('results');
@@ -821,6 +849,41 @@ export default function Maps() {
   const getDepartamentObject=(departament)=>{
 
     let object =  arrayDepartaments.filter((obj)=> eliminarTildes(obj.name).toUpperCase() === eliminarTildes(departament).toUpperCase())
+    if(object.length === 0){
+      return {'media':'No hay registro','Bajo':'No hay registro','Mod. bajo':'No hay registro','Medio':'No hay registro','Mod. alto':'No hay registro','Alto':'No hay registro','name':departament,'cantidad registros':'No hay registro','Rango_media':'No hay registro'}
+    }else{
+      return object[0]
+    }
+
+  }
+
+
+  const getColorforRange_muni = (departament) =>{
+
+    let dictionary_color = {
+      'Bajo':'#F11F1F ',
+      'Mod. bajo':'#F07B7B',
+      'Medio':'#9FF784',
+      'Mod. alto':'#EBF781 ',
+      'Alto':'#FFE001 ',
+    }
+    // ESCALA DE COLOR
+    let object =  arrayMunicipios.filter((obj)=> eliminarTildes(obj.name).toUpperCase() === eliminarTildes(departament).toUpperCase())
+
+    if (object.length === 0){
+      return 'gray'
+    }else{
+      if(object[0]['Rango_media'] == 'No hay datos'){
+        return 'gray'
+      }
+      return dictionary_color[object[0]['Rango_media']]
+    }
+
+  }
+
+  const getDepartamentObject_muni=(departament)=>{
+
+    let object =  arrayMunicipios.filter((obj)=> eliminarTildes(obj.name).toUpperCase() === eliminarTildes(departament).toUpperCase())
     if(object.length === 0){
       return {'media':'No hay registro','Bajo':'No hay registro','Mod. bajo':'No hay registro','Medio':'No hay registro','Mod. alto':'No hay registro','Alto':'No hay registro','name':departament,'cantidad registros':'No hay registro','Rango_media':'No hay registro'}
     }else{
@@ -1035,8 +1098,10 @@ export default function Maps() {
                                   })
                               },
                               dblclick:(e)=>{
+
                                 setDataMuni(Municipios?.features.filter((obj)=>obj?.properties?.dpt === depa?.properties?.NOMBRE_DPT))
                                 setDepartament(depa?.properties?.NOMBRE_DPT)
+                                findResults_municipios(depa?.properties?.NOMBRE_DPT)
                               },
                               mouseout:(e)=>{
                                 const layer = e.target;
@@ -1101,7 +1166,7 @@ export default function Maps() {
                                 <Polygon
                                 key={index}
                                 pathOptions={{
-                                  fillColor:getColor(),
+                                  fillColor:getColorforRange_muni(muni?.properties?.name),
                                   fillOpacity:0.7,
                                   weight:2,
                                   opacity:1,
@@ -1119,7 +1184,7 @@ export default function Maps() {
                               mouseout:(e)=>{
                                 const layer = e.target;
                                   layer.setStyle({
-                                    fillOpacity:0.4
+                                    fillOpacity:0.7
                                   })
                               },
 
@@ -1129,26 +1194,26 @@ export default function Maps() {
                                 <Popup>
                                    
                                    <div style={{width:'100%',height:'100%','display':'flex','flexDirection':'column','alignItems':'center',justifyContent:'start'}}>
-                                        <span style={{fontWeight:'600'}}>{muni?.properties?.name}</span>
+                                        <span style={{fontWeight:'600'}}>{getDepartamentObject_muni(muni?.properties?.name).name+': ('+getDepartamentObject_muni(muni?.properties?.name).media+')'}</span>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'#b6bced','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>15</span>
+                                              <div style={{width:'7px',height:'7px',background:'#F11F1F','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject_muni(muni?.properties?.name)['Bajo']}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'#FFD60C','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>12</span>
+                                              <div style={{width:'7px',height:'7px',background:'#F07B7B','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject_muni(muni?.properties?.name)['Mod. bajo']}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'#F19420','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>30</span>
+                                              <div style={{width:'7px',height:'7px',background:'#9FF784','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject_muni(muni?.properties?.name)['Medio']}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'rgb(22, 86, 206)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>51</span>
+                                              <div style={{width:'7px',height:'7px',background:'#EBF781','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject_muni(muni?.properties?.name)['Mod. alto']}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'#54cbe3','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>15</span>
+                                              <div style={{width:'7px',height:'7px',background:'#FFE001','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject_muni(muni?.properties?.name)['Alto']}</span>
                                         </div>
                                    </div>
                                   
