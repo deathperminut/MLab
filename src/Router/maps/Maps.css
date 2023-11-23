@@ -9,10 +9,10 @@
 }
 .description_map_text{
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     text-align: center;
     cursor: default;
-    max-width: 500px;
+    max-width: 580px;
     color: #0d149a;
     margin-bottom: 20px;
 }

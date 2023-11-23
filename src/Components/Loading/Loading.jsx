@@ -10,35 +10,6 @@ const Preloader = ({ type, color }) => (
     <div className='icon_image' >
         <Charger></Charger>
     </div>
-    
-    {/* <div className="txt-loading">
-        
-        <span data-text-preloader="C" className="letters-loading">
-          C
-        </span>
-        <span data-text-preloader="A" className="letters-loading">
-          A
-        </span>
-        <span data-text-preloader="R" className="letters-loading">
-          R
-        </span>
-        <span data-text-preloader="G" className="letters-loading">
-          G
-        </span>
-        <span data-text-preloader="A" className="letters-loading">
-          A
-        </span>
-        <span data-text-preloader="N" className="letters-loading">
-          N
-        </span>
-        <span data-text-preloader="D" className="letters-loading">
-          D
-        </span>
-        <span data-text-preloader="O" className="letters-loading">
-          O
-        </span>
-
-      </div> */}
     </div>
   </div>
     

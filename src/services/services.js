@@ -1,43 +1,99 @@
 import axios from "axios";
 import { environment } from "../Router/environments/environments";
 
-const getProducts=async(data)=>{
+const getDepartamentsData=async(data)=>{
     
     /* PRODUCTS */
-    let path=environment.api+environment.productos
+    let path=environment.api+environment.departaments_data
 
     /* BODY */
 
     let body={
-        "nit_del_cliente": "3024201920",
-        "departamento": "",
-        "ciiu": "",
-        "seccion":"",
-        "producto_1": "",
-        "producto_2": "",
-        "producto_3": "",
-        "producto_4": "",
-        "producto_5": "",
-        "producto_6": "",
-        "producto_7": "",
-        "producto_8": "",
-        "producto_9": "",
-        "producto_10":"",
-        "producto_11": "",
-        "producto_12": "",
-        "producto_13": "",
-        "producto_14": "",
-        "producto_15": ""
+        "year": data.year,
+        "variable": data.variable,
+        "tipo_cultivo": data.tipo_cultivo,
     }
-    for (var i; i<data.products.length;i++){
-        let string = 'producto_'+(i+1).toString()
-        body[string] = data.products[i];
-    }
-
-    console.log("LO QUE SE ENVIA: ",body);
 
     return await axios.post(path,body)
 
 }
 
-export {getProducts}
+const getDepartaments=async()=>{
+    
+    /* PRODUCTS */
+    let path=environment.api+environment.departaments
+
+    /* BODY */
+
+    return await axios.get(path)
+
+}
+
+const getMunicipios=async(data)=>{
+    
+    /* PRODUCTS */
+    let path=environment.api+environment.municipios
+
+    /* BODY */
+    let body = {
+        id_departament:data['id_departament']
+    }
+    return await axios.post(path,body)
+
+}
+
+
+const getMunicipios_data=async(data)=>{
+    
+    /* PRODUCTS */
+    let path=environment.api+environment.municipios_data
+
+    /* BODY */
+    let body = {
+        id_departament:data['id_departament'],
+        year:data['year'],
+        variable:data['variable'],
+        departament:data['tipo_cultivo']
+    }
+    return await axios.post(path,body)
+
+}
+
+
+const cliente_historial=async(data)=>{
+    
+    /* PRODUCTS */
+    let path=environment.api+environment.cliente_historial
+
+    /* BODY */
+
+    let body={
+        "cliente": data.cliente,
+        "variable": data.variable,
+        "tipo_cultivo": data.tipo_cultivo,
+    }
+
+    return await axios.post(path,body)
+
+}
+
+
+
+const inferencia_rango=async(data)=>{
+    
+    /* PRODUCTS */
+    let path=environment.api+environment.cliente_historial
+
+    /* BODY */
+
+    let body={
+        "tipo_cultivo": data.tipo_cultivo,
+        "variable": data.variable,
+        "magnitud": data.magnitud,
+    }
+
+    return await axios.post(path,body)
+
+}
+
+export {inferencia_rango,cliente_historial,getDepartamentsData,getDepartaments,getMunicipios,getMunicipios_data}

@@ -1003,7 +1003,14 @@
     src: url('./fonts/beauty.otf') format('opentype');
   }
 
+  @font-face {
+    font-family: 'nova';
+    src: url('./fonts/nova_2.otf') format('opentype');
+  }
 
+  .nova{
+    font-family: 'nova', sans-serif !important;
+  }
   .font {
     font-family: 'beauty', sans-serif;
     /* Utiliza la fuente personalizada y, si no está disponible, usa una fuente genérica como respaldo */

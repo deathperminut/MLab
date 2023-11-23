@@ -727,18 +727,18 @@ export default function Maps() {
                 <div style={{width:'100%',minHeight:'100%',display:'flex',flexDirection:'column',alignItems:'center'}}>
                 
                   <div className='description_map'>
-                      <p className='description_map_text'>Visualiza tus indicadores en tiempo real, utiliza el siguiente formulario para definir el tipo de muestra</p>
+                      <p className='description_map_text nova'>Conocimiento técnico y científico para la toma de decisiones agrícolas con base en el análisis fisicoquímico de suelos.</p>
                   </div>
                   <form className='formulario'>
                           <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
                               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
                                     <div className='form-floating inner-addon- left-addon-'>
-                                      <Select options={[{value:"Magnitud de muestra",label:"Magnitud de muestra"},{value:"Cantidad de muestras",label:"Cantidad de muestras"}]} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Filtrar por:" styles={selectStyles} isClearable={true} />
+                                      <Select options={[{value:"Magnitud de muestra",label:"Magnitud de muestra"},{value:"Cantidad de muestras",label:"Cantidad de muestras"}]} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Cultivo:" styles={selectStyles} isClearable={true} />
                                     </div>
                               </div>
                               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
                                     <div className='form-floating inner-addon- left-addon-'>
-                                      <Select options={tipo_muestra} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Tipo de muestra:" styles={selectStyles} isClearable={true} />
+                                      <Select options={tipo_muestra} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Determinación:" styles={selectStyles} isClearable={true} />
                                     </div>
                               </div>
                           </div>
