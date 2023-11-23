@@ -24,6 +24,7 @@ import { MdOutlineCancel } from "react-icons/md";
 import "bootstrap/dist/css/bootstrap.min.css";
 import * as echarts from 'echarts';
 import $ from "jquery";
+import { getDepartamentsData } from '../../services/services';
 
 
 
@@ -118,8 +119,7 @@ const selectStyles = {
   input: (provided) => ({
   ...provided,
   color: '#d2d5d8',
-  fontSize: 12,
-  textTransform: 'uppercase',
+  fontSize: 15,
   fontFamily: 'var(--font-family-regular-)',
   }),
   /**
@@ -139,8 +139,7 @@ const selectStyles = {
     maxHeight: 300,
     overflow: "hidden",
     color: 'var(--color-purple-)',
-    fontSize: 12,
-    textTransform: "uppercase",
+    fontSize: 15,
     fontFamily: 'var(--font-family-regular-)',
   }),
   menuList: () => ({
@@ -169,9 +168,8 @@ const selectStyles = {
    */
   option: (provided, state) => ({
     ...provided,
-    fontSize: 11,
+    fontSize: 14,
     color:'var(--color-black-)',
-    textTransform: "uppercase",
     backgroundColor: state.isSelected ? "#d2d5d8" : "white",
     fontFamily: 'var(--font-family-regular-)',
     padding: '0.5rem 0.8rem 0.5rem 0.8rem',
@@ -208,7 +206,7 @@ const selectStyles = {
     left: state.hasValue || state.selectProps.inputValue ? -32 : "0%",
     transition: "top 0.1s, font-size 0.1s",
     color: 'gray',
-    fontSize: state.hasValue || state.selectProps.inputValue ? 13 : "14px",
+    fontSize: state.hasValue || state.selectProps.inputValue ? 14 : "15px",
     lineHeight: 1.25,
     fontFamily: 'var(--font-family-regular-)',
     overflow: 'hidden',
@@ -221,8 +219,7 @@ const selectStyles = {
    */
   singleValue: (styles) => ({ 
     ...styles, 
-    fontSize: 12,
-    textTransform: 'uppercase',
+    fontSize: 15,
     color: "black", 
     fontFamily: 'var(--font-family-regular-)', 
     paddingTop: '0.3rem',
@@ -240,8 +237,7 @@ const selectStyles = {
   multiValueLabel: (styles, { data }) => ({
     ...styles,
     fontFamily: 'var(--font-family-regular-)',
-    fontSize: 12,
-    textTransform: 'uppercase',
+    fontSize: 15,
     color: 'var(--color-quaternary-gray-)',
     paddingLeft: '0.5rem',
     paddingRight: '0.6rem',
@@ -273,7 +269,7 @@ export default function Maps() {
   };
 
   React.useEffect(()=>{
-    loading_screen()
+    //loading_screen()
     //Llamamos data del mapa
     //fetchGeoJSON('https://raw.githubusercontent.com/OpenDataColombia/geodata/master/colombia/departamentos.geojson');
 
@@ -346,6 +342,8 @@ export default function Maps() {
       { department: 'Norte de santander', consultations: 34 }
     ];
 
+
+
     let optionOpportunityOne = {
       tooltip: {
         trigger: 'axis',
@@ -366,7 +364,7 @@ export default function Maps() {
         padding: 5,
         textStyle: {
           color: '#414D55',
-          fontSize: 12,
+          fontSize: 15,
           lineHeight:10,
           fontWeight: 'normal',
           fontFamily: 'Monserat-regular'
@@ -641,25 +639,49 @@ export default function Maps() {
   },[])
 
   let tipo_muestra =[
-    {value:"ph",label:"ph"},
-    {value:"n",label:"n"},
-    {value:"mo",label:"mo"},
-    {value:"k",label:"ca"},
-    {value:"mg",label:"mg"},
-    {value:"na",label:"na"},
-    {value:"al",label:"al"},
-    {value:"cic",label:"cic"},
-    {value:"cic",label:"cic"},
-    {value:"p",label:"p"},
-    {value:"fe",label:"fe"},
-    {value:"mn",label:"mn"},
-    {value:"zn",label:"zn"},
-    {value:"cu",label:"cu"},
-    {value:"s",label:"s"},
-    {value:"b",label:"b"},
-    {value:"ar",label:"ar"},
-    {value:"l",label:"l"},
-    {value:"a",label:"a"},
+    {value:"ph",label:"pH"},
+    {value:"n",label:"N"},
+    {value:"mo",label:"MO"},
+    {value:"k",label:"K"},
+    {value:"ca",label:"Ca"},
+    {value:"mg",label:"Mg"},
+    {value:"al",label:"Al"},
+    {value:"cic",label:"CIC"},
+    {value:"p",label:"P"},
+    {value:"fe",label:"Fe"},
+    {value:"mn",label:"Mn"},
+    {value:"zn",label:"Zn"},
+    {value:"cu",label:"Cu"},
+    {value:"s",label:"S"},
+    {value:"b",label:"B"},
+    {value:"ar",label:"Ar"},
+    {value:"l",label:"L"},
+    {value:"a",label:"A"},
+  ]
+
+  const years = [
+    {value:"2010",label:"2010"},
+    {value:"2011",label:"2011"},
+    {value:"2012",label:"2012"},
+    {value:"2013",label:"2013"},
+    {value:"2014",label:"2014"},
+    {value:"2015",label:"2015"},
+    {value:"2016",label:"2016"},
+    {value:"2017",label:"2017"},
+    {value:"2018",label:"2018"},
+    {value:"2019",label:"2019"},
+    {value:"2020",label:"2020"},
+    {value:"2021",label:"2021"},
+    {value:"2022",label:"2022"},
+    {value:"2023",label:"2023"},
+  ]
+
+  const type_cultivo = [
+    {value:'General',label:'General'},
+    {value:'Café',label:'Café'},
+    {value:'Citricos',label:'Citricos'},
+    {value:'Aguacates',label:'Aguacates'},
+    {value:'Pasto',label:'Pasto'},
   ]
 
   const colorScale = {
@@ -677,9 +699,61 @@ export default function Maps() {
   let [result,setResult] = React.useState(null);
   let [dataMuni,setDataMuni] = React.useState([]);
 
-  let findResults =()=>{
-    setPreloader(true);
-    setTimeout(findData,2200);
+  let [departamentsForm,setDepartamentsForm] = React.useState({
+    "year": "",
+    "variable": "",
+    "tipo_cultivo": "",
+  })
+
+  let [arrayDepartaments,setArrayDepartaments] = React.useState([]);
+
+  /* read inputs */
+
+  const readSelectDepartamentForm = (event,type) =>{
+
+    if (event){
+      setDepartamentsForm({...departamentsForm,[type]:event.value})
+    }else{
+      setDepartamentsForm({...departamentsForm,[type]:""})
+    }
+
+  }
+
+
+  let findResults =async()=>{
+
+    if(departamentsForm.tipo_cultivo == "" || departamentsForm.variable == "" | departamentsForm.year == ""){
+
+      Swal.fire({
+        icon: 'info',
+        text:"Todos los campos son obligatorios para la consulta",
+      })
+
+    }else{
+
+      setPreloader(true);
+      let result =  undefined
+      result =  await getDepartamentsData(departamentsForm).catch((error)=>{
+        console.log(error);
+        setPreloader(false);
+        Swal.fire({
+          icon: 'info',
+          text:"Problemas al generar la consulta.",
+        })
+      })
+
+      if(result){
+        setPreloader(false);
+        Swal.fire({
+          icon: 'success',
+          text:"Consulta realizada correctamente.",
+        })
+        console.log(result.data)
+        setArrayDepartaments(result.data);
+      }
+
+    }
+    
   }
 
   let findData = ()=>{
@@ -714,6 +788,47 @@ export default function Maps() {
         setDepartament("");
   }
 
+  let [data_departaments,setData_departaments] = React.useState([]);
+
+  function eliminarTildes(cadena) {
+    // Reemplaza las letras con tilde por las equivalentes sin tilde
+    return cadena.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
+
+  const getColorforRange = (departament) =>{
+
+    let dictionary_color = {
+      'Bajo':'#F11F1F ',
+      'Mod. bajo':'#F07B7B',
+      'Medio':'#9FF784',
+      'Mod. alto':'#EBF781 ',
+      'Alto':'#FFE001 ',
+    }
+    // ESCALA DE COLOR
+    let object =  arrayDepartaments.filter((obj)=> eliminarTildes(obj.name).toUpperCase() === eliminarTildes(departament).toUpperCase())
+
+    if (object.length === 0){
+      return 'gray'
+    }else{
+      if(object[0]['Rango_media'] == 'No hay datos'){
+        return 'gray'
+      }
+      return dictionary_color[object[0]['Rango_media']]
+    }
+
+  }
+
+  const getDepartamentObject=(departament)=>{
+
+    let object =  arrayDepartaments.filter((obj)=> eliminarTildes(obj.name).toUpperCase() === eliminarTildes(departament).toUpperCase())
+    if(object.length === 0){
+      return {'media':'No hay registro','Bajo':'No hay registro','Mod. bajo':'No hay registro','Medio':'No hay registro','Mod. alto':'No hay registro','Alto':'No hay registro','name':departament,'cantidad registros':'No hay registro','Rango_media':'No hay registro'}
+    }else{
+      return object[0]
+    }
+
+  }
+  
   return (
     <div className='body' style={{display:'flex',justifyContent:'center'}}>
                 {
@@ -733,12 +848,19 @@ export default function Maps() {
                           <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
                               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
                                     <div className='form-floating inner-addon- left-addon-'>
-                                      <Select options={[{value:"Magnitud de muestra",label:"Magnitud de muestra"},{value:"Cantidad de muestras",label:"Cantidad de muestras"}]} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Cultivo:" styles={selectStyles} isClearable={true} />
+                                      <Select options={type_cultivo}  onChange={(event)=>readSelectDepartamentForm(event,'tipo_cultivo')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Cultivo:" styles={selectStyles} isClearable={true} />
                                     </div>
                               </div>
                               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
                                     <div className='form-floating inner-addon- left-addon-'>
-                                      <Select options={tipo_muestra} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Determinación:" styles={selectStyles} isClearable={true} />
+                                      <Select options={tipo_muestra} onChange={(event)=>readSelectDepartamentForm(event,'variable')}  components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Determinación:" styles={selectStyles} isClearable={true} />
+                                    </div>
+                              </div>
+                          </div>
+                          <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
+                              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                    <div className='form-floating inner-addon- left-addon-'>
+                                      <Select options={years} onChange={(event)=>readSelectDepartamentForm(event,'year')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Año:" styles={selectStyles} isClearable={true} />
                                     </div>
                               </div>
                           </div>
@@ -749,19 +871,19 @@ export default function Maps() {
                                   </button>
                               </div>
                           </div>
-                          {result !== null ? 
+                          {arrayDepartaments.length !== 0 ? 
                           <>
                           <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
                               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
                                     <div className = "boxRange">
-                                      <div style={{width:'15px',height:'15px',background:'#b6bced','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                      <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' < 4.5'}</span>
+                                      <div style={{width:'15px',height:'15px',background:'#F11F1F','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                      <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Bajo'}</span>
                                     </div>
                               </div>
                               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
                                     <div className = "boxRange">
-                                      <div style={{width:'15px',height:'15px',background:'#FFD60C','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                      <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' 4.5 - 5'}</span>
+                                      <div style={{width:'15px',height:'15px',background:'#F07B7B','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                      <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Mod. bajo'}</span>
                                     </div>
                               </div>
                               
@@ -769,14 +891,14 @@ export default function Maps() {
                           <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
                               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
                                     <div className = "boxRange">
-                                      <div style={{width:'15px',height:'15px',background:'#F19420','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                      <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango:</b>{' 5 - 5.5'}</span>
+                                      <div style={{width:'15px',height:'15px',background:'#9FF784','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                      <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango:</b>{' Medio'}</span>
                                     </div>
                               </div>
                               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
                                     <div className = "boxRange">
-                                      <div style={{width:'15px',height:'15px',background:'rgb(22, 86, 206)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                      <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango:</b>{' 5.5 - 6'}</span>
+                                      <div style={{width:'15px',height:'15px',background:'#EBF781','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                      <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango:</b>{' Mod. alto'}</span>
                                     </div>
                               </div>
                               
@@ -784,8 +906,8 @@ export default function Maps() {
                           <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
                               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
                                       <div className = "boxRange">
-                                        <div style={{width:'15px',height:'15px',background:'#54cbe3','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                        <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango:</b>{' 6.0 <'}</span>
+                                        <div style={{width:'15px',height:'15px',background:'#FFE001','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                        <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango:</b>{' Alto'}</span>
                                       </div>
                               </div>
                           </div>
@@ -808,6 +930,10 @@ export default function Maps() {
                           <></>
                           }
                   </form>
+                  {arrayDepartaments.length === 0 ? 
+                  
+                  <></>
+                  :
                   <div className='container_data'>
                     <div className='container_pc'>
                         <MapContainer
@@ -828,12 +954,12 @@ export default function Maps() {
                           <></>
                           }
                           
-                          {result !== null && departament ===""  ?
+                          {arrayDepartaments.length !== 0 && departament ===""  ?
                           <>
                           <GeoJSON
                               data={cauca}
                               style={(feature) => ({
-                                fillColor: getColor(),
+                                fillColor: getColorforRange('CAUCA'),
                                 weight: 2,
                                 color: 'white',
                                 fillOpacity: 1,
@@ -861,27 +987,28 @@ export default function Maps() {
                             >
                             <Popup>
                             <div style={{width:'100%',height:'100%','display':'flex','flexDirection':'column','alignItems':'center',justifyContent:'start'}}>
-                                        <span style={{fontWeight:'600'}}>{'CAUCA'}</span>
+                                        <span style={{fontWeight:'600'}}>{getDepartamentObject('CAUCA').name+': ('+getDepartamentObject('CAUCA').media+')'}</span>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',backgroundColor:'#b6bced','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>15</span>
+                                              <div style={{width:'7px',height:'7px',backgroundColor:'#F11F1F','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA').Bajo}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',backgroundColor:'#FFD60C','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>12</span>
+                                              <div style={{width:'7px',height:'7px',backgroundColor:'#F07B7B','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Mod. bajo']}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',backgroundColor:'#F19420','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>30</span>
+                                              <div style={{width:'7px',height:'7px',backgroundColor:'#9FF784','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Medio']}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',backgroundColor:'rgb(22, 86, 206)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>51</span>
+                                              <div style={{width:'7px',height:'7px',backgroundColor:'#EBF781','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Mod. alto']}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'#54cbe3','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>15</span>
+                                              <div style={{width:'7px',height:'7px',background:'#FFE001','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Alto']}</span>
                                         </div>
+
                                    </div>
                             </Popup>
                           </GeoJSON>
@@ -892,7 +1019,7 @@ export default function Maps() {
                                 <Polygon
                                 key={index}
                                 pathOptions={{
-                                  fillColor:getColor(),
+                                  fillColor:getColorforRange(depa?.properties?.NOMBRE_DPT),
                                   fillOpacity:1,
                                   weight:2,
                                   opacity:1,
@@ -926,26 +1053,26 @@ export default function Maps() {
                                 <Popup>
                                    
                                    <div style={{width:'100%',height:'100%','display':'flex','flexDirection':'column','alignItems':'center',justifyContent:'start'}}>
-                                        <span style={{fontWeight:'600'}}>{depa?.properties?.NOMBRE_DPT}</span>
+                                        <span style={{fontWeight:'600'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT).name+': ('+getDepartamentObject(depa?.properties?.NOMBRE_DPT).media+')' }</span>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'#b6bced','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>15</span>
+                                              <div style={{width:'7px',height:'7px',background:'#F11F1F','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT).Bajo}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'#FFD60C','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>12</span>
+                                              <div style={{width:'7px',height:'7px',background:'#F07B7B','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Mod. bajo']}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'#F19420','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>30</span>
+                                              <div style={{width:'7px',height:'7px',background:'#9FF784','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Medio']}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'rgb(22, 86, 206)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>51</span>
+                                              <div style={{width:'7px',height:'7px',background:'#EBF781','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Mod. alto']}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'#54cbe3','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>15</span>
+                                              <div style={{width:'7px',height:'7px',background:'#FFE001','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Alto']}</span>
                                         </div>
                                    </div>
                                   
@@ -1040,7 +1167,6 @@ export default function Maps() {
                             </>
                             :
                             <>
-
                             </>
                           }
                           
@@ -1048,6 +1174,8 @@ export default function Maps() {
                         </MapContainer>
                     </div>
                   </div>
+                  }
+                  
                   <div className='container_form'>
                         <div className='card-header border-0 bg-transparent p-4 pb-0'>
                                 <div className='d-flex mb-1' style={{flexDirection:'column',alignItems:'start !important'}}>

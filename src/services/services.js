@@ -13,6 +13,7 @@ const getDepartamentsData=async(data)=>{
         "variable": data.variable,
         "tipo_cultivo": data.tipo_cultivo,
     }
+    console.log("DATOS ENVIADOS : ",body)
 
     return await axios.post(path,body)
 
