@@ -1036,7 +1036,8 @@ export default function Maps() {
                               },
                               dblclick:(e)=>{
                                 setDataMuni(Municipios?.features.filter((obj)=>obj?.properties?.dpt === 'CAUCA'))
-                                setDepartament('CAUCA')
+                                setDepartament('CAUCA');
+                                findResults_municipios('CAUCA')
                               },
                               mouseout:(e)=>{
                                 const layer = e.target;
@@ -1245,8 +1246,21 @@ export default function Maps() {
                         <div className='card-header border-0 bg-transparent p-4 pb-0'>
                                 <div className='d-flex mb-1' style={{flexDirection:'column',alignItems:'start !important'}}>
                                     <h1 className='m-0 p-0 lh-sm fs-4- ff-monse-regular- fw-bold tx-dark-purple-'>
-                                    Formulario
+                                    FORMULARIO DE INTERPRETACIÓN
                                     </h1>
+                                </div>
+                                <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
+                                    <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                          <div className='form-floating inner-addon- left-addon-'>
+                                            <Select options={tipo_muestra} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Tipo de muestra:" styles={selectStyles} isClearable={true} />
+                                          </div>
+                                    </div>
+                                    <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                          <div className='form-floating inner-addon- left-addon-'>
+                                            <Select options={tipo_muestra} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Tipo de muestra:" styles={selectStyles} isClearable={true} />
+                                          </div>
+                                    </div>
+                                    
                                 </div>
                                 <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
                                     <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
@@ -1261,7 +1275,7 @@ export default function Maps() {
                                           </div>
                                     </div>
                                     
-                              </div>
+                                </div>
                               <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
                                   <div className='col-auto' style={{width:'100%',display:'flex','justifyContent':'end'}}>
                                       <button className='buttonProduct btn btn-dark-purple- rounded-pill ps-5 pe-5 d-flex flex-row justify-content-center align-items-center align-self-center h-45-' type="button" >
