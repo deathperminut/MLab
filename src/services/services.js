@@ -96,4 +96,6 @@ const inferencia_rango=async(data)=>{
 
 }
 
+
+
 export {inferencia_rango,cliente_historial,getDepartamentsData,getDepartaments,getMunicipios,getMunicipios_data}
