@@ -83,7 +83,7 @@ const cliente_historial=async(data)=>{
 const inferencia_rango=async(data)=>{
     
     /* PRODUCTS */
-    let path=environment.api+environment.cliente_historial
+    let path=environment.api+environment.inferencia_rangos
 
     /* BODY */
 
