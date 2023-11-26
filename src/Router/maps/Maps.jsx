@@ -1481,7 +1481,7 @@ export default function Maps() {
                                               <div style={{width:'7px',height:'7px',background:'rgb(251, 247, 25)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>{getDepartamentObject_muni(muni?.properties?.name)['Alto'] == 0 ?  '0%' :  (parseInt(getDepartamentObject_muni(muni?.properties?.name)['Alto']) / parseInt(getDepartamentObject_muni(muni?.properties?.name)['cantidad registros'])*100).toFixed(1).toString()+'%'}</span>
                                         </div>
-                                   </div>
+                                  </div>
                                   
                                   
                                 </Popup>
