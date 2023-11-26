@@ -314,24 +314,24 @@ export default function Maps() {
   
 
   let tipo_muestra =[
-    {value:"ph",label:"pH"},
-    {value:"n",label:"N"},
-    {value:"mo",label:"MO"},
-    {value:"k",label:"K"},
-    {value:"ca",label:"Ca"},
-    {value:"mg",label:"Mg"},
-    {value:"al",label:"Al"},
-    {value:"cic",label:"CIC"},
-    {value:"p",label:"P"},
-    {value:"fe",label:"Fe"},
-    {value:"mn",label:"Mn"},
-    {value:"zn",label:"Zn"},
-    {value:"cu",label:"Cu"},
-    {value:"s",label:"S"},
-    {value:"b",label:"B"},
-    {value:"ar",label:"Ar"},
-    {value:"l",label:"L"},
-    {value:"a",label:"A"},
+    {value:"ph",label:"pH",'unidad':''},
+    {value:"n",label:"N",'unidad':'%'},
+    {value:"mo",label:"MO",'unidad':'%'},
+    {value:"k",label:"K",'unidad':'cmol(c)kg^-1'},
+    {value:"ca",label:"Ca",'unidad':'cmol(c)kg^-1'},
+    {value:"mg",label:"Mg",'unidad':'cmol(c)kg^-1'},
+    {value:"al",label:"Al",'unidad':'cmol(c)kg^-1'},
+    {value:"cic",label:"CIC",'unidad':'cmol(c)kg^-1'},
+    {value:"p",label:"P",'unidad':'mgkg^-1'},
+    {value:"fe",label:"Fe",'unidad':'mgkg^-1'},
+    {value:"mn",label:"Mn",'unidad':'mgkg^-1'},
+    {value:"zn",label:"Zn",'unidad':'mgkg^-1'},
+    {value:"cu",label:"Cu",'unidad':'mgkg^-1'},
+    {value:"s",label:"S",'unidad':'mgkg^-1'},
+    {value:"b",label:"B",'unidad':'mgkg^-1'},
+    {value:"ar",label:"Ar",'unidad':'%'},
+    {value:"l",label:"L",'unidad':'%'},
+    {value:"a",label:"A",'unidad':'%'},
   ]
 
   const years = [
@@ -378,7 +378,8 @@ export default function Maps() {
     "year": [],
     "variable": "",
     "tipo_cultivo": "",
-    "variable_mostrar":""
+    "variable_mostrar":"",
+    "unidad":""
   })
 
   let [arrayDepartaments,setArrayDepartaments] = React.useState([]);
@@ -393,7 +394,7 @@ export default function Maps() {
       if (event){
         
         if(type =='variable'){
-          setDepartamentsForm({...departamentsForm,[type]:event.value,['variable_mostrar']:event.label})
+          setDepartamentsForm({...departamentsForm,[type]:event.value,['variable_mostrar']:event.label,['unidad']:event.unidad})
         }else{
           setDepartamentsForm({...departamentsForm,[type]:event.value})
         }
@@ -1313,6 +1314,7 @@ export default function Maps() {
                             <Popup>
                             <div style={{width:'100%',height:'100%','display':'flex','flexDirection':'column','alignItems':'center',justifyContent:'start'}}>
                                         <span style={{fontWeight:'600'}}>{getDepartamentObject('CAUCA').name+': ('+getDepartamentObject('CAUCA').media+')'}</span>
+                                        <span style={{fontWeight:'600'}}>{departamentsForm.variable_mostrar+' '+departamentsForm.unidad}</span>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',backgroundColor:'rgb(189, 46, 45)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA').Bajo == 0 ?  '0%' :  (parseInt(getDepartamentObject('CAUCA').Bajo) / parseInt(getDepartamentObject('CAUCA')['cantidad registros'])*100).toFixed(2).toString()+'%'}</span>
@@ -1381,6 +1383,7 @@ export default function Maps() {
                                    
                                    <div style={{width:'100%',height:'100%','display':'flex','flexDirection':'column','alignItems':'center',justifyContent:'start'}}>
                                         <span style={{fontWeight:'600'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT).name+': ('+getDepartamentObject(depa?.properties?.NOMBRE_DPT).media+')' }</span>
+                                        <span style={{fontWeight:'600'}}>{departamentsForm.variable_mostrar+' '+departamentsForm.unidad}</span>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',background:'rgb(189, 46, 45)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Bajo'] == 0 ?  '0%' :  (parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Bajo']) / parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['cantidad registros'])*100).toFixed(2).toString()+'%'}</span>
@@ -1457,6 +1460,7 @@ export default function Maps() {
                                    
                                    <div style={{width:'100%',height:'100%','display':'flex','flexDirection':'column','alignItems':'center',justifyContent:'start'}}>
                                         <span style={{fontWeight:'600'}}>{getDepartamentObject_muni(muni?.properties?.name).name+': ('+getDepartamentObject_muni(muni?.properties?.name).media+')'}</span>
+                                        <span style={{fontWeight:'600'}}>{departamentsForm.variable_mostrar+' '+departamentsForm.unidad}</span>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',background:'rgb(189, 46, 45)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>{getDepartamentObject_muni(muni?.properties?.name)['Bajo']}</span>
