@@ -378,6 +378,7 @@ export default function Maps() {
     "year": [],
     "variable": "",
     "tipo_cultivo": "",
+    "variable_mostrar":""
   })
 
   let [arrayDepartaments,setArrayDepartaments] = React.useState([]);
@@ -390,7 +391,12 @@ export default function Maps() {
       setDepartamentsForm({...departamentsForm,[type]:event})
     }else{
       if (event){
-        setDepartamentsForm({...departamentsForm,[type]:event.value})
+        
+        if(type =='variable'){
+          setDepartamentsForm({...departamentsForm,[type]:event.value,['variable_mostrar']:event.label})
+        }else{
+          setDepartamentsForm({...departamentsForm,[type]:event.value})
+        }
       }else{
         setDepartamentsForm({...departamentsForm,[type]:""})
       }
@@ -539,6 +545,8 @@ export default function Maps() {
     }
 
   }
+
+
 
 
   const getColorforRange_muni = (departament) =>{
@@ -1125,6 +1133,14 @@ export default function Maps() {
   }
 
 
+  function formato(numero) {
+    return numero.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+
+
+
+
   
   return (
     <div className='body' style={{display:'flex',justifyContent:'center'}}>
@@ -1143,7 +1159,7 @@ export default function Maps() {
                   </div>
                   
                   <div className='description_map_2'>
-                      <p className='description_map_text_2 nova'>Mapa</p>
+                      <p className='description_map_text_2 nova'>Mapa de fertilidad de suelos</p>
                   </div> 
                   <form className='formulario'>
                           <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
@@ -1192,7 +1208,7 @@ export default function Maps() {
                               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
                                     <div className = "boxRange_2">
                                       <div style={{width:'15px',height:'15px',background:'rgb(165, 69, 53)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                      <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Mod. bajo'}</span>
+                                      <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Moderadamente bajo'}</span>
                                     </div>
                               </div>
                               
@@ -1207,7 +1223,7 @@ export default function Maps() {
                               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
                                     <div className = "boxRange_2">
                                       <div style={{width:'15px',height:'15px',background:'rgb(177, 225, 57)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                      <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango:</b>{' Mod. alto'}</span>
+                                      <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango:</b>{' Moderadamente alto'}</span>
                                     </div>
                               </div>
                               
@@ -1299,23 +1315,23 @@ export default function Maps() {
                                         <span style={{fontWeight:'600'}}>{getDepartamentObject('CAUCA').name+': ('+getDepartamentObject('CAUCA').media+')'}</span>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',backgroundColor:'rgb(189, 46, 45)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA').Bajo}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA').Bajo == 0 ?  '0%' :  (parseInt(getDepartamentObject('CAUCA').Bajo) / parseInt(getDepartamentObject('CAUCA')['cantidad registros'])*100).toFixed(2).toString()+'%'}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',backgroundColor:'rgb(165, 69, 53)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Mod. bajo']}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Mod. bajo'] == 0 ?  '0%' :  (parseInt(getDepartamentObject('CAUCA')['Mod. bajo']) / parseInt(getDepartamentObject('CAUCA')['cantidad registros'])*100).toFixed(2).toString()+'%'}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',backgroundColor:'rgb(77, 182, 100)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Medio']}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Medio'] == 0 ?  '0%' :  (parseInt(getDepartamentObject('CAUCA')['Medio']) / parseInt(getDepartamentObject('CAUCA')['cantidad registros'])*100).toFixed(2).toString()+'%'}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',backgroundColor:'rgb(177, 225, 57)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Mod. alto']}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Mod. alto'] == 0 ?  '0%' :  (parseInt(getDepartamentObject('CAUCA')['Mod. alto']) / parseInt(getDepartamentObject('CAUCA')['cantidad registros'])*100).toFixed(2).toString()+'%'}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',background:'rgb(251, 247, 25)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Alto']}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Alto'] == 0 ?  '0%' :  (parseInt(getDepartamentObject('CAUCA')['Alto']) / parseInt(getDepartamentObject('CAUCA')['cantidad registros'])*100).toFixed(2).toString()+'%'}</span>
                                         </div>
 
                                   </div>
@@ -1367,23 +1383,23 @@ export default function Maps() {
                                         <span style={{fontWeight:'600'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT).name+': ('+getDepartamentObject(depa?.properties?.NOMBRE_DPT).media+')' }</span>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',background:'rgb(189, 46, 45)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT).Bajo}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Bajo'] == 0 ?  '0%' :  (parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Bajo']) / parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['cantidad registros'])*100).toFixed(2).toString()+'%'}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',background:'rgb(165, 69, 53)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Mod. bajo']}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Mod. bajo'] == 0 ?  '0%' :  (parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Mod. bajo']) / parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['cantidad registros'])*100).toFixed(2).toString()+'%'}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',background:'rgb(77, 182, 100)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Medio']}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Medio'] == 0 ?  '0%' :  (parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Medio']) / parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['cantidad registros'])*100).toFixed(2).toString()+'%'}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',background:'rgb(177, 225, 57)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Mod. alto']}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Mod. alto'] == 0 ?  '0%' :  (parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Mod. alto']) / parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['cantidad registros'])*100).toFixed(2).toString()+'%'}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',background:'rgb(251, 247, 25)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Alto']}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Alto'] == 0 ?  '0%' :  (parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Alto']) / parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['cantidad registros'])*100).toFixed(2).toString()+'%'}</span>
                                         </div>
                                    </div>
                                   
@@ -1490,7 +1506,7 @@ export default function Maps() {
                             <div className='card-header border-0 bg-transparent p-4 pb-0'>
                               <div className='d-flex flex-row justify-content-between align-items-center align-self-center mb-1'>
                                 <h1 className='m-0 p-0 lh-sm fs-4- ff-monse-regular- fw-bold tx-dark-purple- description_map_text_2 nova'>
-                                Valores registrados
+                                {'Valores registrados '+departamentsForm.variable_mostrar}
                                 </h1>
                                 <button className='btn rounded-pill p-2 d-flex flex-row justify-content-center align-items-center align-self-center button-open- btn-dark-purple- bs-1- ms-2'  onClick={() => toggleOverlay('card1')}>
                                   <CiCircleMore style={{width:'90',height:'90'}} width={90} height={90} color='black'/>
@@ -1498,7 +1514,7 @@ export default function Maps() {
                               </div>
                               <div className='w-75'>
                                 <p className='m-0 p-0 lh-sm fs-5- ff-monse-regular- fw-normal tx-black-'>
-                                  se muestran los 6 departamentos con mayor media dependiendo de la determinación seleccionada 
+                                  {'Se muestran los 6 departamentos con mayor media dependiendo de la determinación seleccionada '} 
                                 </p>
                               </div>
                             </div>
@@ -1512,7 +1528,7 @@ export default function Maps() {
                                     <div className='card-header border-0 bg-transparent p-4'>
                                       <div className='d-flex flex-row justify-content-between align-items-center align-self-center'>
                                         <h1 className='m-0 p-0 lh-sm fs-4- ff-monse-regular- fw-bold tx-dark-purple- description_map_text_2 nova'>
-                                            Tabla de datos
+                                            {'Tabla de datos '+departamentsForm.variable_mostrar}
                                         </h1>
                                         <button className='btn rounded-pill p-2 d-flex flex-row justify-content-center align-items-center align-self-center button-close- btn-bone-white- bs-1- ms-2' onClick={() => toggleOverlay(null)}>
                                             <MdOutlineCancel />
@@ -1572,19 +1588,19 @@ export default function Maps() {
                                                   <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{obj['media']}</p>
                                                 </td>
                                                 <td className='align-middle'>
-                                                  <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{obj['Bajo']}</p>
+                                                  <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{formato(obj['Bajo'])}</p>
                                                 </td>
                                                 <td className='align-middle'>
-                                                  <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{obj['Mod. bajo']}</p>
+                                                  <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{formato(obj['Mod. bajo'])}</p>
                                                 </td>
                                                 <td className='align-middle'>
-                                                  <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{obj['Medio']}</p>
+                                                  <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{formato(obj['Medio'])}</p>
                                                 </td>
                                                 <td className='align-middle'>
-                                                  <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{obj['Mod. alto']}</p>
+                                                  <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{formato(obj['Mod. alto'])}</p>
                                                 </td>
                                                 <td className='align-middle'>
-                                                  <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{obj['Alto']}</p>
+                                                  <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{formato(obj['Alto'])}</p>
                                                 </td>
                                               </tr>
                                               )

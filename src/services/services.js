@@ -30,6 +30,17 @@ const getDepartaments=async()=>{
 
 }
 
+const getClientes=async()=>{
+    
+    /* PRODUCTS */
+    let path=environment.api+environment.clientes
+
+    /* BODY */
+
+    return await axios.get(path)
+
+}
+
 const getMunicipios=async(data)=>{
     
     /* PRODUCTS */
@@ -99,4 +110,4 @@ const inferencia_rango=async(data)=>{
 
 
 
-export {inferencia_rango,cliente_historial,getDepartamentsData,getDepartaments,getMunicipios,getMunicipios_data}
+export {getClientes,inferencia_rango,cliente_historial,getDepartamentsData,getDepartaments,getMunicipios,getMunicipios_data}

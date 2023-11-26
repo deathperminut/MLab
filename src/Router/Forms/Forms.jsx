@@ -24,7 +24,7 @@ import { MdOutlineCancel } from "react-icons/md";
 import "bootstrap/dist/css/bootstrap.min.css";
 import * as echarts from 'echarts';
 import $ from "jquery";
-import { cliente_historial, getDepartamentsData, getMunicipios_data, inferencia_rango } from '../../services/services';
+import { cliente_historial, getClientes, getDepartamentsData, getMunicipios_data, inferencia_rango } from '../../services/services';
 
 
 
@@ -325,6 +325,7 @@ export default function Forms() {
     "tipo_cultivo": "",
     "variable": "",
     "cliente": "",
+    "finca":""
   })
   const readCliente_input = (event,type) =>{
 
@@ -599,6 +600,35 @@ export default function Forms() {
     
   }, [Answer_cliente]);
 
+  React.useEffect(()=>{
+    loadClientes()
+  },[])
+
+  let [clientes,setClientes] = React.useState([]);
+  let [clientes_short,setClientes_short] = React.useState([]);
+  
+
+  const loadClientes=async()=>{
+
+    setPreloader(true);
+    let result =  undefined;
+    result =  await getClientes().catch((error)=>{
+        console.log(error);
+        setPreloader(false);
+        Swal.fire({
+            icon: 'info',
+            text:"Problemas para cargar datos de clientes",
+        })
+    })
+
+    if(result){
+        setPreloader(false);
+        setClientes(result.data);
+        setClientes_short(result.data.slice(0,100))
+    }
+
+  }
+
 
   /* SEGUNDO FORMULARIO */
   let [inference,setInference] = React.useState({
@@ -672,6 +702,25 @@ export default function Forms() {
 
   }
 
+  const handleInputChange = (newValue) => {
+
+    if(newValue === ""){
+        setClientes_short(clientes.slice(0,100));
+    }else{
+        let filterData = clientes.filter((obj)=> obj.value.toLowerCase().includes(newValue.toLowerCase()));
+        if(filterData.length === 0){
+            setClientes_short([]);
+        }else if (filterData.length > 100){
+            setClientes_short(filterData.slice(0,100));
+        }else if (filterData.length < 100){
+            setClientes_short(filterData);
+        }
+        
+    }
+    
+
+  };
+
 
   return (
     <div className='body' style={{display:'flex',justifyContent:'center'}}>
@@ -691,29 +740,37 @@ export default function Forms() {
                                 
                                 <div className='card-header border-0 bg-transparent p-4 pb-0'>
                                         <div className='d-flex mb-1' style={{flexDirection:'column',alignItems:'start !important','marginBottom':'20px !important'}}>
-                                            <h1 style={{'marginBottom':'40px'}} className='p-0 lh-sm fs-4- ff-monse-regular- fw-bold tx-dark-purple-'>
-                                            HISTORICO CLIENTES
+                                            <h1 style={{'marginBottom':'40px','color':'#0d149a'}} className='p-0 lh-sm fs-4- ff-monse-regular- fw-bold tx-dark-purple- description_map_text_3 nova'>
+                                            Historico de clientes
                                             </h1>
                                         </div>
                                         <div  className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
                                             
                                             <div  className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
                                                 <div className='form-floating inner-addon- left-addon-'>
-                                                    <input type="number" onChange={(event)=>readCliente_input(event,'cliente')} className='form-control'  placeholder="Código del cliente" />
-                                                    <label className='fs-5- ff-monse-regular-'>Código del cliente</label>
+                                                        <div className='form-floating inner-addon- left-addon-'>
+                                                            <Select onInputChange={handleInputChange} options={clientes_short} onChange={(event)=>readCliente_select(event,'cliente')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Clientes:" styles={selectStyles} isClearable={true} />
+                                                        </div>
                                                 </div>
+                                                
+                                            </div>
+                                            <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                                    <div className='form-floating inner-addon- left-addon-'>
+                                                        <Select options={type_cultivo} onChange={(event)=>readCliente_select(event,'tipo_cultivo')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Tipo de cultivo:" styles={selectStyles} isClearable={true} />
+                                                    </div>
                                             </div>
                                             
                                         </div>
                                         <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
+                                            
                                             <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
                                                 <div className='form-floating inner-addon- left-addon-'>
-                                                    <Select options={type_cultivo} onChange={(event)=>readCliente_select(event,'tipo_cultivo')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Tipo de cultivo:" styles={selectStyles} isClearable={true} />
+                                                    <Select options={tipo_muestra} onChange={(event)=>readCliente_select(event,'variable')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Determinación:" styles={selectStyles} isClearable={true} />
                                                 </div>
                                             </div>
                                             <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
                                                 <div className='form-floating inner-addon- left-addon-'>
-                                                    <Select options={tipo_muestra} onChange={(event)=>readCliente_select(event,'variable')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Determinación:" styles={selectStyles} isClearable={true} />
+                                                    <Select options={tipo_muestra} onChange={(event)=>readCliente_select(event,'finca')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Finca:" styles={selectStyles} isClearable={true} />
                                                 </div>
                                             </div>
                                             
@@ -743,8 +800,8 @@ export default function Forms() {
                         <div className='container_form'>
                                 <div className='card-header border-0 bg-transparent p-4 pb-0'>
                                         <div className='d-flex mb-1' style={{flexDirection:'column',alignItems:'start !important','marginBottom':'20px !important'}}>
-                                            <h1 style={{'marginBottom':'40px'}} className='p-0 lh-sm fs-4- ff-monse-regular- fw-bold tx-dark-purple-'>
-                                            FORMULARIO DE INTERPRETACIÓN
+                                            <h1 style={{'marginBottom':'40px'}} className='p-0 lh-sm fs-4- ff-monse-regular- fw-bold tx-dark-purple- description_map_text_2 nova'>
+                                            Formulario de interpretación
                                             </h1>
                                         </div>
                                         <div  className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
@@ -786,7 +843,7 @@ export default function Forms() {
                                         <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
                                             <div className = "boxRange">
                                             <div style={{width:'15px',height:'15px',background:'#F07B7B','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                            <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Mod. bajo'}</span>
+                                            <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Moderadamente bajo'}</span>
                                             </div>
                                         </div>
                                         :
@@ -804,7 +861,7 @@ export default function Forms() {
                                         <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
                                             <div className = "boxRange">
                                             <div style={{width:'15px',height:'15px',background:'#EBF781','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                            <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Mod. alto'}</span>
+                                            <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Moderadamente alto'}</span>
                                             </div>
                                         </div>
                                         :
