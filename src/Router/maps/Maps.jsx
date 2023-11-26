@@ -1317,23 +1317,23 @@ export default function Maps() {
                                         <span style={{fontWeight:'600'}}>{departamentsForm.variable_mostrar+' '+departamentsForm.unidad}</span>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',backgroundColor:'rgb(189, 46, 45)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA').Bajo == 0 ?  '0%' :  (parseInt(getDepartamentObject('CAUCA').Bajo) / parseInt(getDepartamentObject('CAUCA')['cantidad registros'])*100).toFixed(2).toString()+'%'}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA').Bajo == 0 ?  '0%' :  (parseInt(getDepartamentObject('CAUCA').Bajo) / parseInt(getDepartamentObject('CAUCA')['cantidad registros'])*100).toFixed(1).toString()+'%'}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',backgroundColor:'rgb(165, 69, 53)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Mod. bajo'] == 0 ?  '0%' :  (parseInt(getDepartamentObject('CAUCA')['Mod. bajo']) / parseInt(getDepartamentObject('CAUCA')['cantidad registros'])*100).toFixed(2).toString()+'%'}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Mod. bajo'] == 0 ?  '0%' :  (parseInt(getDepartamentObject('CAUCA')['Mod. bajo']) / parseInt(getDepartamentObject('CAUCA')['cantidad registros'])*100).toFixed(1).toString()+'%'}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',backgroundColor:'rgb(77, 182, 100)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Medio'] == 0 ?  '0%' :  (parseInt(getDepartamentObject('CAUCA')['Medio']) / parseInt(getDepartamentObject('CAUCA')['cantidad registros'])*100).toFixed(2).toString()+'%'}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Medio'] == 0 ?  '0%' :  (parseInt(getDepartamentObject('CAUCA')['Medio']) / parseInt(getDepartamentObject('CAUCA')['cantidad registros'])*100).toFixed(1).toString()+'%'}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',backgroundColor:'rgb(177, 225, 57)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Mod. alto'] == 0 ?  '0%' :  (parseInt(getDepartamentObject('CAUCA')['Mod. alto']) / parseInt(getDepartamentObject('CAUCA')['cantidad registros'])*100).toFixed(2).toString()+'%'}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Mod. alto'] == 0 ?  '0%' :  (parseInt(getDepartamentObject('CAUCA')['Mod. alto']) / parseInt(getDepartamentObject('CAUCA')['cantidad registros'])*100).toFixed(1).toString()+'%'}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',background:'rgb(251, 247, 25)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Alto'] == 0 ?  '0%' :  (parseInt(getDepartamentObject('CAUCA')['Alto']) / parseInt(getDepartamentObject('CAUCA')['cantidad registros'])*100).toFixed(2).toString()+'%'}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Alto'] == 0 ?  '0%' :  (parseInt(getDepartamentObject('CAUCA')['Alto']) / parseInt(getDepartamentObject('CAUCA')['cantidad registros'])*100).toFixed(1).toString()+'%'}</span>
                                         </div>
 
                                   </div>
@@ -1386,23 +1386,23 @@ export default function Maps() {
                                         <span style={{fontWeight:'600'}}>{departamentsForm.variable_mostrar+' '+departamentsForm.unidad}</span>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',background:'rgb(189, 46, 45)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Bajo'] == 0 ?  '0%' :  (parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Bajo']) / parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['cantidad registros'])*100).toFixed(2).toString()+'%'}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Bajo'] == 0 ?  '0%' :  (parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Bajo']) / parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['cantidad registros'])*100).toFixed(1).toString()+'%'}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',background:'rgb(165, 69, 53)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Mod. bajo'] == 0 ?  '0%' :  (parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Mod. bajo']) / parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['cantidad registros'])*100).toFixed(2).toString()+'%'}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Mod. bajo'] == 0 ?  '0%' :  (parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Mod. bajo']) / parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['cantidad registros'])*100).toFixed(1).toString()+'%'}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',background:'rgb(77, 182, 100)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Medio'] == 0 ?  '0%' :  (parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Medio']) / parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['cantidad registros'])*100).toFixed(2).toString()+'%'}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Medio'] == 0 ?  '0%' :  (parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Medio']) / parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['cantidad registros'])*100).toFixed(1).toString()+'%'}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',background:'rgb(177, 225, 57)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Mod. alto'] == 0 ?  '0%' :  (parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Mod. alto']) / parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['cantidad registros'])*100).toFixed(2).toString()+'%'}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Mod. alto'] == 0 ?  '0%' :  (parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Mod. alto']) / parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['cantidad registros'])*100).toFixed(1).toString()+'%'}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',background:'rgb(251, 247, 25)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Alto'] == 0 ?  '0%' :  (parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Alto']) / parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['cantidad registros'])*100).toFixed(2).toString()+'%'}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Alto'] == 0 ?  '0%' :  (parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Alto']) / parseInt(getDepartamentObject(depa?.properties?.NOMBRE_DPT)['cantidad registros'])*100).toFixed(1).toString()+'%'}</span>
                                         </div>
                                    </div>
                                   
@@ -1463,23 +1463,23 @@ export default function Maps() {
                                         <span style={{fontWeight:'600'}}>{departamentsForm.variable_mostrar+' '+departamentsForm.unidad}</span>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',background:'rgb(189, 46, 45)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject_muni(muni?.properties?.name)['Bajo']}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject_muni(muni?.properties?.name)['Bajo'] == 0 ?  '0%' :  (parseInt(getDepartamentObject_muni(muni?.properties?.name)['Bajo']) / parseInt(getDepartamentObject_muni(muni?.properties?.name)['cantidad registros'])*100).toFixed(1).toString()+'%'}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',background:'rgb(165, 69, 53)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject_muni(muni?.properties?.name)['Mod. bajo']}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject_muni(muni?.properties?.name)['Mod. bajo'] == 0 ?  '0%' :  (parseInt(getDepartamentObject_muni(muni?.properties?.name)['Mod. bajo']) / parseInt(getDepartamentObject_muni(muni?.properties?.name)['cantidad registros'])*100).toFixed(1).toString()+'%'}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',background:'rgb(77, 182, 100)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject_muni(muni?.properties?.name)['Medio']}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject_muni(muni?.properties?.name)['Medio'] == 0 ?  '0%' :  (parseInt(getDepartamentObject_muni(muni?.properties?.name)['Medio']) / parseInt(getDepartamentObject_muni(muni?.properties?.name)['cantidad registros'])*100).toFixed(1).toString()+'%'}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',background:'rgb(177, 225, 57)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject_muni(muni?.properties?.name)['Mod. alto']}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject_muni(muni?.properties?.name)['Mod. alto'] == 0 ?  '0%' :  (parseInt(getDepartamentObject_muni(muni?.properties?.name)['Mod. alto']) / parseInt(getDepartamentObject_muni(muni?.properties?.name)['cantidad registros'])*100).toFixed(1).toString()+'%'}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
                                               <div style={{width:'7px',height:'7px',background:'rgb(251, 247, 25)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject_muni(muni?.properties?.name)['Alto']}</span>
+                                              <span style={{marginLeft:'5px'}}>{getDepartamentObject_muni(muni?.properties?.name)['Alto'] == 0 ?  '0%' :  (parseInt(getDepartamentObject_muni(muni?.properties?.name)['Alto']) / parseInt(getDepartamentObject_muni(muni?.properties?.name)['cantidad registros'])*100).toFixed(1).toString()+'%'}</span>
                                         </div>
                                    </div>
                                   
