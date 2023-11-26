@@ -8,6 +8,7 @@ import '../../index.css';
 import {useNavigate} from 'react-router-dom';
 import { GiColombia } from 'react-icons/gi';
 import Swal from 'sweetalert2';
+import { Tooltip } from 'react-tooltip';
 import axios from 'axios';
 import { CiCircleMore } from "react-icons/ci";
 import Municipios from '../../data/Municipios.json'
@@ -310,13 +311,6 @@ export default function Maps() {
     return arreglo[indice];
   }
 
-  const getColor = (valor) => {
-    // Escoge los colores según los rangos de valores que tengas
-    let arrayColors = ['#b6bced','#FFD60C','#F19420',' rgb(22, 86, 206) ',' #54cbe3 ']
-    const  elemento = elementoRandom(arrayColors)
-    return elemento
-  };
-
   
 
   let tipo_muestra =[
@@ -381,7 +375,7 @@ export default function Maps() {
   let [dataMuni,setDataMuni] = React.useState([]);
 
   let [departamentsForm,setDepartamentsForm] = React.useState({
-    "year": "",
+    "year": [],
     "variable": "",
     "tipo_cultivo": "",
   })
@@ -391,19 +385,24 @@ export default function Maps() {
   /* read inputs */
 
   const readSelectDepartamentForm = (event,type) =>{
-
-    if (event){
-      setDepartamentsForm({...departamentsForm,[type]:event.value})
+    
+    if(type == 'year'){
+      setDepartamentsForm({...departamentsForm,[type]:event})
     }else{
-      setDepartamentsForm({...departamentsForm,[type]:""})
+      if (event){
+        setDepartamentsForm({...departamentsForm,[type]:event.value})
+      }else{
+        setDepartamentsForm({...departamentsForm,[type]:""})
+      }
     }
+    
 
   }
 
 
   let findResults =async()=>{
 
-    if(departamentsForm.tipo_cultivo == "" || departamentsForm.variable == "" | departamentsForm.year == ""){
+    if(departamentsForm.tipo_cultivo == "" || departamentsForm.variable == ""){
 
       Swal.fire({
         icon: 'info',
@@ -577,149 +576,6 @@ export default function Maps() {
   }
 
   /* form services */
-
-  let [inference,setInference] = React.useState({
-    "tipo_cultivo": "",
-    "variable": "",
-    "magnitud": "",
-  })
-
-  
-
-  let [Answer,setAnswer] = React.useState(null);
-  let [Answer_cliente,setAnswer_cliente] = React.useState(null);
-
-  const makeInference = async() =>{
-
-    if (inference.magnitud !== "" && inference.tipo_cultivo !== "" && inference.variable){
-
-      let result  = undefined
-      setPreloader(true);
-      result = await inferencia_rango(inference).catch((error)=>{
-        console.log(error);
-        Swal.fire({
-          icon: 'info',
-          text:"Error al hacer inferencia del rango",
-        })
-        setAnswer(null);
-        setPreloader(false);
-      })
-
-      if(result){
-        setPreloader(false)
-        let html = ""
-
-        if(result.data.Answer === 'Bajo'){
-
-          html='<span class="p-1 ps-2 pe-2 m-0 lh-sm ff-monse-regular- fw-normal text-center rounded-4 bajo">' + result.data.Answer + '</span>';
-
-        }else if (result.data.Answer === 'Mod. bajo'){
-          html='<span class="p-1 ps-2 pe-2 m-0 lh-sm ff-monse-regular- fw-normal text-center rounded-4 m_bajo">' + result.data.Answer + '</span>';
-        }else if  (result.data.Answer === 'Medio'){
-          html='<span class="p-1 ps-2 pe-2 m-0 lh-sm ff-monse-regular- fw-normal text-center rounded-4 medio">' + result.data.Answer + '</span>';
-        }else if (result.data.Answer === 'Mod. alto'){
-          html='<span class="p-1 ps-2 pe-2 m-0 lh-sm ff-monse-regular- fw-normal text-center rounded-4 m_alto">' + result.data.Answer + '</span>';
-        }else{
-          html='<span class="p-1 ps-2 pe-2 m-0 lh-sm ff-monse-regular- fw-normal text-center rounded-4 alto">' + result.data.Answer + '</span>';
-        }
-        Swal.fire({
-          icon: 'success',
-          html:html,
-        })
-        setAnswer(result.data.Answer);
-
-      }
-
-    }else{
-      Swal.fire({
-        icon: 'info',
-        text:"Debe registrar todos los campos",
-      })
-    }
-
-  }
-
-  const readinferences_input = (event,type) =>{
-
-    setInference({...inference,[type]:event.target.value})
-
-  }
-
-  const readinferences_select = (event,type) =>{
-
-    if (event){
-      setInference({...inference,[type]:event.value})
-    }else{
-      setInference({...inference,[type]:""})
-    }
-
-  }
-
-  // SELECT CLIENTE
-
-  let [cliente,setCliente] = React.useState({
-    "tipo_cultivo": "",
-    "variable": "",
-    "cliente": "",
-  })
-  const readCliente_input = (event,type) =>{
-
-    setCliente({...cliente,[type]:event.target.value})
-
-  }
-
-  const readCliente_select = (event,type) =>{
-
-    if (event){
-      setCliente({...cliente,[type]:event.value})
-    }else{
-      setCliente({...cliente,[type]:""})
-    }
-
-  }
-
-  const makeCliente =async()=>{
-    
-    if(cliente.cliente !== "" && cliente.tipo_cultivo !== "" && cliente.variable !== ""){
-
-        let result = undefined;
-        setPreloader(true);
-        result =  await cliente_historial(cliente).catch((error)=>{
-          console.log(error);
-          setPreloader(false);
-          Swal.fire({
-            icon: 'info',
-            text:"Error al hacer inferencia.",
-          })
-          setAnswer_cliente(null)
-        })
-        if(result){
-          setPreloader(false);
-          if(result.data.length == 0){
-            Swal.fire({
-              icon: 'info',
-              text:"No hay un historico para el código de cliente seleccionado",
-            })
-            setAnswer_cliente(null)
-          }else{
-            Swal.fire({
-              icon: 'success',
-              text:"Busqueda realizada correctamente",
-            })
-            console.log(result.data)
-            setAnswer_cliente(result.data)
-          }
-          
-        }
-
-    }else{
-      Swal.fire({
-        icon: 'info',
-        text:"Debe registrar todos los campos",
-      })
-    }
-
-  }
 
   /* CARGAMOS GRAFICAS */
 
@@ -1018,7 +874,7 @@ export default function Maps() {
             },
           },
           itemStyle: {
-            color: "   #F11F1F  ",
+            color: "   rgb(189, 46, 45)  ",
             shadowBlur: 0,
             shadowOffsetY: 0,
           },
@@ -1052,7 +908,7 @@ export default function Maps() {
             },
           },
           itemStyle: {
-            color: "   #F07B7B  ",
+            color: "   rgb(165, 69, 53)  ",
             shadowBlur: 0,
             shadowOffsetY: 0,
           },
@@ -1086,7 +942,7 @@ export default function Maps() {
             },
           },
           itemStyle: {
-            color: "   #9FF784  ",
+            color: "   rgb(77, 182, 100)  ",
             shadowBlur: 0,
             shadowOffsetY: 0,
           },
@@ -1120,7 +976,7 @@ export default function Maps() {
             },
           },
           itemStyle: {
-            color: "   #EBF781  ",
+            color: "   rgb(177, 225, 57)  ",
             shadowBlur: 0,
             shadowOffsetY: 0,
           },
@@ -1154,7 +1010,7 @@ export default function Maps() {
             },
           },
           itemStyle: {
-            color: "   #FFE001  ",
+            color: "  rgb(251, 247, 25)  ",
             shadowBlur: 0,
             shadowOffsetY: 0,
           },
@@ -1182,6 +1038,8 @@ export default function Maps() {
     });
 
     }
+
+    
     
 
     
@@ -1191,220 +1049,82 @@ export default function Maps() {
   },[arrayDepartaments])
 
 
-  React.useEffect(() => {
-    if(Answer_cliente !== null){
-
-    let datamap = Answer_cliente.map((obj)=>{
-      return(
-        [obj.year,obj.media === 'No hay datos' ? 0 :obj.media]
-      )
-    })
-
-    let chartGraphInr = echarts.init(document.getElementById('chart-inr'));
-    let optionGraphInr;
-
-    optionGraphInr = {
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'cross',
-          label: {
-            backgroundColor: '#FAFAFA',
-            color: '#040E29',
-            fontWeight: 'normal',
-            fontFamily: 'Monserat-regular'
-          }
-        },
-        showDelay: 0,
-        transitionDuration: 0.2,
-        backgroundColor: 'rgba(255, 255, 255, 1)',
-        borderWidth: 1,
-        borderColor: '#FAFAFA',
-        padding: 5,
-        textStyle: {
-          color: '#414D55',
-          fontSize: 14,
-          lineHeight:10,
-          fontWeight: 'normal',
-          fontFamily: 'Monserat-regular'
-        },
-        extraCssText: 'box-shadow: 0px 1px 8px #142E6E1A'
-      },
-      legend: {
-        type: 'scroll',
-        orient: 'horizontal',
-        left: 'center',
-        top: 'top',
-        bottom: 20,
-        itemGap : 50,
-        width: '90%',
-        inactiveColor: '#728998',
-        textStyle: {
-          color: '#414D55',
-          fontWeight: 'normal',
-          fontFamily: 'Monserat-regular'
-        },
-        pageIconSize: 12,
-        pageIconColor: '#6149CD',
-        pageIconInactiveColor: '#414D55',
-        pageTextStyle: {
-          color: '#414D55',
-          fontWeight: 'normal',
-          fontFamily: 'Monserat-regular'
-        },
-        formatter : function(params, value){
-          var newParamsName = "";
-          var paramsNameNumber = params.length;
-          var provideNumber = 50;
-          var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
-          if (paramsNameNumber > provideNumber) {
-              for (var p = 0; p < rowNumber; p++) {
-                var tempStr = "";
-                if (p === rowNumber - 1) {
-                    tempStr = (params.length > 6 ? (params.slice(0,50)+"...") : '' );
-                } else {}
-                newParamsName += tempStr;
-              }
-          } else {
-              newParamsName = params;
-          }
-          return newParamsName
-        },
-        data: ['Media']
-      },
-      xAxis: {
-        type: 'category',
-        name: '',
-        minorTick: {
-          show: true
-        },
-        minorSplitLine: {
-          show: true
-        },
-        axisTick: {
-          show: false,
-        },
-        nameTextStyle: {
-          color: '#728998',
-          fontWeight: 'normal',
-          fontFamily: 'Monserat-regular'
-        },
-        axisLabel: {
-          color: '#728998',
-          fontWeight: 'normal',
-          fontFamily: 'Monserat-regular'
-        },
-        boundaryGap: false,
-        axisLine: {
-          onZero: false,
-          lineStyle: {
-            color: '#728998',
-            width: 1,
-            cap: 'round'
-          }
-        },
-      },
-      yAxis: {
-        type: 'value',
-        nameLocation: 'middle',
-        minorTick: {
-          show: true
-        },
-        minorSplitLine: {
-          show: true
-        },
-        nameTextStyle: {
-          color: '#728998',
-          fontWeight: 'normal',
-          fontFamily: 'Monserat-regular'
-        },
-        axisLabel: {
-          color: '#728998',
-          fontWeight: 'normal',
-          fontFamily: 'Monserat-regular'
-        },
-        boundaryGap: [0, '0%'],
-        splitNumber: 3
-      },
-      grid: [
-        {
-          containLabel: true,
-          borderColor: '#728998'
-        }
-      ],
-      series: [
-        {
-          name: 'Media',
-          type: 'line',
-          showSymbol: false,
-          symbol: 'circle',
-          symbolSize: 0,
-          smooth: true,
-          clip: true,
-          lineStyle: {
-            color: "#3c8bda",
-            width: 2,
-            shadowBlur: 0,
-            shadowOffsetY: 0
-          },
-          itemStyle: {
-            color: '#3c8bda'
-          },
-          top: 15,
-          label: {
-            show: false,
-            color: '#414D55',
-            fontSize: 12,
-            fontWeight: 'normal',
-            fontFamily: 'Monserat-regular',
-          },
-          emphasis: {
-            label: {
-              show: false,
-              color: '#414D55',
-              fontSize: 12,
-              fontWeight: 'normal',
-              fontFamily: 'Monserat-regular'
-            }
-          },
-          lableLine: {
-            normal: {
-              show: false,
-              fontSize: 12,
-              fontWeight: 'normal',
-              fontFamily: 'Monserat-regular'
-            },
-            emphasis: {
-              show: true,
-              fontSize: 12,
-              fontWeight: 'normal',
-              fontFamily: 'Monserat-regular'
-            }
-          },
-          data:datamap,
-          animationDelay: function (idx) {
-            return idx * 15;
-          }
-        }
-      ],
-      animationEasing: 'elasticOut',
-      animationDelayUpdate: function (idx) {
-        return idx * 5;
-      }
-    };
-
-    optionGraphInr && chartGraphInr.setOption(optionGraphInr);
-
-    $(window).on('resize', function(){
-      if(chartGraphInr != null && chartGraphInr !== undefined){
-        chartGraphInr.resize();
-      }
-    });
-
-    }
-    
-  }, [Answer_cliente]);
+  let [see,setSee] = React.useState(false);
   
+
+  function getColor(valor, colorInicio, colorFin) {
+    // Obtener los componentes RGB de los colores de inicio y fin
+    const regex = /rgb\((\d+), (\d+), (\d+)\)/;
+    const inicioMatch = colorInicio.match(regex);
+    const finMatch = colorFin.match(regex);
+  
+    if (!inicioMatch || !finMatch) {
+      throw new Error('Los colores deben estar en formato rgb(r, g, b)');
+    }
+  
+    const [, rInicio, gInicio, bInicio] = inicioMatch.map(Number);
+    const [, rFin, gFin, bFin] = finMatch.map(Number);
+  
+    // Calcular los componentes RGB del color interpolado
+    const rInterpolado = Math.round(rInicio + (rFin - rInicio) * valor);
+    const gInterpolado = Math.round(gInicio + (gFin - gInicio) * valor);
+    const bInterpolado = Math.round(bInicio + (bFin - bInicio) * valor);
+  
+    // Construir el string para el color interpolado en formato 'rgb(r, g, b)'
+    const colorInterpolado = `rgb(${rInterpolado}, ${gInterpolado}, ${bInterpolado})`;
+    
+    return colorInterpolado;
+  }
+
+
+  const getColorData_depa = (departament) =>{
+
+    let dictionary_color = {
+      'Bajo':['rgb(189, 46, 45)','rgb(165, 69, 53)'],
+      'Mod. bajo':['rgb(165, 69, 53)','rgb(101, 125, 87)'],
+      'Medio':['rgb(101, 125, 87)','rgb(77, 182, 100)'],
+      'Mod. alto':['rgb(77, 182, 100)','rgb(177, 225, 57)'],
+      'Alto':['rgb(177, 225, 57)','rgb(251, 247, 25)'],
+    }
+    // ESCALA DE COLOR
+    let object =  arrayDepartaments.filter((obj)=> eliminarTildes(obj.name).toUpperCase() === eliminarTildes(departament).toUpperCase())
+
+    if (object.length === 0){
+      return 'gray'
+    }else{
+      if(object[0]['Rango_media'] == 'No hay datos'){
+        return 'gray'
+      }
+      return getColor(object[0]['value'],dictionary_color[object[0]['Rango_media']][0],dictionary_color[object[0]['Rango_media']][1])
+    }
+
+  }
+
+
+  const getColorData_muni = (departament) =>{
+
+    let dictionary_color = {
+      'Bajo':['rgb(189, 46, 45)','rgb(165, 69, 53)'],
+      'Mod. bajo':['rgb(165, 69, 53)','rgb(101, 125, 87)'],
+      'Medio':['rgb(101, 125, 87)','rgb(77, 182, 100)'],
+      'Mod. alto':['rgb(77, 182, 100)','rgb(177, 225, 57)'],
+      'Alto':['rgb(177, 225, 57)','rgb(251, 247, 25)'],
+    }
+    // ESCALA DE COLOR
+    let object =  arrayMunicipios.filter((obj)=> eliminarTildes(obj.name).toUpperCase() === eliminarTildes(departament).toUpperCase())
+
+    if (object.length === 0){
+      return 'gray'
+    }else{
+      if(object[0]['Rango_media'] == 'No hay datos'){
+        return 'gray'
+      }
+      return getColor(object[0]['value'],dictionary_color[object[0]['Rango_media']][0],dictionary_color[object[0]['Rango_media']][1])
+    }
+
+  }
+
+
   
   return (
     <div className='body' style={{display:'flex',justifyContent:'center'}}>
@@ -1422,169 +1142,8 @@ export default function Maps() {
                       <p className='description_map_text nova'>Conocimiento técnico y científico para la toma de decisiones agrícolas con base en el análisis fisicoquímico de suelos.</p>
                   </div>
                   
-                  <div className='container_form'>
-                        <div className='card-header border-0 bg-transparent p-4 pb-0'>
-                                <div className='d-flex mb-1' style={{flexDirection:'column',alignItems:'start !important','marginBottom':'20px !important'}}>
-                                    <h1 style={{'marginBottom':'40px'}} className='p-0 lh-sm fs-4- ff-monse-regular- fw-bold tx-dark-purple-'>
-                                    HISTORICO CLIENTES
-                                    </h1>
-                                </div>
-                                <div  className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
-                                    
-                                    <div  className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                          <div className='form-floating inner-addon- left-addon-'>
-                                            <input type="number" onChange={(event)=>readCliente_input(event,'cliente')} className='form-control'  placeholder="Código del cliente" />
-                                            <label className='fs-5- ff-monse-regular-'>Código del cliente</label>
-                                          </div>
-                                    </div>
-                                    
-                                </div>
-                                <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
-                                    <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                          <div className='form-floating inner-addon- left-addon-'>
-                                            <Select options={type_cultivo} onChange={(event)=>readCliente_select(event,'tipo_cultivo')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Tipo de cultivo:" styles={selectStyles} isClearable={true} />
-                                          </div>
-                                    </div>
-                                    <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                          <div className='form-floating inner-addon- left-addon-'>
-                                            <Select options={tipo_muestra} onChange={(event)=>readCliente_select(event,'variable')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Determinación:" styles={selectStyles} isClearable={true} />
-                                          </div>
-                                    </div>
-                                    
-                                </div>
-                                {Answer_cliente !== null ? 
-                                <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5' style={{height:'300px'}}>
-                                   <div className='w-100 h-100 mx-auto' id="chart-inr"></div>
-                                </div>
-                                :
-                                <></>
-                                }
-                                
-                                
-                            
-                              
-                            
-                                
-                              <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
-                                  <div className='col-auto' style={{width:'100%',display:'flex','justifyContent':'end'}}>
-                                      <button onClick={makeCliente} className='buttonProduct btn btn-dark-purple- rounded-pill ps-5 pe-5 d-flex flex-row justify-content-center align-items-center align-self-center h-45-' type="button" >
-                                        <span className='textButton lh-1 fs-6- ff-monse-regular- fw-semibold' >Evaluar</span>
-                                      </button>
-                                  </div>
-                              </div>
-                        </div> 
-                  </div>
-                  <div className='container_form'>
-                        <div className='card-header border-0 bg-transparent p-4 pb-0'>
-                                <div className='d-flex mb-1' style={{flexDirection:'column',alignItems:'start !important','marginBottom':'20px !important'}}>
-                                    <h1 style={{'marginBottom':'40px'}} className='p-0 lh-sm fs-4- ff-monse-regular- fw-bold tx-dark-purple-'>
-                                    FORMULARIO DE INTERPRETACIÓN
-                                    </h1>
-                                </div>
-                                <div  className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
-                                    
-                                    <div  className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                          <div className='form-floating inner-addon- left-addon-'>
-                                            <input type="number" onChange={(event)=>readinferences_input(event,'magnitud')} className='form-control'  placeholder="Registra el valor" />
-                                            <label className='fs-5- ff-monse-regular-'>Registra el valor</label>
-                                          </div>
-                                    </div>
-                                    
-                                </div>
-                                <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
-                                    <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                          <div className='form-floating inner-addon- left-addon-'>
-                                            <Select options={type_cultivo} onChange={(event)=>readinferences_select(event,'tipo_cultivo')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Tipo de cultivo:" styles={selectStyles} isClearable={true} />
-                                          </div>
-                                    </div>
-                                    <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                          <div className='form-floating inner-addon- left-addon-'>
-                                            <Select options={tipo_muestra} onChange={(event)=>readinferences_select(event,'variable')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Determinación:" styles={selectStyles} isClearable={true} />
-                                          </div>
-                                    </div>
-                                    
-                                </div>
-                            {Answer !== null ? 
-                            
-                            <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
-                              {Answer == 'Bajo' ? 
-                              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                    <div className = "boxRange">
-                                      <div style={{width:'15px',height:'15px',background:'#F11F1F','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                      <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Bajo'}</span>
-                                    </div>
-                              </div>
-                              :
-                              <>
-                                {Answer == 'Mod. bajo' ? 
-                                <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                    <div className = "boxRange">
-                                      <div style={{width:'15px',height:'15px',background:'#F07B7B','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                      <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Mod. bajo'}</span>
-                                    </div>
-                                </div>
-                                :
-                                <>
-                                  {Answer =='Medio' ?  
-                                  <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                    <div className = "boxRange">
-                                      <div style={{width:'15px',height:'15px',background:'#9FF784','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                      <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Medio'}</span>
-                                    </div>
-                                  </div>
-                                  :
-                                  <>
-                                  {Answer == 'Mod. alto' ? 
-                                  <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                    <div className = "boxRange">
-                                      <div style={{width:'15px',height:'15px',background:'#EBF781','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                      <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Mod. alto'}</span>
-                                    </div>
-                                  </div>
-                                  :
-                                  <>
-                                    {Answer == 'Alto' ? 
-                                    <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                    <div className = "boxRange">
-                                      <div style={{width:'15px',height:'15px',background:'#FFE001','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                      <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Alto'}</span>
-                                    </div>
-                                    </div>
-                                    :
-                                    <></>
-                                    }
-                                  </>
-                                  } 
-                                  </>
-                                  
-                                  }
-                                </>
-                                }
-                              </>
-                              }
-                              
-                              
-                              
-                            </div>
-                            :
-                            <></>
-                            }
-                            
-                              
-                            
-                                
-                              <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
-                                  <div className='col-auto' style={{width:'100%',display:'flex','justifyContent':'end'}}>
-                                      <button onClick={makeInference} className='buttonProduct btn btn-dark-purple- rounded-pill ps-5 pe-5 d-flex flex-row justify-content-center align-items-center align-self-center h-45-' type="button" >
-                                        <span className='textButton lh-1 fs-6- ff-monse-regular- fw-semibold' >Evaluar</span>
-                                      </button>
-                                  </div>
-                              </div>
-                        </div> 
-                  </div> 
-                  
-                  <div className='description_map'>
-                      <p className='description_map_text nova'>Mapa</p>
+                  <div className='description_map_2'>
+                      <p className='description_map_text_2 nova'>Mapa</p>
                   </div> 
                   <form className='formulario'>
                           <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
@@ -1602,29 +1161,37 @@ export default function Maps() {
                           <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
                               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
                                     <div className='form-floating inner-addon- left-addon-'>
-                                      <Select options={years} onChange={(event)=>readSelectDepartamentForm(event,'year')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Año:" styles={selectStyles} isClearable={true} />
+                                      <Select isMulti={true} options={years} onChange={(event)=>readSelectDepartamentForm(event,'year')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Año:" styles={selectStyles} isClearable={true} />
                                     </div>
                               </div>
                           </div>
                           <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
-                              <div className='col-auto' style={{width:'100%',display:'flex','justifyContent':'end'}}>
+                              <div className='col-auto' style={{width:'100%',display:'flex','justifyContent':'end','marginBottom':'30px'}}>
                                   <button onClick={findResults} className='buttonProduct btn btn-dark-purple- rounded-pill ps-5 pe-5 d-flex flex-row justify-content-center align-items-center align-self-center h-45-' type="button" >
                                     <span className='textButton lh-1 fs-6- ff-monse-regular- fw-semibold' >Buscar</span>
                                   </button>
                               </div>
                           </div>
-                          {arrayDepartaments.length !== 0 ? 
-                          <>
-                          <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
+                          
+                          <div>
+                            <div className="boxRange" onClick={()=>setSee(!see)} style={{cursor:'pointer',
+                              background: `linear-gradient(to right, ${'#bd2e2d'} 0%, ${'#aa3f32'} 15%, ${'#aa3f32'} 15%, ${'#83634a'} 30%, ${'#83634a'} 30%, ${'#48ac66'} 45%, ${'#48ac66'} 45%, ${'#81d350'} 60%, ${'#81d350'} 60%, ${'#c1e634'} 80%, ${'#c1e634'} 80%, ${'#eff320'} 90%, ${'#eff320'} 90%, ${'#f9f622'} 100%)`,width:'100%','height':'50px',borderRadius:'20px'
+                            }}></div>
+                          </div>
+
+                          {
+                            see ?  
+                            <>
+                            <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
                               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                    <div className = "boxRange">
-                                      <div style={{width:'15px',height:'15px',background:'#F11F1F','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                    <div className = "boxRange_2">
+                                      <div style={{width:'15px',height:'15px',background:'rgb(189, 46, 45)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                       <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Bajo'}</span>
                                     </div>
                               </div>
                               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                    <div className = "boxRange">
-                                      <div style={{width:'15px',height:'15px',background:'#F07B7B','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                    <div className = "boxRange_2">
+                                      <div style={{width:'15px',height:'15px',background:'rgb(165, 69, 53)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                       <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Mod. bajo'}</span>
                                     </div>
                               </div>
@@ -1632,14 +1199,14 @@ export default function Maps() {
                           </div>
                           <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
                               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                    <div className = "boxRange">
-                                      <div style={{width:'15px',height:'15px',background:'#9FF784','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                    <div className = "boxRange_2">
+                                      <div style={{width:'15px',height:'15px',background:'rgb(77, 182, 100)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                       <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango:</b>{' Medio'}</span>
                                     </div>
                               </div>
                               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                    <div className = "boxRange">
-                                      <div style={{width:'15px',height:'15px',background:'#EBF781','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                    <div className = "boxRange_2">
+                                      <div style={{width:'15px',height:'15px',background:'rgb(177, 225, 57)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                       <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango:</b>{' Mod. alto'}</span>
                                     </div>
                               </div>
@@ -1647,19 +1214,22 @@ export default function Maps() {
                           </div>
                           <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
                               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                      <div className = "boxRange">
-                                        <div style={{width:'15px',height:'15px',background:'#FFE001','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                      <div className = "boxRange_2">
+                                        <div style={{width:'15px',height:'15px',background:'rgb(251, 247, 25)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                         <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango:</b>{' Alto'}</span>
                                       </div>
                               </div>
                           </div>
-                          </>
-                          :
-                          <></>
+                            </>
+                            :
+                            <></>
                           }
                           
                           {departament !== ""  ? 
                           <>
+                          <div className='description_map_2'>
+                              <p className='description_map_text_2 nova'>{departament}</p>
+                          </div> 
                           <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
                               <div className='col-auto' style={{width:'100%',display:'flex','justifyContent':'end'}}>
                                   <button onClick={resetData} className='buttonProduct btn btn-dark-purple- rounded-pill ps-5 pe-5 d-flex flex-row justify-content-center align-items-center align-self-center h-45-' type="button" >
@@ -1672,10 +1242,6 @@ export default function Maps() {
                           <></>
                           }
                   </form>
-                  {arrayDepartaments.length === 0 ? 
-                  
-                  <></>
-                  :
                   <div className='container_data'>
                     <div className='container_pc'>
                         <MapContainer
@@ -1701,7 +1267,7 @@ export default function Maps() {
                           <GeoJSON
                               data={cauca}
                               style={(feature) => ({
-                                fillColor: getColorforRange('CAUCA'),
+                                fillColor:getColorData_depa('CAUCA'),
                                 weight: 2,
                                 color: 'white',
                                 fillOpacity: 1,
@@ -1732,23 +1298,23 @@ export default function Maps() {
                             <div style={{width:'100%',height:'100%','display':'flex','flexDirection':'column','alignItems':'center',justifyContent:'start'}}>
                                         <span style={{fontWeight:'600'}}>{getDepartamentObject('CAUCA').name+': ('+getDepartamentObject('CAUCA').media+')'}</span>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',backgroundColor:'#F11F1F','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',backgroundColor:'rgb(189, 46, 45)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA').Bajo}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',backgroundColor:'#F07B7B','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',backgroundColor:'rgb(165, 69, 53)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Mod. bajo']}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',backgroundColor:'#9FF784','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',backgroundColor:'rgb(77, 182, 100)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Medio']}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',backgroundColor:'#EBF781','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',backgroundColor:'rgb(177, 225, 57)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Mod. alto']}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'#FFE001','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',background:'rgb(251, 247, 25)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>{getDepartamentObject('CAUCA')['Alto']}</span>
                                         </div>
 
@@ -1762,7 +1328,7 @@ export default function Maps() {
                                 <Polygon
                                 key={index}
                                 pathOptions={{
-                                  fillColor:getColorforRange(depa?.properties?.NOMBRE_DPT),
+                                  fillColor:getColorData_depa(depa?.properties?.NOMBRE_DPT),
                                   fillOpacity:1,
                                   weight:2,
                                   opacity:1,
@@ -1800,23 +1366,23 @@ export default function Maps() {
                                    <div style={{width:'100%',height:'100%','display':'flex','flexDirection':'column','alignItems':'center',justifyContent:'start'}}>
                                         <span style={{fontWeight:'600'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT).name+': ('+getDepartamentObject(depa?.properties?.NOMBRE_DPT).media+')' }</span>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'#F11F1F','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',background:'rgb(189, 46, 45)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT).Bajo}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'#F07B7B','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',background:'rgb(165, 69, 53)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Mod. bajo']}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'#9FF784','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',background:'rgb(77, 182, 100)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Medio']}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'#EBF781','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',background:'rgb(177, 225, 57)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Mod. alto']}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'#FFE001','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',background:'rgb(251, 247, 25)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>{getDepartamentObject(depa?.properties?.NOMBRE_DPT)['Alto']}</span>
                                         </div>
                                    </div>
@@ -1846,7 +1412,7 @@ export default function Maps() {
                                 <Polygon
                                 key={index}
                                 pathOptions={{
-                                  fillColor:getColorforRange_muni(muni?.properties?.name),
+                                  fillColor:getColorData_muni(muni?.properties?.name),
                                   fillOpacity:0.7,
                                   weight:2,
                                   opacity:1,
@@ -1876,23 +1442,23 @@ export default function Maps() {
                                    <div style={{width:'100%',height:'100%','display':'flex','flexDirection':'column','alignItems':'center',justifyContent:'start'}}>
                                         <span style={{fontWeight:'600'}}>{getDepartamentObject_muni(muni?.properties?.name).name+': ('+getDepartamentObject_muni(muni?.properties?.name).media+')'}</span>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'#F11F1F','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',background:'rgb(189, 46, 45)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>{getDepartamentObject_muni(muni?.properties?.name)['Bajo']}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'#F07B7B','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',background:'rgb(165, 69, 53)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>{getDepartamentObject_muni(muni?.properties?.name)['Mod. bajo']}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'#9FF784','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',background:'rgb(77, 182, 100)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>{getDepartamentObject_muni(muni?.properties?.name)['Medio']}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'#EBF781','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',background:'rgb(177, 225, 57)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>{getDepartamentObject_muni(muni?.properties?.name)['Mod. alto']}</span>
                                         </div>
                                         <div style={{width:'100%','display':'flex',flexDirection:'row','alignItems':'center'}}>
-                                              <div style={{width:'7px',height:'7px',background:'#FFE001','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                              <div style={{width:'7px',height:'7px',background:'rgb(251, 247, 25)','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
                                               <span style={{marginLeft:'5px'}}>{getDepartamentObject_muni(muni?.properties?.name)['Alto']}</span>
                                         </div>
                                    </div>
@@ -1919,12 +1485,11 @@ export default function Maps() {
                         </MapContainer>
                     </div>
                   </div>
-                  }
                   <div className='container_data__' style={{visibility:arrayDepartaments.length !== 0 ? 'visible':'hidden'}}>
                           <div id='card-indicator-large-' className='card border-0 rounded-3 w-100 bs-2- position-relative overflow-hidden'>
                             <div className='card-header border-0 bg-transparent p-4 pb-0'>
                               <div className='d-flex flex-row justify-content-between align-items-center align-self-center mb-1'>
-                                <h1 className='m-0 p-0 lh-sm fs-4- ff-monse-regular- fw-bold tx-dark-purple-'>
+                                <h1 className='m-0 p-0 lh-sm fs-4- ff-monse-regular- fw-bold tx-dark-purple- description_map_text_2 nova'>
                                 Valores registrados
                                 </h1>
                                 <button className='btn rounded-pill p-2 d-flex flex-row justify-content-center align-items-center align-self-center button-open- btn-dark-purple- bs-1- ms-2'  onClick={() => toggleOverlay('card1')}>
@@ -1946,7 +1511,7 @@ export default function Maps() {
                                   <div id='wrapper-data-table' className='card border-0 rounded-3 w-100 position-relative'>
                                     <div className='card-header border-0 bg-transparent p-4'>
                                       <div className='d-flex flex-row justify-content-between align-items-center align-self-center'>
-                                        <h1 className='m-0 p-0 lh-sm fs-4- ff-monse-regular- fw-bold tx-dark-purple-'>
+                                        <h1 className='m-0 p-0 lh-sm fs-4- ff-monse-regular- fw-bold tx-dark-purple- description_map_text_2 nova'>
                                             Tabla de datos
                                         </h1>
                                         <button className='btn rounded-pill p-2 d-flex flex-row justify-content-center align-items-center align-self-center button-close- btn-bone-white- bs-1- ms-2' onClick={() => toggleOverlay(null)}>
@@ -1961,37 +1526,37 @@ export default function Maps() {
                                             <tr>
                                               <th scope="col" className='th-width-sm-'>
                                                 <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
-                                                  <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple-'>Departamento</span>
+                                                  <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple- nova'>Departamento</span>
                                                 </div>
                                               </th>
                                               <th scope="col" className='th-width-sm-'>
                                                 <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
-                                                  <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple-'>Promedio</span>
+                                                  <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple- nova'>Promedio</span>
                                                 </div>
                                               </th>
                                               <th scope="col" className='th-width-sm-'>
                                                 <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
-                                                  <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple-'>Bajo</span>
+                                                  <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple- nova'>Bajo</span>
                                                 </div>
                                               </th>
                                               <th scope="col" className='th-width-sm-'>
                                                 <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
-                                                  <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple-'>Mod. bajo</span>
+                                                  <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple- nova'>Mod. bajo</span>
                                                 </div>
                                               </th>
                                               <th scope="col" className='th-width-sm-'>
                                                 <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
-                                                  <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple-'>Medio</span>
+                                                  <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple- nova'>Medio</span>
                                                 </div>
                                               </th>
                                               <th scope="col" className='th-width-sm-'>
                                                 <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
-                                                  <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple-'>Mod. alto</span>
+                                                  <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple- nova'>Mod. alto</span>
                                                 </div>
                                               </th>
                                               <th scope="col" className='th-width-sm-'>
                                                 <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
-                                                  <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple-'>Alto</span>
+                                                  <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple- nova'>Alto</span>
                                                 </div>
                                               </th>
                                             </tr>

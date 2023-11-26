@@ -10,6 +10,7 @@ import { GiColombia } from 'react-icons/gi';
 import Swal from 'sweetalert2';
 import Icon from '../../Components/logo/logo';
 import Map from '../../Components/Map/Map';
+import FormIcon from '../../Components/Icon/form';
 
 export default function Lobby() {
 
@@ -52,6 +53,14 @@ export default function Lobby() {
                                   </div>
                                   <p className='textCard_2 nova' style={{fontSize:'20px'}}>FERTILIDAD</p>
                                   <p className='textCard_3 nova' style={{fontSize:'20px'}}>DE SUELOS</p>
+                                  <p className='textCard nova' style={{fontSize:'14px'}}>Información en tiempo real</p>    
+                            </div>
+                            <div onClick={()=> navigate('/Forms')} className='card_' style={{opacity:1,cursor:'pointer'}}>
+                                  <div className='box_icon'>
+                                    <FormIcon style={{width:'80',height:'80'}} width={80} height={80} color='white'/>
+                                  </div>
+                                  <p className='textCard_2 nova' style={{fontSize:'20px'}}>MÓDULO DE</p>
+                                  <p className='textCard_3 nova' style={{fontSize:'20px'}}>FORMULARIOS</p>
                                   <p className='textCard nova' style={{fontSize:'14px'}}>Información en tiempo real</p>    
                             </div>
                     </div>

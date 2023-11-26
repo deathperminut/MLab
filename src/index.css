@@ -61,8 +61,9 @@
     --color-tertiary-black-rgba-: rgba(41, 50, 65, 0.5);
     --color-gray-rgba-: #F5F5F5;
     --color-secondary-gray-rgba-: rgba(243, 239, 253, 0.85);
-    --color-tertiary-gray-rgba-: rgba(201, 201, 201, 0.8);
+    --color-tertiary-gray-rgba-: --bs-body-bg;
     --color-purple-rgba-: #3c8bda;
+    --bs-body-bg:#3c8bda;
     --step--3: clamp(0.66rem, calc(0.60rem + 0.33vw), 0.82rem);
     --step--2: clamp(0.52rem, calc(0.37rem + 0.76vw), 1.28rem);
     --step--1: clamp(0.63rem, calc(0.43rem + 0.98vw), 1.60rem);
