@@ -24,7 +24,7 @@ import { MdOutlineCancel } from "react-icons/md";
 import "bootstrap/dist/css/bootstrap.min.css";
 import * as echarts from 'echarts';
 import $ from "jquery";
-import { cliente_historial, getClientes, getDepartamentsData, getMunicipios_data, inferencia_rango } from '../../services/services';
+import { cliente_historial, getClientes, getDepartaments, getDepartamentsData, getMunicipios, getMunicipios_data, inferencia_2, inferencia_rango } from '../../services/services';
 
 
 
@@ -356,6 +356,7 @@ export default function Forms() {
             icon: 'info',
             text:"Error al hacer inferencia.",
           })
+          
           setAnswer_cliente(null)
         })
         if(result){
@@ -600,9 +601,9 @@ export default function Forms() {
     
   }, [Answer_cliente]);
 
-  React.useEffect(()=>{
-    loadClientes()
-  },[])
+  // React.useEffect(()=>{
+  //   //loadClientes()
+  // },[])
 
   let [clientes,setClientes] = React.useState([]);
   let [clientes_short,setClientes_short] = React.useState([]);
@@ -632,17 +633,77 @@ export default function Forms() {
 
   /* SEGUNDO FORMULARIO */
   let [inference,setInference] = React.useState({
-    "tipo_cultivo": "",
-    "variable": "",
-    "magnitud": "",
+    "tipo_cultivo": '',
+    "variable": '',
+    "magnitud": '',
+    "Municipio": '',
+    "departament": '',
+    "year": []
   })
+
+  let [departament,setDepartament] = React.useState([])
+  let [muni,setMuni] = React.useState([])
+  
+  // NOS TRAEMOS LOS DEPARTAMENTOS INICIALES
+  React.useEffect(()=>{
+    load_departaments()
+  },[])
+
+
+  const load_muni=async(id_departament)=>{
+
+    setPreloader(true);
+    let result =  undefined
+    result = await getMunicipios({'id_departament':id_departament}).catch((error)=>{
+      console.log(error);
+      setPreloader(false);
+      Swal.fire({
+        icon: 'info',
+        text:"Problemas para cargar la información de los municipios",
+      })
+    })
+    
+    if(result){
+      setPreloader(false);
+      console.log("DATA : ",result.data);
+      setMuni(result.data.map(obj => ({
+        value: obj.id,
+        label: obj.name,
+      })))
+    }
+
+  }
+
+  const load_departaments=async()=>{
+
+    setPreloader(true);
+    let result =  undefined
+    result = await getDepartaments().catch((error)=>{
+      console.log(error);
+      setPreloader(false);
+      Swal.fire({
+        icon: 'info',
+        text:"Problemas para cargar la información de los departamentos",
+      })
+    })
+    
+    if(result){
+      setPreloader(false);
+      console.log("DATA : ",result.data);
+      setDepartament(result.data.map(obj => ({
+        value: obj.id,
+        label: obj.name,
+      })))
+    }
+  }
+
   const makeInference = async() =>{
 
     if (inference.magnitud !== "" && inference.tipo_cultivo !== "" && inference.variable){
 
       let result  = undefined
       setPreloader(true);
-      result = await inferencia_rango(inference).catch((error)=>{
+      result = await inferencia_2(inference).catch((error)=>{
         console.log(error);
         Swal.fire({
           icon: 'info',
@@ -672,15 +733,42 @@ export default function Forms() {
         Swal.fire({
           icon: 'success',
           html:html,
+        }).then(Answer => {
+          if (Answer.isConfirmed){
+
+            setAnswer(result.data);
+            if(result.data.Answer_city.Rango_media == 'No hay datos'){
+              Swal.fire({
+                icon: 'info',
+                text:"No es posible hacer una comparativa, no hay datos asociados a la zona y año seleccionado",
+              })
+            }else{
+              if(result.data.Answer !== result.data.Answer_city.Rango_media ){
+
+                Swal.fire({
+                  icon: 'info',
+                  text:"El valor registrado, se encuentra fuera del rango asociado a la zona seleccionada",
+                }) 
+  
+              }else{
+                Swal.fire({
+                  icon: 'success',
+                  text:"El valor registrado, se encuentra encuentra dentro de los limites de la zona seleccionada",
+                }) 
+              }
+            }
+            
+
+          } 
         })
-        setAnswer(result.data.Answer);
+        
 
       }
 
     }else{
       Swal.fire({
         icon: 'info',
-        text:"Debe registrar todos los campos",
+        text:"Debe registrar los campos de valor, tipo de cultivo y determinación",
       })
     }
 
@@ -693,13 +781,28 @@ export default function Forms() {
   }
 
   const readinferences_select = (event,type) =>{
-
-    if (event){
-      setInference({...inference,[type]:event.value})
+    if(type =='year'){
+      setInference({...inference,[type]:event})
     }else{
-      setInference({...inference,[type]:""})
+      
+      if (event){
+        if(type =='departament'){
+          load_muni(event.value);
+          setInference({...inference,[type]:event.value});
+        }else{
+          setInference({...inference,[type]:event.value})
+        }
+        
+      }else{
+        if(type =='departament'){
+          setMuni([]);
+          setInference({...inference,[type]:''})
+        }else{
+          setInference({...inference,[type]:''})
+        }
+        
+      }
     }
-
   }
 
   const handleInputChange = (newValue) => {
@@ -721,6 +824,10 @@ export default function Forms() {
 
   };
 
+  function formato(numero) {
+    return numero.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
 
   return (
     <div className='body' style={{display:'flex',justifyContent:'center'}}>
@@ -736,7 +843,7 @@ export default function Forms() {
                         <div className='description_map'>
                             <p className='description_map_text nova'>Conocimiento técnico y científico para la toma de decisiones agrícolas con base en el análisis fisicoquímico de suelos.</p>
                         </div>
-                        <div className='container_form'>
+                        {/* <div className='container_form'>
                                 
                                 <div className='card-header border-0 bg-transparent p-4 pb-0'>
                                         <div className='d-flex mb-1' style={{flexDirection:'column',alignItems:'start !important','marginBottom':'20px !important'}}>
@@ -796,7 +903,7 @@ export default function Forms() {
                                         </div>
                                     </div>
                                 </div> 
-                        </div>
+                        </div> */}
                         <div className='container_form'>
                                 <div className='card-header border-0 bg-transparent p-4 pb-0'>
                                         <div className='d-flex mb-1' style={{flexDirection:'column',alignItems:'start !important','marginBottom':'20px !important'}}>
@@ -805,6 +912,7 @@ export default function Forms() {
                                             </h1>
                                         </div>
                                         <div  className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
+                                            
                                             
                                             <div  className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
                                                 <div className='form-floating inner-addon- left-addon-'>
@@ -820,6 +928,7 @@ export default function Forms() {
                                                     <Select options={type_cultivo} onChange={(event)=>readinferences_select(event,'tipo_cultivo')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Tipo de cultivo:" styles={selectStyles} isClearable={true} />
                                                 </div>
                                             </div>
+                                            
                                             <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
                                                 <div className='form-floating inner-addon- left-addon-'>
                                                     <Select options={tipo_muestra} onChange={(event)=>readinferences_select(event,'variable')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Determinación:" styles={selectStyles} isClearable={true} />
@@ -827,71 +936,226 @@ export default function Forms() {
                                             </div>
                                             
                                         </div>
-                                    {Answer !== null ? 
-                                    
-                                    <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
-                                    {Answer == 'Bajo' ? 
-                                    <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                            <div className = "boxRange">
-                                            <div style={{width:'15px',height:'15px',background:'#F11F1F','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                            <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Bajo'}</span>
-                                            </div>
-                                    </div>
-                                    :
-                                    <>
-                                        {Answer == 'Mod. bajo' ? 
-                                        <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                            <div className = "boxRange">
-                                            <div style={{width:'15px',height:'15px',background:'#F07B7B','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                            <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Moderadamente bajo'}</span>
-                                            </div>
-                                        </div>
-                                        :
-                                        <>
-                                        {Answer =='Medio' ?  
-                                        <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                            <div className = "boxRange">
-                                            <div style={{width:'15px',height:'15px',background:'#9FF784','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                            <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Medio'}</span>
-                                            </div>
-                                        </div>
-                                        :
-                                        <>
-                                        {Answer == 'Mod. alto' ? 
-                                        <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                            <div className = "boxRange">
-                                            <div style={{width:'15px',height:'15px',background:'#EBF781','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                            <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Moderadamente alto'}</span>
-                                            </div>
-                                        </div>
-                                        :
-                                        <>
-                                            {Answer == 'Alto' ? 
+                                        <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
                                             <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
-                                            <div className = "boxRange">
-                                            <div style={{width:'15px',height:'15px',background:'#FFE001','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
-                                            <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Alto'}</span>
+                                                <div className='form-floating inner-addon- left-addon-'>
+                                                    <Select options={departament} onChange={(event)=>readinferences_select(event,'departament')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Departamento:" styles={selectStyles} isClearable={true} />
+                                                </div>
                                             </div>
+                                            <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                                <div className='form-floating inner-addon- left-addon-'>
+                                                    <Select options={muni} onChange={(event)=>readinferences_select(event,'Municipio')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Municipio:" styles={selectStyles} isClearable={true} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
+                                            <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                                <div className='form-floating inner-addon- left-addon-'>
+                                                    <Select isMulti={true} options={years} onChange={(event)=>readinferences_select(event,'year')} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Años:" styles={selectStyles} isClearable={true} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {Answer !== null ? 
+                                        
+                                        <div className='row gx-0 gx-sm-0 gx-md-4 gx-lg-4 gx-xl-4 gx-xxl-5'>
+                                        {Answer?.Answer == 'Bajo' ? 
+                                        <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                                <div className = "boxRange">
+                                                <div style={{width:'15px',height:'15px',background:'#F11F1F','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                                <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Bajo'}</span>
+                                                </div>
+                                        </div>
+                                        :
+                                        <>
+                                            {Answer?.Answer == 'Mod. bajo' ? 
+                                            <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                                <div className = "boxRange">
+                                                <div style={{width:'15px',height:'15px',background:'#F07B7B','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                                <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Moderadamente bajo'}</span>
+                                                </div>
                                             </div>
                                             :
-                                            <></>
+                                            <>
+                                            {Answer?.Answer =='Medio' ?  
+                                            <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                                <div className = "boxRange">
+                                                <div style={{width:'15px',height:'15px',background:'#9FF784','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                                <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Medio'}</span>
+                                                </div>
+                                            </div>
+                                            :
+                                            <>
+                                            {Answer?.Answer == 'Mod. alto' ? 
+                                            <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                                <div className = "boxRange">
+                                                <div style={{width:'15px',height:'15px',background:'#EBF781','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                                <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Moderadamente alto'}</span>
+                                                </div>
+                                            </div>
+                                            :
+                                            <>
+                                                {Answer?.Answer == 'Alto' ? 
+                                                <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                                <div className = "boxRange">
+                                                <div style={{width:'15px',height:'15px',background:'#FFE001','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                                <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Alto'}</span>
+                                                </div>
+                                                </div>
+                                                :
+                                                <></>
+                                                }
+                                            </>
+                                            } 
+                                            </>
+                                            
+                                            }
+                                            </>
                                             }
                                         </>
-                                        } 
+                                        }
+                                        
+                                        
+                                        {Answer?.Answer  ? 
+                                        <div  style={{background: `linear-gradient(to right, ${'#bd2e2d'} 0%, ${'#aa3f32'} 15%, ${'#aa3f32'} 15%, ${'#83634a'} 30%, ${'#83634a'} 30%, ${'#48ac66'} 45%, ${'#48ac66'} 45%, ${'#81d350'} 60%, ${'#81d350'} 60%, ${'#c1e634'} 80%, ${'#c1e634'} 80%, ${'#eff320'} 90%, ${'#eff320'} 90%, ${'#f9f622'} 100%)`,width:'100%','height':'50px',borderRadius:'20px'
+                                        }}></div>
+                                        :
+                                        <></>
+                                        }
+                                        
+                                        {Answer?.Answer_city.Rango_media != 'No hay datos'  ? 
+                                        <>
+                                        <div className='description_map_4'>
+                                            <p className='description_map_text'>{'Zona seleccionada ('+Answer?.Answer_city.media+')'}</p>
+                                        </div>
+                                        {Answer?.Answer_city.Rango_media == 'Bajo' ? 
+                                        <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                                <div className = "boxRange">
+                                                <div style={{width:'15px',height:'15px',background:'#F11F1F','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                                <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Bajo'}</span>
+                                                </div>
+                                        </div>
+                                        :
+                                        <>
+                                            {Answer?.Answer_city.Rango_media == 'Mod. bajo' ? 
+                                            <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                                <div className = "boxRange">
+                                                <div style={{width:'15px',height:'15px',background:'#F07B7B','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                                <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Moderadamente bajo'}</span>
+                                                </div>
+                                            </div>
+                                            :
+                                            <>
+                                            {Answer?.Answer_city.Rango_media =='Medio' ?  
+                                            <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                                <div className = "boxRange">
+                                                <div style={{width:'15px',height:'15px',background:'#9FF784','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                                <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Medio'}</span>
+                                                </div>
+                                            </div>
+                                            :
+                                            <>
+                                            {Answer?.Answer_city.Rango_media == 'Mod. alto' ? 
+                                            <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                                <div className = "boxRange">
+                                                <div style={{width:'15px',height:'15px',background:'#EBF781','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                                <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Moderadamente alto'}</span>
+                                                </div>
+                                            </div>
+                                            :
+                                            <>
+                                                {Answer?.Answer_city.Rango_media == 'Alto' ? 
+                                                <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3 mb-xl-3 mb-xxl-3'>
+                                                <div className = "boxRange">
+                                                <div style={{width:'15px',height:'15px',background:'#FFE001','borderRadius':'10px','position':'relative',bottom:'2px'}}></div>
+                                                <span style={{marginLeft:'5px',position:'relative','bottom':'2px'}}><b>Rango: </b>{' Alto'}</span>
+                                                </div>
+                                                </div>
+                                                :
+                                                <></>
+                                                }
+                                            </>
+                                            } 
+                                            </>
+                                            
+                                            }
+                                            </>
+                                            }
+                                        </>
+                                        }
+                                        <div className='table-responsive table-general-'>
+                                        <table className='table table-sm table-striped table-no-border- align-middle'>
+                                          <thead>
+                                            <tr>
+                                              <th scope="col" className='th-width-sm-'>
+                                                <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
+                                                  <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple- nova'>Promedio</span>
+                                                </div>
+                                              </th>
+                                              <th scope="col" className='th-width-sm-'>
+                                                <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
+                                                  <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple- nova'>Bajo</span>
+                                                </div>
+                                              </th>
+                                              <th scope="col" className='th-width-sm-'>
+                                                <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
+                                                  <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple- nova'>Mod. bajo</span>
+                                                </div>
+                                              </th>
+                                              <th scope="col" className='th-width-sm-'>
+                                                <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
+                                                  <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple- nova'>Medio</span>
+                                                </div>
+                                              </th>
+                                              <th scope="col" className='th-width-sm-'>
+                                                <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
+                                                  <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple- nova'>Mod. alto</span>
+                                                </div>
+                                              </th>
+                                              <th scope="col" className='th-width-sm-'>
+                                                <div className='d-flex flex-row justify-content-center align-items-center align-self-center w-100'>
+                                                  <span className='fs-5- ff-monse-regular- fw-bold tx-dark-purple- nova'>Alto</span>
+                                                </div>
+                                              </th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                              <tr>
+
+                                                <td className='align-middle'>
+                                                  <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{Answer?.Answer_city['media']}</p>
+                                                </td>
+                                                <td className='align-middle'>
+                                                  <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{formato(Answer?.Answer_city['Bajo'])}</p>
+                                                </td>
+                                                <td className='align-middle'>
+                                                  <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{formato(Answer?.Answer_city['Mod. bajo'])}</p>
+                                                </td>
+                                                <td className='align-middle'>
+                                                  <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{formato(Answer?.Answer_city['Medio'])}</p>
+                                                </td>
+                                                <td className='align-middle'>
+                                                  <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{formato(Answer?.Answer_city['Mod. alto'])}</p>
+                                                </td>
+                                                <td className='align-middle'>
+                                                  <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{formato(Answer?.Answer_city['Alto'])}</p>
+                                                </td>
+                                              </tr>
+                                            
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                        
+
                                         </>
                                         
+                                        :
+                                        <></>
                                         }
-                                        </>
+
+                                        </div>
+                                        :
+                                        <></>
                                         }
-                                    </>
-                                    }
-                                    
-                                    
-                                    
-                                    </div>
-                                    :
-                                    <></>
-                                    }
                                     
                                     
                                     

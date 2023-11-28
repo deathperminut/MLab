@@ -108,6 +108,25 @@ const inferencia_rango=async(data)=>{
 
 }
 
+const inferencia_2=async(data)=>{
+    
+    /* PRODUCTS */
+    let path=environment.api+environment.inferencia_2
+
+    /* BODY */
+
+    let body={
+        "tipo_cultivo": data.tipo_cultivo,
+        "variable": data.variable,
+        "magnitud": data.magnitud,
+        "Municipio":data.Municipio,
+        "departament":data.departament,
+        "year":data.year
+    }
+
+    return await axios.post(path,body)
+
+}
 
 
-export {getClientes,inferencia_rango,cliente_historial,getDepartamentsData,getDepartaments,getMunicipios,getMunicipios_data}
+export {inferencia_2,getClientes,inferencia_rango,cliente_historial,getDepartamentsData,getDepartaments,getMunicipios,getMunicipios_data}

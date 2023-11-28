@@ -14,6 +14,7 @@ export const environment = {
   municipios_data:'municipios_data',
   cliente_historial:'cliente_historial',
   inferencia_rangos:'inferencia',
-  clientes:'clientes'
+  clientes:'clientes',
+  inferencia_2:'inferencia_2'
 
 }
