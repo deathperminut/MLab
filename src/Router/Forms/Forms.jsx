@@ -1140,6 +1140,27 @@ export default function Forms() {
                                                   <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{formato(Answer?.Answer_city['Alto'])}</p>
                                                 </td>
                                               </tr>
+                                              <tr>
+
+                                                <td className='align-middle'>
+                                                  <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{''}</p>
+                                                </td>
+                                                <td className='align-middle'>
+                                                  <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{Answer?.Answer_city['Bajo'] == 0 ?  '0%' :  (parseInt(Answer?.Answer_city['Bajo']) / parseInt(Answer?.Answer_city['Bajo']['cantidad registros'])*100).toFixed(1).toString()+'%'}</p>
+                                                </td>
+                                                <td className='align-middle'>
+                                                  <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{Answer?.Answer_city['Mod. bajo'] == 0 ?  '0%' :  (parseInt(Answer?.Answer_city['Mod. bajo']) / parseInt(Answer?.Answer_city['Mod. bajo']['cantidad registros'])*100).toFixed(1).toString()+'%'}</p>
+                                                </td>
+                                                <td className='align-middle'>
+                                                  <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{Answer?.Answer_city['Medio'] == 0 ?  '0%' :  (parseInt(Answer?.Answer_city['Medio']) / parseInt(Answer?.Answer_city['Medio']['cantidad registros'])*100).toFixed(1).toString()+'%'}</p>
+                                                </td>
+                                                <td className='align-middle'>
+                                                  <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{Answer?.Answer_city['Mod. alto'] == 0 ?  '0%' :  (parseInt(Answer?.Answer_city['Mod. alto']) / parseInt(Answer?.Answer_city['Mod. alto']['cantidad registros'])*100).toFixed(1).toString()+'%'}</p>
+                                                </td>
+                                                <td className='align-middle'>
+                                                  <p className='m-0 lh-sm fs-5- ff-monse-regular- fw-normal text-center'>{Answer?.Answer_city['Alto'] == 0 ?  '0%' :  (parseInt(Answer?.Answer_city['Alto']) / parseInt(Answer?.Answer_city['Alto']['cantidad registros'])*100).toFixed(1).toString()+'%'}</p>
+                                                </td>
+                                              </tr>
                                             
                                           </tbody>
                                         </table>
